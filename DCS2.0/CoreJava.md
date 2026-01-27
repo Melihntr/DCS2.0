@@ -98,6 +98,7 @@ Değişkenler, programda değer depolamak için kullanılan isimlerdir. Java'da 
 
 
 2.1 Dil Temelleri 
+
     Primitif Veri Türleri:
     ```
 	Range formulü:
@@ -114,20 +115,25 @@ byte: 8 bitlik işaretli tamsayı (-128 ila 127)
 	char: 16 bitlik Unicode karakter
 
 2.2 Referans Veri Türleri:
+
 	Diziler (array)
 	Sınıflar (class)
 	Arayüzler (interface)
 
 2.3 Control Flow
+
 Control flow, programın akışını kontrol eden yapıların bütünüdür.
 
 2.3.1 If-Else Yapısı
+
 	If-else yapısı, belirli bir koşulun gerçekleşip gerçekleşmediğini kontrol etmek için kullanılır.
 	
 2.3.2 Switch Yapısı
+
 	Switch yapısı, bir değişkenin değerine göre farklı kod bloklarını çalıştırmak için kullanılır.
 	
 2.3.3 Loop Yapıları
+
 	Loop yapıları, belirli bir kod bloğunu tekrar tekrar çalıştırmak için kullanılır.
 
 For Loop:
