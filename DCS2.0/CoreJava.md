@@ -1651,7 +1651,7 @@ Java'da early return, bir metodun beklenenden önce geri dönmesi anlamına geli
 Early return, genellikle kodun okunabilirliğini ve sürdürülebilirliğini artırır. Özellikle uzun metodlarda veya kompleks koşullarda hangi kodların hangi durumlarda çalışacağını daha net bir şekilde görmek mümkündür.
 
 Örneğin, normal if-else mantığında:
-
+```
 public void processOrder(Order order) {
     if (order != null) {
         if (order.getTotal() > 0) {
@@ -1664,9 +1664,9 @@ public void processOrder(Order order) {
         System.out.println("Order cannot be null");
     }
 }
-
+```
 Early return kullanarak:
-
+```
 public void processOrder(Order order) {
     if (order == null) {
         System.out.println("Order cannot be null");
@@ -1679,9 +1679,10 @@ public void processOrder(Order order) {
     // işleme devam et
     System.out.println("Order processed");
 }
+```
 Görüldüğü gibi early return ile kod daha lineer ve okunması daha kolay hale geldi. Artık hangi koşulların hangi mesajları yazdırdığını veya hangi kodların çalıştığını görmek daha kolay.
 
-13.JVM'in Avantaj ve Dezavantajları
+13. JVM'in Avantaj ve Dezavantajları
 
 JVM'de Olmanın Avantajları:
 
