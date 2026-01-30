@@ -21,7 +21,7 @@ interface Flyable {
 }
 
 // Hem abstract sınıfı genişleten hem de interface'i uygulayan sınıf
-class Bird extends AbstractAnimal implements Flyable {
+public class Bird extends AbstractAnimal implements Flyable {
     public Bird(String name) {
         super(name);
     }
