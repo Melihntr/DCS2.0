@@ -38,9 +38,4 @@ build/
 ### Mac OS ###
 .DS_Store
 
-Module1
-Module2
-ModuleA
-/Module1/
-/Module2/
-/ModuleA/
+!**/src
