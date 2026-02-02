@@ -1799,7 +1799,11 @@ Constructor Referansı: Bir sınıfın constructor’ına referans verir. Örne�
 Arbitrary Metot Referansı: Belirli bir nesnenin metoduna referans verir. Örneğin, this::toString, this nesnesinin toString metoduna referans verir.
 
 
+17. Collectors
+    
+Java'da bir kolektör, bir akışın (stream) elemanlarını tek bir sonuca toplamak için kullanılan bir mekanizmadır. Bu sonuç, bir koleksiyon, bir string veya bir özet gibi olabilir. Kolektörler genellikle Stream.collect() metodlarıyla birlikte kullanılır ve akışın elemanlarını nasıl toplamadığını kapsülleyen mantığı sağlar, bu da işlemi daha akıcı ve verimli hale getirir.
 
+Kolektörler, Stream API'sindeki terminal işlemlerine (terminal operations) uygundur, çünkü bunlar bir akış pipeline'nin sonunda uygulanır ve bir sonuç üretir veya bir yan etki (side effect) oluşturur. Bu tasarım, veriler üzerinde çeşitli işlemlerin kolayca bileşenleştirilmesine olanak tanır.
 
 
 
