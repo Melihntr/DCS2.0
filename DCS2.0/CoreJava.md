@@ -1730,6 +1730,7 @@ public interface Matematik {
 Bu örnekte, Matematik arayüzünün selamVer metodunu default anahtar kelimesiyle tanımladık. Bu sayede, bu arayüzü implement eden sınıfların bu metodunu override etmelerine gerek kalmaz.
 
 15. Record ve Class'ın Farkı
+
 Record:
 
 Java 14 ile birlikte gelen bir özelliktir.
