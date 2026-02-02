@@ -1781,6 +1781,23 @@ Immutability: Record'lar immutable, class'lar mutable.
 Kod Uzunluğu: Record'lar daha kısa kod sağlar.
 Performans: Record'lar genellikle daha hızlıdır çünkü immutable'dir.
 
+16. Method References Nedir?
+Method References, bir metodun referansını bir değişkene atamamızı sağlayan bir sözdizimidir. Bu referans daha sonra lambda ifadesi yerine kullanılabilir. Lambda ifadelerinin yaptığı işi yaparlar ancak daha öz bir şekilde ifade edilirler.
+
+Method References, lambda ifadelerine göre birçok avantaj sunar:
+
+Daha Okunabilir Kod: Method References, lambda ifadelerine göre daha öz ve okunabilir bir kod yazmamızı sağlar.
+Daha Az Kod: Method References, lambda ifadelerinden daha az kod kullanarak aynı işlemi gerçekleştirebilir.
+Daha İyi Performans: Bazı durumlarda, Method References, lambda ifadelerinden daha iyi performans gösterebilir.
+
+
+Java’da Method References’ın dört türü vardır:
+
+Statik Metot Referansı: Statik bir metodun referansını alır. Örneğin, Math::sqrt, Math sınıfının sqrt metoduna referans verir.
+Nesne Metot Referansı: Bir nesnenin metoduna referans verir. Örneğin, String::toUpperCase, String sınıfının toUpperCase metoduna referans verir.
+Constructor Referansı: Bir sınıfın constructor’ına referans verir. Örneğin, String::new, String sınıfının constructor’ına referans verir.
+Arbitrary Metot Referansı: Belirli bir nesnenin metoduna referans verir. Örneğin, this::toString, this nesnesinin toString metoduna referans verir.
+
 
 
 
