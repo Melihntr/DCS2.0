@@ -1718,7 +1718,7 @@ Sonuç olarak, JVM ve Go binary dosyalarının avantajları ve dezavantajları f
 Default mapperlar, Java 8 ile birlikte gelen bir özelliktir. Arayüzlerde (interface) tanımlanan metodlardan bazılarının bir varsayılan uygulama sağlamasını sağlamak için kullanılır.
 
 Örneğin:
-
+```
 public interface Matematik {
     int topla(int a, int b);
 
@@ -1726,7 +1726,59 @@ public interface Matematik {
         System.out.println("Merhaba!");
     }
 }
+```
 Bu örnekte, Matematik arayüzünün selamVer metodunu default anahtar kelimesiyle tanımladık. Bu sayede, bu arayüzü implement eden sınıfların bu metodunu override etmelerine gerek kalmaz.
+
+15. Record ve Class'ın Farkı
+Record:
+
+Java 14 ile birlikte gelen bir özelliktir.
+Immutable (değiştirilemeyen) sınıflar oluşturmak için kullanılır.
+Otomatik olarak equals,hashCode ve toString
+metodlarını implement eder.
+
+Örnek:
+```
+public record Person(String name, int age) {}
+```
+Class:
+
+Mutable (değiştirilebilir) sınıflar oluşturmak için kullanılır.
+Otomatik olarak herhangi bir metod implement etmez.
+Örnek:
+```
+public class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Getters ve Setters
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+```
+Farklar:
+
+Immutability: Record'lar immutable, class'lar mutable.
+Kod Uzunluğu: Record'lar daha kısa kod sağlar.
+Performans: Record'lar genellikle daha hızlıdır çünkü immutable'dir.
 
 
 
