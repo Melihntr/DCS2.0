@@ -1,12 +1,12 @@
 package com.example;
 
-import com.example.ModuleA.Bird;
+import com.example.ModuleA.BirdA;
 import com.example.ModuleA.ExampleClassA;
 public class Example2 {
     public static void main(String[] args){
         ExampleClassA c = new ExampleClassA();
         c.sayHello();
-        Bird bird = new Bird("Kuş");
+        BirdA bird = new BirdA("Kuş2");
         System.out.println(bird.getName());
         bird.makeSound();
         bird.fly();
