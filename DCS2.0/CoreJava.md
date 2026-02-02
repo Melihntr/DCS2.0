@@ -1713,6 +1713,21 @@ Platform Bağımlılığı: Go binary dosyaları, belirli bir platform için der
 Hafıza Yönetimi: Go, manuel hafıza yönetimi sağlar. Bu, geliştiricilerin hafıza yönetimiyle uğraşmalarını gerektirir.
 Sonuç olarak, JVM ve Go binary dosyalarının avantajları ve dezavantajları farklıdır. JVM, platform bağımsızlığı, hafıza yönetimi ve güvenlik özellikleri sağlar, ancak performansı düşürebilir. Go binary dosyaları, performansı artırır, ancak platform bağımlılığı ve manuel hafıza yönetimi gerektirir.
 
+14. Default Mapperlar:
+
+Default mapperlar, Java 8 ile birlikte gelen bir özelliktir. Arayüzlerde (interface) tanımlanan metodlardan bazılarının bir varsayılan uygulama sağlamasını sağlamak için kullanılır.
+
+Örneğin:
+
+public interface Matematik {
+    int topla(int a, int b);
+
+    default void selamVer() {
+        System.out.println("Merhaba!");
+    }
+}
+Bu örnekte, Matematik arayüzünün selamVer metodunu default anahtar kelimesiyle tanımladık. Bu sayede, bu arayüzü implement eden sınıfların bu metodunu override etmelerine gerek kalmaz.
+
 
 
 
