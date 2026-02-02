@@ -20,6 +20,7 @@ public class Collector {
                         Person::getAge
                 ));
         System.out.println(ageMap); // {Alice=30, Bob=25, Charlie=35}
+
     }
 }
 class Person{
