@@ -9,5 +9,6 @@ record Kisi(String ad, int yas) {
     public static void main(String[] args) {
         Kisi kisi = new Kisi("John", 30);
         kisi.yazdir();
+        kisi.ad();
     }
 }

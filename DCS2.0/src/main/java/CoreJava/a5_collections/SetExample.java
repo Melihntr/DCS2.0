@@ -10,6 +10,7 @@ public class SetExample {
         hashSet.add("Banana");
         hashSet.add("Cherry");
         hashSet.add("Grapes");
+        hashSet.contains("Apple");
 
         System.out.println("HashSet: " + hashSet);
 
