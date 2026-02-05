@@ -1,4 +1,4 @@
-package com.example.ModuleA;
+package com.example2.Module33;
 
 public class ExampleClassA {
     public void sayHello() {
@@ -8,5 +8,3 @@ public class ExampleClassA {
         System.out.println("Görüşürüz!.");
     }
 }
-
-

@@ -1,5 +1,4 @@
-package com.example.ModuleA;
-
+package com.example2.Module33;
 
 // Abstract sınıf
 abstract class AbstractAnimalA {

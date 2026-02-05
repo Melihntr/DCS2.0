@@ -1,7 +1,7 @@
 package com.example;
 
-import com.example.ModuleA.BirdA;
-import com.example.ModuleA.ExampleClassA;
+import com.example.Module33.BirdA;
+import com.example.Module33.ExampleClassA;
 public class Example2 {
     public static void main(String[] args){
         ExampleClassA c = new ExampleClassA();
