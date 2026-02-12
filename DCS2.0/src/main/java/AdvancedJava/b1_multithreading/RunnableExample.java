@@ -1,4 +1,4 @@
-package AdvancedJava;
+package AdvancedJava.b1_multithreading;
 
 public class RunnableExample {
     public static void main(String[] args) {
@@ -12,7 +12,11 @@ public class RunnableExample {
 
         // Thread oluşturma ve başlatma
         Thread thread = new Thread(runnable);
+        Thread thread1 = new Thread(runnable);
+
+
         thread.start();
+        thread1.start();
 
         // Main thread'de çalışan kod
         System.out.println("Main thread çalışıyor - " + Thread.currentThread().getName());

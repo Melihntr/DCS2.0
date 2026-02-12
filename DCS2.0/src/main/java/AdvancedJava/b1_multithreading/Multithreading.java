@@ -1,6 +1,6 @@
 package AdvancedJava.b1_multithreading;
 
-public class multithreading {
+public class Multithreading {
     public static void main(String[] args) {
         Thread thread1 = new Thread(() -> {
             for (int i = 0; i < 10; i++) {
@@ -30,7 +30,9 @@ public class multithreading {
         try {
             thread1.join();
             thread2.join();
+
         } catch (InterruptedException e) {
+
             Thread.currentThread().interrupt();
         }
     }

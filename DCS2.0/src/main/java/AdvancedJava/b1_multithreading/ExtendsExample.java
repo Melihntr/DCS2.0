@@ -1,6 +1,6 @@
 package AdvancedJava.b1_multithreading;
 
-public class threadExtends extends Thread {
+public class ExtendsExample extends Thread {
     // run() metodunu override ediyoruz
     @Override
     public void run() {
@@ -9,8 +9,8 @@ public class threadExtends extends Thread {
 
     public static void main(String[] args) {
         // Thread oluşturma ve başlatma
-        threadExtends thread = new threadExtends();
-        threadExtends thread1 = new threadExtends();
+        ExtendsExample thread = new ExtendsExample();
+        ExtendsExample thread1 = new ExtendsExample();
 
         thread.start();
         thread1.start();
