@@ -1,8 +1,8 @@
-﻿# 1. Multithreading
+# 1. Multithreading
 
-### 1.1. Thread ve Process Nedir?
+### 1.1 Thread ve Process Nedir?
 
-Process (İşlem)
+#### Process (İşlem):
 
 -   Tanım:  Bir programın işletim sistemi tarafından yönetilen bağımsız çalıştırılmasıdır. Her process, kendi  bağımsız bellek alanı  (heap, stack) ve kaynaklara sahiptir.
 -   Özellikler:
@@ -10,7 +10,7 @@ Process (İşlem)
     -   Kaynak Kullanımı:  Process oluşturma maliyetlidir (bellek, CPU).
     -   İletişim:  Process'ler arası iletişim (IPC - Inter-Process Communication) karmaşıktır (örn. pipe, socket).
 
-Thread (İş Parçacığı)
+#### Thread (İş Parçacığı):
 
 -   Tanım:  Bir process içinde çalışan,  aynı bellek alanını paylaşan  hafif iş birimleridir.
 -   Özellikler:
@@ -19,9 +19,9 @@ Thread (İş Parçacığı)
     -   Risk:  Hata bir thread'de diğerlerini etkileyebilir (örn. bellek sızıntısı).
 
 
-### 1.2. Java'da Thread Uygulama Seçenekleri
+### 1.2 Java'da Thread Uygulama Seçenekleri
 
-a. Thread Sınıfı
+#### a. Thread Sınıfı
 
 -   Kullanım:
     
@@ -44,7 +44,7 @@ a. Thread Sınıfı
 -   Avantaj:  Basit ve hızlı uygulama.
 -   Dezavantaj:  Sınıf inheritance'ı sınırlar (Java'da bir sınıf başka bir sınıfı extend edemez).
 
-b. Runnable Arayüzü
+#### b. Runnable Arayüzü
 -   Kullanım:
     
     ```
@@ -65,7 +65,7 @@ b. Runnable Arayüzü
     
 -   Avantaj:  Sınıf inheritance'ı gerektirmez, daha esnek.
 
- c. Callable ve Future
+####  c. Callable ve Future
 
 (Java 5+)
 
@@ -86,7 +86,7 @@ b. Runnable Arayüzü
     
 -   Avantaj:  Thread'den dönüş değeri almak için ideal.
 
-### 1.3. Daemon Thread
+### 1.3 Daemon Thread
 
 -   Daemon thread'leri, arka planda çalışan ve uygulamanın sonlandığında otomatik olarak sonlandırılan thread'lerdir.
 -   Non-daemon thread'lerden farklı olarak, JVM, tüm non-daemon thread'lerin bitmesini beklerken daemon thread'lerden bağımsız olarak sonlanabilir.
@@ -120,7 +120,7 @@ public class DaemonThreadExample {
 }
 ```
 
-### 1.4. join() Methodu
+### 1.4 join() Methodu
 -   ```
     join()
     ```
@@ -154,7 +154,7 @@ public class JoinExample {
     }
 }
 ```
-### 1.5. Thread Yaşam Döngüsü ve Durumları
+### 1.5 Thread Yaşam Döngüsü ve Durumları
 
 Java'da bir thread, aşağıdaki yaşam döngüsünde bulunur:
 
@@ -171,7 +171,7 @@ Java'da bir thread, aşağıdaki yaşam döngüsünde bulunur:
 5.  Timed Waiting (Zamanlanmış Bekleme): Thread, belirli bir süreye kadar bekliyor.
 6.  Terminated (Bitmiş): Thread tamamen çalıştı ve sona erdi.
 
-### 1.6. Interrupt
+### 1.6 Interrupt
 
 -   Bir thread'in çalışmasını kesmek için interrupt()  metodu kullanılır.
 -   ```
@@ -221,7 +221,7 @@ public class InterruptExample {
 }
 ```
 
-### 1.7. Thread ve Process Farkları
+### 1.7 Thread ve Process Farkları
 
 -   Process, yürütülebilir bir dosya veya programdır.
 -   Thread ise, bir işlem içinde yürütülen bir iş parçacığıdır.
@@ -391,13 +391,14 @@ Starvation’ı önlemek için:
 
 ### 2.1 Concurrency vs. Parallelism: İşlem Yönetimindeki Farklılıklar
 
-Parallelism Nedir?
+#### Parallelism Nedir?
 
 Birden fazla işlemci yada görüntü işlemcisi gibi işlem yürütme yeteneğine sahip donanımın bulunduğu sistemlerde bir işlemin sonuçlarını daha hızlı elde etmek için kullanılan bir yöntemdir. Bir iş belirli parçalara bölünür ve sisteme dahil olan işlemcilere paylaştırılır, işlemciler aynı anda kendilerine düşen işlemleri yaparlar bu şekilde bir iş olması gerekenden daha az sürede tamamlanır. Hesaplaması çok uzun sürecek işlemlerde sıklıkla kullanılan bir yöntemdir. Coin mining yapan sistemlerin arkasında da bu yapı vardır, bir çok ekran kartı aynı işin parçalara ayrılmış her bir bölümünü tamamlamaya çalışır. Burada bilinmesi gereken bir başka nokta paralel programlamada aynı anda birden fazla iş  yapılmasıdır.
 
-Concurrency Nedir?
+#### Concurrency Nedir?
 
 Eş zamanlı programlama bir iş bitmeden diğer bir işe geçilmesi durumudur. İşlemci üzerinde birden fazla çekirdek olduğundan ve her çekirdek bir işlem yürütebildiğinden elimizdeki işi concurrent bir yapıda çalıştırırsak response time’ı düşürebiliriz.
+
 ### 2.2 Critical Section (Kritik Bölge)
 
 Tanım:  
@@ -582,7 +583,7 @@ Temel Özellikleri:
 
 #### Kullanım Biçimleri
 
-Metot Seviyesinde
+#### Metot Seviyesinde
 ```
 class Counter {
 
@@ -598,7 +599,7 @@ count++;
 ```
 Bu kullanımda kilit ilgili nesnenin (this) üzerinde alınır.
 
-Statik Metotta
+#### Statik Metotta
 ```
 class Counter {
 
@@ -614,7 +615,7 @@ count++;
 ```
 Bu durumda kilit Counter.class nesnesi üzerinde alınır.
 
-Blok Seviyesinde
+#### Blok Seviyesinde
 ```
 class Counter {
 
@@ -635,7 +636,7 @@ count++;
 
 Bu yöntem yalnızca kritik bölgeyi kilitler ve daha kontrollüdür.
 
-Özel Kilit Nesnesi ile
+#### Özel Kilit Nesnesi ile
 ```
 class Counter {
 
@@ -789,7 +790,7 @@ blokları, Java'da kritik bölümleri kilitlemek ve thread'lerin aynı anda ayn�
     'e göre daha hızlıdır.
 -   Kısıtlamalar:  Kilitlenebilirlik ve koşullu değişkenler gibi gelişmiş özelliklere sahip değildir.
 
-#### Örnek:
+Örnek:
 
 ```
 import java.util.concurrent.locks.ReentrantLock;
@@ -826,7 +827,7 @@ java.util.concurrent
 
 paketinde bulunur.
 
-#### Özellikleri:
+Özellikleri:
 
 -   Resource Pooling:  Belirli bir sayıda kaynak kullanmak için idealdir.
 -   Signaling:  Thread'ler arasında mesajlaşma sağlamak için kullanılabilir.
@@ -837,7 +838,7 @@ paketinde bulunur.
 -   Veritabanı bağlantıları, dosya giriş/çıkışları gibi sınırlı kaynaklar için.
 -   Thread'ler arasında mesajlaşma sağlamak için.
 
-#### Örnek:
+Örnek:
 
 ```
 import java.util.concurrent.Semaphore;
@@ -885,18 +886,18 @@ java.util.concurrent.ForkJoinPool
 
 sınıfı ile yönetilir.
 
-#### Özellikleri:
+Özellikleri:
 
 -   Work-Stealing Algorithm:  Boş kalan thread'lerin diğer thread'lerin görevlerini devralmasına izin verir.
 -   Recursive_tasks:  Büyük görevlerin alt görevlere bölünmesine izin verir.
 -   Base Case:  Alt görevlerin ne zaman seriel olarak yürütüleceğini belirler.
 
-#### Kullanım Alanları:
+Kullanım Alanları:
 
 -   Büyük veri setlerini işlemek için.
 -   Paralel hesaplamalar yapmak için.
 
-#### Örnek:
+Örnek:
 
 ```
 import java.util.concurrent.ForkJoinPool;
@@ -962,7 +963,7 @@ ExecutorService
 , ve diğer sınıflarla yönetilebilir.
 
 
-Asenkron Programlamanın Önemi
+#### Asenkron Programlamanın Önemi
 
 1.  Performans Artışı:  Ana thread'in bloklanmasını önler ve diğer görevlerin yürütülmesine izin verir.
 2.  Uygulama Yanıt Verme:  Kullanıcıya daha hızlı bir yanıt sunar.
@@ -983,7 +984,7 @@ java.util.concurrent
 
 paketinde bulunur.
 
-#### Özellikleri:
+Özellikleri:
 
 -   Asenkron İşlemler:  Görevleri arka planda çalıştırmak ve sonucu beklemek için kullanılır.
 -   Zincirleme:
@@ -1077,7 +1078,7 @@ exceptionally()
 
 metodu ile yönetilir.
 
-##### Örnek:
+Örnek:
 
 ```
 import java.util.concurrent.CompletableFuture;
@@ -1098,128 +1099,204 @@ public class AsyncErrorHandlingExample {
     }
 }
 ```
-### Java'da Heap ve Stack
-
-Java'da bellek yönetimi, Heap ve Stack olarak ikiye ayrılır. Bu iki bellek alanı, farklı amaçlarla kullanılır.
-
-#### Heap
-
--   Tanım:  Heap, Java'da nesnelerin oluşturulduğu bir bellek alanıdır. Nesneler, new anahtar kelimesi ile Heap'te oluşturulur.
--   Özellikler:
-    -   Nesneler, Heap'te diğer nesnelerle birlikte depolanır.
-    -   Heap, programın tüm süre boyunca mevcut kalır.
-    -   Heap'teki nesneler, Garbage Collector tarafından temizlenir.
--   Örnek:
-    
-    ```
-    // Heap'te bir nesne oluşturma
-    String str = new String("Merhaba, Dünya!");
-    
-    ```
-    
-
-#### Stack
-
--   Tanım:  Stack, metot çağrıları ve yerel değişkenler için kullanılır. Stack, metotlar çalışırken oluşturulur ve metot bitince temizlenir.
--   Özellikler:
-    -   Stack, metot çağrıları sırasında kullanılır.
-    -   Yerel değişkenler, Stack'te depolanır.
-    -   Stack, metot bitince temizlenir.
--   Örnek:
-    
-    ```
-    // Stack'te yerel bir değişken
-    int sayi = 10;
-    
-    ```
     
 # 4. JVM Internals
 
 Java'da JVM (Java Virtual Machine) tarafından yönetilen bellek, Heap ve Stack olarak ikiye ayrılır. Her biri farklı amaçlarla kullanılır ve performans üzerinde etkileri vardır. Garbage Collection ise, Java'da bellek yönetimi için kullanılan mekanizmadır. Bu konuları detaylı olarak açıklayalım ve kod örnekleri ile destekleyelim.
 
 
-### 4.1  Heap
+### 4.1 Stack Bellek (Yığın Bellek)
+Stack bellek, her bir thread (iş parçacığı) için ayrı ayrı oluşturulan ve metod çağrılarının yönetildiği bellek alanıdır.
 
-Heap, Java'da nesnelerin oluşturulduğu bir bellek alanıdır. Nesneler,
+Stack’te Saklanan Veriler:
+- Primitive (ilkel) veri tipleri: int, double, char, boolean vb.
+- Nesnelere ait referanslar (object reference)
+- Metod parametreleri
+- Yerel değişkenler (local variables)
+- Metod çağrı bilgileri (stack frame)
 
-```
-new
-```
+Özellikleri:
 
-anahtar kelimesi ile Heap'te oluşturulur.
-
-Özellikler:
-
--   Heap, programın tüm süre boyunca mevcut kalır.
--   Heap'teki nesneler, Garbage Collector tarafından temizlenir.
--   Heap, Young Generation ve Old Generation olarak ikiye ayrılır:
-    -   Young Generation:  Yeni oluşturulan nesneler için kullanılır.
-    -   Old Generation:  Yaşlı nesneler için kullanılır.
+- LIFO (Last In First Out) mantığı ile çalışır.
+- Her thread’in kendine ait stack alanı vardır.
+- Bellek yönetimi otomatik ve deterministiktir.
+- Stack alanı genellikle heap’e göre daha küçüktür.
+- Büyük veri saklamak için uygun değildir.
 
 Örnek:
 
 ```
-public class HeapExample {
-    public static void main(String[] args) {
-        // Heap'te bir nesne oluşturma
-        String str = new String("Merhaba, Dünya!");
-        
-        // Nesne referansını null yapma
-        str = null;
-        
-        // Garbage Collector'ı manuel olarak çalıştırma
-        System.gc();
-    }
+
+public void example() {
+    int x = 10;        // Stack’te saklanır
+    String s = "Java"; // s referansı stack’te, String nesnesi heap’te
 }
-
 ```
 
+Burada:
+- x değişkeni doğrudan stack’te tutulur.
+- s bir referanstır ve stack’te tutulur.
+- "Java" String nesnesi heap’te yer alır.
 
-### 4.2 Stack
+### 4.2 Heap Bellek
+Heap bellek, nesnelerin (object) dinamik olarak oluşturulduğu ve saklandığı bellek alanıdır. JVM içindeki tüm thread’ler heap alanını ortak kullanır.
 
-Stack, metot çağrıları ve yerel değişkenler için kullanılır. Stack, metotlar çalışırken oluşturulur ve metot bitince temizlenir.
+Heap’te Saklanan Veriler:
+- Tüm nesneler (new ile oluşturulan)
+- Diziler (arrays)
+- Nesne içindeki instance değişkenler
 
-#### Özellikler:
+Özellikleri:
 
--   Stack, metot çağrıları sırasında kullanılır.
--   Yerel değişkenler, Stack'te depolanır.
--   Stack, metot bitince temizlenir.
+- Thread’ler arasında paylaşılır.
+- Stack’e göre daha büyüktür.
+- Garbage Collector tarafından yönetilir.
+- Daha esnek fakat erişimi stack’e göre daha maliyetlidir.
 
-#### Örnek:
-
+Örnek:
 ```
-public class StackExample {
-    public static void main(String[] args) {
-        // Stack'te bir yerel değişken
-        int sayi = 10;
-        
-        // Metot çağrısı
-        System.out.println(sayi);
-    }
-}
-
+Person p = new Person();
 ```
+p referansı stack’te saklanır.
+Person nesnesi heap’te oluşturulur.
 
+### 4.3 Referans Türleri (Reference Types)
+Java’da bellek yönetimini daha esnek hale getirmek için farklı referans türleri tanımlanmıştır.
 
-### 4.3  Garbage Collection (GC)
+ Strong Reference (Güçlü Referans)
+Varsayılan referans türüdür.
+```
+Person p = new Person();
+```
+p nesneye güçlü referans tutar.
 
-Garbage Collector, Java'da kullanılmayan nesneleri temizleyerek bellek boşaltır. GC, programın performansını etkiler, bu yüzden optimize etmek önemlidir.
+Nesneye en az bir strong reference varsa Garbage Collector bu nesneyi silemez.
 
-GC Nasıl Çalışır?
+Weak Reference (Zayıf Referans)
+`java.lang.ref.WeakReference` sınıfı ile oluşturulur.
+```
+WeakReference<Person> weakRef = new WeakReference<>(new Person());
+```
+Eğer nesneye yalnızca weak reference kalmışsa, GC çalıştığında nesne hemen temizlenir. Genellikle cache yapılarında kullanılır.
 
--   Nesne Etkinliği:  GC, nesnelerin kullanılıp kullanılmadığını belirler.
--   Nesne Temizleme:  Kullanılmayan nesneler temizlenir.
--   Bellek Yeniden Yapılandırma:  GC, temizlenen alanları yeniden kullanır.
+Soft Reference (Yumuşak Referans)
+`
+java.lang.ref.SoftReference
+` ile oluşturulur.
+```
+SoftReference<Person> softRef = new SoftReference<>(new Person());
+```
+Bellek yeterliyse nesne korunur. Bellek baskısı oluştuğunda GC tarafından temizlenir. Büyük cache sistemlerinde tercih edilir.
 
-GC ve Performans
+### 4.4 Heap Bellek Yapısı:
+Modern JVM’lerde heap alanı kuşaklara (generations) ayrılmıştır. Bu yaklaşım Generational Garbage Collection prensibine dayanır.
 
--   Performans Etkileri:  GC, programın performansını etkiler. GC'ın sıklıkla çalışması, programın yavaşlamasına neden olabilir.
--   Optimizasyon:  GC'yi optimize etmek için, nesnelerin doğru şekilde temizlenmesini sağlamak ve bellek kullanımını yönetmek önemlidir.
+Young Generation (Genç Nesil):
+Yeni oluşturulan nesneler burada yer alır.
+Young Generation üç alt bölüme ayrılır:
 
-GC ve Heap
+Eden Space:
+Yeni oluşturulan tüm nesneler önce Eden alanına gelir.
+Çoğu nesne burada oluşturulur ve kısa sürede yok edilir.
 
--   Heap Yönetimi:  GC, Heap'teki nesneleri temizler.
--   Heap Boyutu:  Heap boyutu, GC'nin performansını etkiler. Heap boyutu büyükse, GC daha fazla sürebilir.
+Survivor Space (S0 ve S1)
+Eden’dan sağ kalan nesneler buraya taşınır.
+İki adet survivor alanı vardır (S0 ve S1).
+Nesneler her Minor GC’de S0 ve S1 arasında taşınır.
+Belirli bir yaşa ulaşan nesneler Old Generation’a terfi eder.
+
+Old Generation (Tenured Generation)
+Uzun ömürlü nesneler burada tutulur.
+Young Generation’dan terfi eden nesneler buraya gelir.
+Temizlenmesi daha maliyetlidir.
+
+Metaspace
+Java 8 ile birlikte PermGen kaldırılmış ve yerine Metaspace getirilmiştir.
+Metaspace’te saklanan veriler:
+Class metadata
+Method bilgileri
+Static alanlar
+Heap dışında, native memory üzerinde tutulur.
+
+### 4.5 Garbage Collector (GC) Nasıl Çalışır?
+Garbage Collector, erişilemeyen (unreachable) nesneleri tespit ederek heap’ten temizler.
+
+Erişilebilirlik (Reachability) Analizi
+GC, Root referanslardan (GC Roots) başlayarak bir grafik oluşturur.
+
+GC Roots:
+- Stack’teki aktif referanslar
+- Static referanslar
+- JNI referansları
+- Eğer bir nesne GC Roots’tan erişilemiyorsa, garbage olarak işaretlenir.
+
+### 4.6 Mark and Sweep Algoritması
+Mark (İşaretleme): Erişilebilir nesneler işaretlenir.
+Sweep (Temizleme): İşaretlenmeyen nesneler silinir.
+(Opsiyonel) Compact (Sıkıştırma): Bellek parçalanmasını azaltmak için nesneler taşınır.
+
+### 4.7 Minor GC ve Major GC
+Minor GC:
+Young Generation üzerinde çalışır.
+Daha sık ve hızlıdır.
+
+Major GC (Full GC):
+Old Generation üzerinde çalışır.
+Daha maliyetlidir.
+Uygulama duraklatılabilir (Stop-the-World).
+
+### 4.8 Garbage Collector Türleri
+
+#### Serial GC (Single GC):
+- Tek thread kullanır.
+- Küçük uygulamalar için uygundur.
+- Stop-the-World duraklaması yapar.
+
+Avantaj:
+- Basit ve düşük bellek tüketimi.
+- Dezavantaj:
+- Büyük uygulamalarda yavaş kalır.
+
+#### Parallel GC:
+- Birden fazla thread kullanır.
+- Throughput odaklıdır.
+- Stop-the-World çalışır.
+
+Avantaj:
+- Çok çekirdekli sistemlerde daha hızlıdır.
+
+Dezavantaj:
+- Pause süreleri uzun olabilir.
+
+#### CMS (Concurrent Mark and Sweep):
+- GC işleminin çoğunu uygulama çalışırken gerçekleştirir.
+- Düşük pause süresi hedefler.
+
+Aşamaları:
+- Initial Mark (Stop-the-World)
+- Concurrent Mark
+- Remark (Stop-the-World)
+- Concurrent Sweep
+
+Avantaj:
+- Düşük gecikme süresi.
+
+Dezavantaj:
+- Bellek parçalanması oluşturabilir.
+
+Java 9 sonrası deprecated edilmiştir.
+
+#### G1 GC (Garbage First):
+Java 9 ve sonrası için varsayılan GC’dir. Heap’i küçük bölgelere (region) ayırır. En çok çöp içeren bölgeyi öncelikli temizler.
+
+Özellikleri:
+- Düşük ve tahmin edilebilir pause süresi.
+- Paralel ve concurrent çalışır.
+- Büyük heap’ler için uygundur.
+
+Avantaj:
+- Dengeli throughput ve latency sağlar.
+- Bellek parçalanmasını minimize eder.
 
 # 5.Performans ve Bellek Yönetimi
 
@@ -1229,7 +1306,7 @@ Java'da performans ve bellek yönetimi, uygulamanın performansını artırmak v
 
 Performans, uygulamanın ne kadar hızlı ve verimli çalıştığını ifade eder. Performans optimize etmek, uygulamanın daha hızlı ve daha az bellek kullanmasını sağlamaktır.
 
-Performans Optimize Etme
+#### Performans Optimize Etme:
 
 -   Nesne Yaratma:
     -   Gereksiz nesne yaratma.
@@ -1267,7 +1344,7 @@ public class PerformanceExample {
 
 Bellek sızıntısı, bellekten serbest bırakılmayan nesnelerden kaynaklanan bir sorundur. Bu, uygulamanın performansını düşürür ve sonunda uygulama çöker.
 
-Bellek Sızıntısı Nedenleri
+#### Bellek Sızıntısı Nedenleri:
 
 -   Static Referanslar:
     -   Static değişkenler, nesnelerin temizlenmesini engelleyebilir.
@@ -1309,7 +1386,7 @@ Bu örnekte, while döngüsü sonsuza kadar devam eder ve her seferinde yeni bir
 
 Profiling, uygulamanın performansını ölçmek ve optimize etmek için kullanılan bir yöntemdir.
 
-Profiling Araçları
+#### Profiling Araçları:
 
 -   VisualVM:
     -   Java uygulamalarının performansını ölçmek için kullanılır.
@@ -1318,7 +1395,7 @@ Profiling Araçları
 -   YourKit:
     -   Java uygulamalarının performansını ve bellek kullanımını analiz etmek için kullanılır.
 
-Profiling Kullanımı
+#### Profiling Kullanımı:
 
 -   CPU Profiling:
     -   Uygulamanın CPU kullanımını ölçmek için kullanılır.
@@ -1360,7 +1437,7 @@ kullanılmıştır.
 
 Stabil sistem, uygulamanın sürekli olarak düzgün çalışmasını sağlamak için önemlidir.
 
-Stabil Sistem için Dikkat Edilecekler
+#### Stabil Sistem için Dikkat Edilecekler:
 
 -   Exception Handling:
     -   Uygulamanın hatalarla nasıl başa çıkacağını sağlamak önemlidir.
@@ -1397,6 +1474,7 @@ try-with-resources
 ```
 
 kullanarak dosya kapatma işlemi otomatik olarak gerçekleştirilmiştir.
+
 
 
 
