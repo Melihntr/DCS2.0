@@ -322,7 +322,7 @@ Kısaca process ile thread arasındaki fark: Process çalışan uygulamanın ken
 Deadlock, süreçlerin kaynak edinme nedeniyle birbirini engellemesi ve hiçbir sürecin ilerleyememesi durumudur.
 
 Deadlock Örneği:  
-Yukarıdaki şekil, süreç 1 ve süreç 2 arasındaki deadlock senaryosunu göstermektedir. Her iki süreç de bir kaynak tutmuş ve diğerinin kaynaklarını beklemektedir. Bu bir deadlock durumudur çünkü süreçlerden biri kaynaklarını bırakmadıkça ilerleyemez.
+Her iki süreç de bir kaynak tutmuş ve diğerinin kaynaklarını beklemektedir. Bu bir deadlock durumudur çünkü süreçlerden biri kaynaklarını bırakmadıkça ilerleyemez.
 
 #### Deadlock İçin Gerekli Koşullar
 
@@ -487,7 +487,7 @@ count++
 işlemi thread’ler tarafından kesilirse,
 
 
-count değişkeni yanlış bir değer alabilir. Örneğin, iki thread’in count değerini 100 olarak okaması ve her ikisinin de 101’e artırması durumunda, son değer 101 olurken, doğru değer 102 olmalıdır.
+count değişkeni yanlış bir değer alabilir. Örneğin, iki thread’in count değerini 100 olarak okuması ve her ikisinin de 101’e artırması durumunda, son değer 101 olurken, doğru değer 102 olmalıdır.
 ### 2.4 `volatile`  Anahtar Kelimesi
 
 Java'da `volatile` anahtar kelimesi , bir değişkenin değerinin farklı iş parçacıkları tarafından değiştirileceğini belirtmek için kullanılır. Bu, bir değişkende yapılan değişikliklerin diğer iş parçacıkları tarafından her zaman görülebilmesini sağlayarak iş parçacığı önbellekleme sorunlarını önler.
