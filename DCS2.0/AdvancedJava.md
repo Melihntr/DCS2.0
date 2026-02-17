@@ -497,7 +497,8 @@ Kullanım:`volatile`anahtar kelimesi, öncelikle çoklu iş parçacıklı progra
 Örnek
 Multi-Threadling with Volatile
 
-`public class VolatileCounter {
+```
+public class VolatileCounter {
     private volatile int counter = 0;
     public void increment() {
         counter++;
@@ -520,7 +521,7 @@ Multi-Threadling with Volatile
         t2.join();
         System.out.println("Counter value: " + vc.getCounter());
     }
-}`
+}```
 
 
 Bu örnekte, `counter` `volatile` bir değişken olarak işaretlenmiştir . İki iş parçacığı `counter`değişkeni eş zamanlı olarak artırır. `volatile`Anahtar kelimesi, her iş parçacığının `counter`değişkeninin en son değerini görmesini sağlar .
