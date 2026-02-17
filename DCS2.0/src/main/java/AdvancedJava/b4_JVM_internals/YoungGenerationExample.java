@@ -16,7 +16,7 @@ public class YoungGenerationExample {
 
         // Nesnelerin yaşam döngüsünü takip etmek için finalize() metodunu kullan
         try {
-            survivor.finalize();
+            // do sumn fix
         } catch (Throwable e) {
             e.printStackTrace();
         }
