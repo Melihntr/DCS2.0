@@ -521,7 +521,8 @@ public class VolatileCounter {
         t2.join();
         System.out.println("Counter value: " + vc.getCounter());
     }
-}```
+}
+```
 
 
 Bu örnekte, `counter` `volatile` bir değişken olarak işaretlenmiştir . İki iş parçacığı `counter`değişkeni eş zamanlı olarak artırır. `volatile`Anahtar kelimesi, her iş parçacığının `counter`değişkeninin en son değerini görmesini sağlar .
