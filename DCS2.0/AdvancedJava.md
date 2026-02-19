@@ -236,7 +236,6 @@ public class InterruptExample {
 
 Kısaca process ile thread arasındaki fark: Process çalışan uygulamanın kendisi iken; thread ise process içinde çalışan bir iş parçacığıdır.
 
-
 ### 1.8 ExecutorService Nedir ve Ne Zaman Kullanılır?
 
 #### ExecutorService Tanımı
