@@ -2,7 +2,7 @@ package AdvancedJava.b1_multithreading;
 
 public class Multithreading {
     public static void main(String[] args) {
-        Thread thread1 = new Thread(() -> {
+        Thread thread1 = new Thread(() -> { //runnable interface'ini lambda ifadesiyle implement ediyoruz
             for (int i = 0; i < 10; i++) {
                 System.out.println("Thread 1: " + i);
                 try {
