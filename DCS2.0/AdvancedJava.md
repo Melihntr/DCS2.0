@@ -1526,6 +1526,274 @@ Warmup yapar
 
 JIT etkisini dengeler
 
+### 6.4 Godaki thread mantığı ve Java 21 öncesi/sonrası benzerlik
+
+Go:
+
+Goroutine kullanır
+
+M:N scheduling (çok goroutine az OS thread)
+
+Runtime scheduler vardır
+
+Çok hafif
+
+Java 21 öncesi:
+
+1:1 model (platform thread = OS thread)
+
+Thread pahalı
+
+Thread pool zorunlu
+
+Java 21 sonrası:
+
+Virtual thread geldi
+
+M:N modele yaklaştı
+
+Go’ya çok benzer concurrency modeli
+
+Structured concurrency eklendi
+
+Benzerlik: Goroutine ≈ Virtual Thread
+Fark: Go runtime daha baştan concurrency için tasarlanmış, Java sonradan adapte oldu.
+
+### 6.5 Catch içinde direkt basmanın yanlış olduğu
+
+Sadece e.printStackTrace() yapmak kötü pratiktir çünkü:
+
+Exception üst katmana iletilmez
+
+Thread pool içinde kaybolabilir
+
+Business logic bozulur
+
+Doğru yaklaşım:
+
+Ya rethrow et
+
+Ya wrap edip üst katmana ilet
+
+Ya interrupt restore et
+
+Ya logging framework kullan
+
+### 6.6 Her gece Linux’ta bir Python scripti çalıştırma
+
+cron kullanılır.
+
+crontab -e
+
+Örnek:
+0 3 * * * /usr/bin/python3 /home/user/script.py
+
+Bu her gece 03:00’te çalışır.
+
+### 6.7 tryLock başka işlemler yapmasına izin veriyor
+
+lock() blocking’tir.
+tryLock():
+
+Lock müsaitse alır
+
+Değilse beklemez
+
+Alternatif işlem yapmana izin verir
+
+Deadlock riskini azaltır
+
+### 6.8 ReentrantLock synchronized hız farkı
+
+Eskiden (Java 5-6) ReentrantLock daha performanslıydı.
+Modern JVM’lerde synchronized optimize edildi (biased locking, lightweight locking).
+Çoğu durumda fark minimaldir.
+
+ReentrantLock avantajı:
+
+tryLock
+
+fairness
+
+condition
+
+interruptible lock
+
+### 6.9 Java 21 I/O’da virtual thread neden daha iyi?
+
+Çünkü:
+
+Blocking I/O’da thread park edilir
+
+OS thread bloke olmaz
+
+Thread pool yazma ihtiyacı azalır
+
+Reactive karmaşıklık gerekmez
+
+CPU-bound işte fark azdır.
+I/O-bound işte büyük avantaj sağlar.
+
+### 6.10 ki integer join yapmadan önce compare eden algoritma
+
+Hash Join:
+
+Küçük olan hash table’a alınır
+
+Büyük olan stream edilir
+
+Compare sonrası eşleşme yapılır
+
+Sort-Merge Join:
+
+Önce sort
+
+Sonra iki pointer ile compare
+
+### 6.11 arallel Stream ve ForkJoinPool
+Nasıl Çalışır?
+list.parallelStream()
+    .map(x -> compute(x))
+    .toList();
+
+Bu çağrı arka planda:
+
+ForkJoinPool.commonPool() kullanır
+
+Veriyi parçalara böler
+
+Work-stealing algoritması uygular
+
+Work-Stealing Mantığı
+
+Her worker thread’in kendi deque’su vardır
+
+İşini bitiren thread, diğer thread’lerin kuyruğundan iş çalar
+
+CPU kullanımını maksimize eder
+
+Ne Zaman İyi?
+
+CPU-bound işler
+
+Büyük liste
+
+Saf hesaplama
+
+Shared mutable state yok
+
+Örn:
+
+Büyük matematiksel hesap
+
+Hash hesaplama
+
+Image processing
+
+Ne Zaman Kötü?
+
+I/O-bound işlerde
+
+Örn:
+
+DB çağrısı
+
+HTTP request
+
+Dosya okuma
+
+Çünkü:
+
+commonPool thread sayısı sınırlı (CPU core kadar)
+
+Bir task bloklanırsa diğer işler bekler
+
+Tüm uygulama yavaşlayabilir
+
+Bu yüzden I/O için:
+
+Virtual Thread (Java 21)
+
+Custom Executor
+
+daha doğru seçimdir.
+
+### 6.12 Starvation Gerçek Business Senaryoları
+Web Sunucusunda Thread Pool Starvation
+
+Senaryo:
+
+200 thread’lik bir web thread pool var
+
+Her request içinde blocking DB çağrısı var
+
+DB yavaşladı
+
+Sonuç:
+
+Tüm thread’ler bloklanır
+
+Yeni request’ler kuyruğa girer
+
+Sistem cevap veremez
+
+Bu starvation’dır.
+
+Çözüm:
+
+Connection pool limitlerini ayarlamak
+
+Timeout koymak
+
+Virtual thread kullanmak
+
+### 6.13 Java 21 GC İyileştirmesi
+
+En önemli gelişme:
+
+Generational ZGC
+
+Önceden:
+
+ZGC tek generation idi
+
+Şimdi:
+
+Young + Old ayrımı var
+
+Kısa ömürlü objeler hızlı temizleniyor
+
+Daha az CPU
+
+Daha iyi throughput
+
+Business Perspektifi
+
+E-ticaret sistemi düşün:
+
+10GB heap
+
+Yoğun request
+
+Sürekli object allocation
+
+Yanlış GC seçimi:
+
+500ms pause
+
+Kullanıcı timeout
+
+Ödeme başarısız
+
+Doğru GC (G1 veya ZGC):
+
+10ms pause
+
+Stabil sistem
+
+SLA korunur
+
+
 
 
 
