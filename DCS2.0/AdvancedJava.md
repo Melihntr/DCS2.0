@@ -91,6 +91,8 @@
 -   Daemon thread'leri, arka planda çalışan ve uygulamanın sonlandığında otomatik olarak sonlandırılan thread'lerdir.
 -   Non-daemon thread'lerden farklı olarak, JVM, tüm non-daemon thread'lerin bitmesini beklerken daemon thread'lerden bağımsız olarak sonlanabilir.
 
+Not:Daemon thread’ler JVM kapanırken otomatik öldürülür. Eğer I/O işlemi daemon thread’deyse ve uygulamada sadece daemon thread kalırsa JVM kapanır ve işlem yarıda kesilir. Bu yüzden kritik I/O işleri daemon thread’de yapılmaz.
+
 Örnek:
 
 ```
@@ -192,6 +194,13 @@ Java'da bir thread, aşağıdaki yaşam döngüsünde bulunur:
     
     yapar.
 -   Bir thread, interrupt() metodu ile kesildiğinde, InterruptedException fırlatabilir.
+
+Not: InterruptedException fırlatıldığında JVM interrupted flag’i otomatik temizler (false yapar).
+Eğer interrupt durumunu korumak istiyorsan catch içinde tekrar:
+
+Thread.currentThread().interrupt();
+
+çağırılmalıdır. Aksi halde üst katman interrupt olduğunu anlamaz.
 
 Örnek:
 
@@ -1475,6 +1484,49 @@ try-with-resources
 ```
 
 kullanarak dosya kapatma işlemi otomatik olarak gerçekleştirilmiştir.
+
+# 6. Ekstralar
+
+### 6.1 Heap OutOfMemoryError ve StackOverflowError
+
+StackOverflowError bir thread’e özeldir çünkü her thread’in kendi stack alanı vardır. Bir thread stack overflow alırsa sadece o thread crash olur (exception fırlatır ve yakalanmazsa ölür). Diğer thread’ler çalışmaya devam eder. JVM tamamen kapanmaz (ancak ana thread ölür ve başka non-daemon thread kalmazsa uygulama kapanabilir).
+
+Heap tüm thread’ler tarafından ortak kullanılır. Eğer OutOfMemoryError oluşursa genelde tüm uygulama etkilenir. Teknik olarak hata bir thread’de fırlatılır ama heap global olduğu için uygulama stabilitesi bozulur ve çoğu zaman sistem kullanılmaz hale gelir. Çoğu senaryoda uygulama çöker veya sağlıksız davranır.
+
+### 6.2 Virtual THreadler
+
+Virtual thread (Java 21 ile stable) OS thread yerine JVM tarafından yönetilen hafif thread’dir.
+Özellikleri: Çok düşük memory footprint, Milyonlarca thread oluşturulabilir, I/O blocking işlemlerde çok verimli, Gerçek OS thread’e ihtiyaç duyduğunda carrier thread kullanır
+
+Platform thread: OS thread’e bire bir karşılık gelir, Memory maliyeti yüksektir, Sayıları sınırlıdır
+
+Virtual thread: User-mode scheduling, Blocking I/O’da park edilir, Reactive yazmadan yüksek concurrency sağlar
+
+Virtual Thread Eklemek: Yüksek eşzamanlılık gerektiren uygulamalarda virtual thread kullanımı önemlidir. (Not: Sanal thread'ler, özellikle çok sayıda bloke edici I/O işlemi olan senaryolar için idealdir.)
+
+### 6.3 Profesyonel benchmark test için hangi kütüphaneler kullanılır?
+
+JMH (Java Microbenchmark Harness) → en doğru yöntem
+
+Gatling (yük testi)
+
+JMeter (yük testi)
+
+wrk (HTTP benchmark)
+
+YourKit / JProfiler (profiling)
+
+async-profiler (CPU flamegraph)
+
+Microbenchmark için kesinlikle JMH kullanılmalı çünkü:
+
+Dead code elimination’ı engeller
+
+Warmup yapar
+
+JIT etkisini dengeler
+
+
 
 
 
