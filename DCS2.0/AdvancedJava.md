@@ -1658,7 +1658,7 @@ Reactive karmaşıklık gerekmez
 CPU-bound işte fark azdır.
 I/O-bound işte büyük avantaj sağlar.
 
-### 6.10 ki integer join yapmadan önce compare eden algoritma
+### 6.10 iki integer join yapmadan önce compare eden algoritma
 
 Hash Join:
 
@@ -1675,72 +1675,45 @@ Sort-Merge Join:
 Sonra iki pointer ile compare
 
 ### 6.11 Parallel Stream ve ForkJoinPool
-Nasıl Çalışır?
-list.parallelStream()
-    .map(x -> compute(x))
-    .toList();
 
-Bu çağrı arka planda:
+#### Parallel Stream ve Fork-Join Bağlantısı:
 
-ForkJoinPool.commonPool() kullanır
+Java 8'de Stream API'nin paralel işlemi, Fork-Join havuzunu (common
+ForkJoinPool
+) kullanır.
+parallelStream()
+veya
+stream().parallel()
+ile başlatılan işlemler, veriyi parçalara ayırır ve her parçayı ayrı bir thread'de işler.
 
-Veriyi parçalara böler
+Örnek:
+```java
+sout
+list.parallelStream().forEach(item -> {
+    // Paralel işlem
+});
+```
 
-Work-stealing algoritması uygular
+#### Fork-Join Havuzu (ForkJoinPool):
 
-Work-Stealing Mantığı
+Common Pool: Varsayılan olarak JVM'de bir
+ForkJoinPool
+havuzu bulunur.
+Thread sayısı:
+Runtime.getRuntime().availableProcessors() - 1
+(örneğin, 8 çekirdekli bir sistemde 7 thread).
+Kendi havuzu ile çalışmak:
+ForkJoinPool customPool = new ForkJoinPool(4);
+customPool.submit(() -> list.parallelStream().forEach(...));
 
-Her worker thread’in kendi deque’su vardır
+#### List İşlemleri ve Paralel İşlem:
 
-İşini bitiren thread, diğer thread’lerin kuyruğundan iş çalar
-
-CPU kullanımını maksimize eder
-
-Ne Zaman İyi?
-
-CPU-bound işler
-
-Büyük liste
-
-Saf hesaplama
-
-Shared mutable state yok
-
-Örn:
-
-Büyük matematiksel hesap
-
-Hash hesaplama
-
-Image processing
-
-Ne Zaman Kötü?
-
-I/O-bound işlerde
-
-Örn:
-
-DB çağrısı
-
-HTTP request
-
-Dosya okuma
-
-Çünkü:
-
-commonPool thread sayısı sınırlı (CPU core kadar)
-
-Bir task bloklanırsa diğer işler bekler
-
-Tüm uygulama yavaşlayabilir
-
-Bu yüzden I/O için:
-
-Virtual Thread (Java 21)
-
-Custom Executor
-
-daha doğru seçimdir.
+List<T> gibi yapılar, paralel stream ile işlenirken:
+Veri kümesi, thread sayısına göre bölünür.
+Her parçanın işlenmesi bağımsızdır (sıralı olmayan işlemler için en etkili).
+Sıralı işlem (
+forEachOrdered
+) kullanılırsa, performans düşebilir.
 
 ### 6.12 Starvation Gerçek Business Senaryoları
 Web Sunucusunda Thread Pool Starvation
