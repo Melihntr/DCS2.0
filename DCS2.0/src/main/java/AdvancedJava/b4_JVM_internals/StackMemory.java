@@ -6,7 +6,7 @@ public class StackMemory {
         int sayi = 10;
         double onSayi = 3.14;
 
-        // stack çağrıları yığın bellek üzerinde işlenir
+        // stack çağrıları stack bellek üzerinde işlenir
         System.out.println("Merhaba Dünya!");
     }
 }
