@@ -1,4 +1,4 @@
-package AdvancedJava.b5_performance;
+package AdvancedJava.b3_async_programming;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ public class ExceptionHandlingExample {
             throw new IOException("Rethrow hatası");
         } catch (IOException e) {
             logger.error("Rethrow hatası yakalandı", e);
-            throw e; // ✅ Hata üst katmana iletir
+            throw e; // Hata üst katmana iletir
         }
     }
 

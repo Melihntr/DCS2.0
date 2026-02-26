@@ -1688,7 +1688,6 @@ ile başlatılan işlemler, veriyi parçalara ayırır ve her parçayı ayrı bi
 
 Örnek:
 ```java
-sout
 list.parallelStream().forEach(item -> {
     // Paralel işlem
 });

@@ -17,6 +17,9 @@ public class AsyncErrorHandlingExample {
             return null;
         });
 
+
+
+
         // Ana thread'in diğer thread'leri beklemesi
         try {
             Thread.sleep(1000);

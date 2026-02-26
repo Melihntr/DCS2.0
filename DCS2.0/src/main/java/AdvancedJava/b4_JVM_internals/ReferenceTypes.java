@@ -3,10 +3,10 @@ package AdvancedJava.b4_JVM_internals;
 public class ReferenceTypes {
     public static void main(String[] args) {
         // Referans türleri: String, Integer, Double gibi
-        String str = "Java"; // str, takma bellekteki String nesnesine referans verir
-        Integer sayi = new Integer(10); // sayi, takma bellekteki Integer nesnesine referans verir
+        String str = "Java"; // str, heap bellekteki String nesnesine referans verir
+        Integer sayi = new Integer(10); // sayi, heap bellekteki Integer nesnesine referans verir
         // Primitive türler: int, double, boolean gibi
-        int primitiveSayi = 20; // primitiveSayi, yığın bellekte saklanır
+        int primitiveSayi = 20; // primitiveSayi, stack bellekte saklanır
 
         // Referansların nasıl çalıştığını gösteren bir örnek
         changeString(str);

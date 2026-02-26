@@ -143,12 +143,14 @@ public class ConcurrencyIssues {
         // Uncomment each section to test the respective issue
 
         // Test Deadlock
-        //new DeadlockExample().deadlock();
 
         // Test Livelock
-        //new LivelockExample().livelock();
+        new LivelockExample().livelock();
 
         // Test Starvation
-        //new StarvationExample().starvation();
+        new StarvationExample().starvation();
+
+        new DeadlockExample().deadlock();
+
     }
 }
