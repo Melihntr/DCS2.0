@@ -1650,7 +1650,7 @@ Sort-Merge Join:
 
 Sonra iki pointer ile compare
 
-### 6.11 arallel Stream ve ForkJoinPool
+### 6.11 Parallel Stream ve ForkJoinPool
 Nasıl Çalışır?
 list.parallelStream()
     .map(x -> compute(x))
