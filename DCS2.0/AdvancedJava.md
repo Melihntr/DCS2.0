@@ -1517,7 +1517,7 @@ StackOverflowError bir thread’e özeldir çünkü her thread’in kendi stack 
 
 Heap tüm thread’ler tarafından ortak kullanılır. Eğer OutOfMemoryError oluşursa genelde tüm uygulama etkilenir. Teknik olarak hata bir thread’de fırlatılır ama heap global olduğu için uygulama stabilitesi bozulur ve çoğu zaman sistem kullanılmaz hale gelir. Çoğu senaryoda uygulama çöker veya sağlıksız davranır.
 
-### 6.2 Virtual THreadler
+### 6.2 Virtual Threadler
 
 Virtual thread (Java 21 ile stable) OS thread yerine JVM tarafından yönetilen hafif thread’dir.
 Özellikleri: Çok düşük memory footprint, Milyonlarca thread oluşturulabilir, I/O blocking işlemlerde çok verimli, Gerçek OS thread’e ihtiyaç duyduğunda carrier thread kullanır
