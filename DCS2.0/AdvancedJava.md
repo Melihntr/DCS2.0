@@ -1308,6 +1308,30 @@ Avantaj:
 - Dengeli throughput ve latency sağlar.
 - Bellek parçalanmasını minimize eder.
 
+#### Z Garbage Collector (ZGC)
+Çalışma Prensibi: "Colored pointer" ve "load barrier" teknikleri kullanır. Uygulama iş parçacıkları ile eşzamanlı çalışır.
+Özellikler:
+Çok düşük gecikme süresi (10 ms altı).
+Çok büyük heap boyutlarını (TB seviyesi) destekler.
+Avantajları:
+Gerçek zamanlı uygulamalar için idealdir.
+Düşük gecikme süresi ve yüksek throughput sağlar.
+Dezavantajları:
+Daha yeni bir teknoloji olduğu için bazı sistemlerde uyumluluk sorunları olabilir.
+Daha fazla sistem kaynak tüketebilir.
+
+#### Shenandoah Garbage Collector
+Çalışma Prensibi: Belleği kompakt hale getirirken uygulama iş parçacıkları ile eşzamanlı çalışır. "Concurrent compaction" kullanır.
+Özellikler:
+Düşük gecikme süresi.
+Çok büyük heap boyutlarını destekler.
+Avantajları:
+Bellek fragmentation sorununu azaltır.
+Uygulama duraklatmalarını minimize eder.
+Dezavantajları:
+CPU kullanımını artırabilir.
+Daha karmaşık yapı nedeniyle yapılandırılması zor olabilir.
+
 # 5.Performans ve Bellek Yönetimi
 
 Java'da performans ve bellek yönetimi, uygulamanın performansını artırmak ve hataları gidermek için önemlidir.
