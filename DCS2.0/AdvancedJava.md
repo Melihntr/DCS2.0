@@ -1769,29 +1769,11 @@ Daha iyi throughput
 
 Business Perspektifi
 
-E-ticaret sistemi düşün:
+E-ticaret sistemi düşün:10GB heap,Yoğun request,Sürekli object allocation
 
-10GB heap
+Yanlış GC seçimi:500ms pause, Kullanıcı timeout,Ödeme başarısız
 
-Yoğun request
-
-Sürekli object allocation
-
-Yanlış GC seçimi:
-
-500ms pause
-
-Kullanıcı timeout
-
-Ödeme başarısız
-
-Doğru GC (G1 veya ZGC):
-
-10ms pause
-
-Stabil sistem
-
-SLA korunur
+Doğru GC (G1 veya ZGC):10ms pause,Stabil sistem,SLA korunur
 
 
 
