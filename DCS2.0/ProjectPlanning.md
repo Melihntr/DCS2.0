@@ -16,7 +16,6 @@ Backend teknolojisi: **Spring Boot**
 Frontend teknolojisi: **React + React Flow**  
 Veritabanı: **H2 (in-memory database)**
 
----
 
 ## 2. Problem Tanımı
 
@@ -37,7 +36,6 @@ Bu yaklaşım:
 
 Bu proje, bu eksikliği görsel ve interaktif bir sistem ile gidermeyi hedefler.
 
----
 
 ## 3. Senaryo Tanımı (Gerçek Dünya Bağlamı)
 
@@ -64,7 +62,6 @@ Sistem gerçek zamanlı olarak:
 
 görselleştirir.
 
----
 
 ## 4. Amaç ve Hedefler
 
@@ -87,7 +84,6 @@ görselleştirir.
 - Deadlock simülasyonu yapmak
 - GC'nin latency üzerindeki etkisini göstermek
 
----
 
 ## 5. Kapsam
 
@@ -108,7 +104,6 @@ görselleştirir.
 - Production dağıtımı
 - Gerçek dağıtık sistem mimarisi
 
----
 
 ## 6. Sistem Mimarisi
 
@@ -135,7 +130,6 @@ Memory ve GC metrikleri için:
 - MemoryMXBean
 - GarbageCollectorMXBean
 
----
 
 ### 6.2 Frontend – React + React Flow
 
@@ -156,7 +150,6 @@ Thread state renk kodlaması:
 - WAITING → Turuncu
 - TERMINATED → Siyah
 
----
 
 ## 7. Veri Modeli (H2 - Minimal DB)
 
@@ -179,7 +172,6 @@ Amaç kalıcı runtime log tutmak ve analiz yapılabilmesini sağlamaktır.
 Not:
 Veritabanı concurrency mekanizmasının ana parçası değildir. Sadece log ve analiz amaçlıdır.
 
----
 
 ## 8. Teknik Risk Analizi
 
@@ -190,7 +182,6 @@ Veritabanı concurrency mekanizmasının ana parçası değildir. Sadece log ve 
 | Thread state takibi | Java’da state geçişini gerçek zamanlı yakalama zorluğu | Custom executor wrapper |
 | GC event gecikmesi | GC event polling interval | Scheduled monitoring |
 
----
 
 ## 9. Teknik Derinlik Noktaları
 
@@ -205,7 +196,6 @@ Bu proje aşağıdaki konuları pratikte gösterir:
 - Heap doluluğu ile performans ilişkisi
 - Contention ve lock etkisi
 
----
 
 ## 10. Genişletilebilirlik
 
@@ -218,7 +208,6 @@ Bu proje aşağıdaki konuları pratikte gösterir:
 - Metrics dashboard entegrasyonu
 - Multi-core scaling analizi
 
----
 
 ## 11. Beklenen Çıktı
 
@@ -232,7 +221,6 @@ Proje sonunda sistem:
 
 bir eğitim ve analiz platformu olacaktır.
 
----
 
 ## 12. Başarı Kriterleri
 
