@@ -432,8 +432,6 @@ Modellemeler yapılırken bağımlılık türlerine göre türler oraya çıkmı
 
 ![](https://miro.medium.com/v2/resize:fit:652/0*p9x7JkNa_ldOoogU.png)
 
-[https://www.javatpoint.com/software-engineering-coupling-and-cohesion](https://www.javatpoint.com/software-engineering-coupling-and-cohesion)
-
 -   **Content Coupling (İçerik):** Modellerin iç yapılarına, gerçekleştirmelerine (implementation) göre bağımlı olma durumudur. Bu bağımlılık sebebiyle bir modülde yapılan değişiklik sonrası diğer modüller de aynı anda etkilenir. Bu etkilenmenin en temel sebebi yanlış soyutlamadır. Bunun yanında alan erişimlerinin doğrudan olması veya get/set metotları ile veri alışverişi en sık karşılaşılan durumlardandır.
 -   **Common Coupling (Ortak):** Modüller arasında ortak veya global verilerin/değişkenlerin kullanılması anlamına gelir. Global olarak tanımlı bilgilerde bir değişiklik bağımlı olan her yerde hissedilir ve bunun sonucunda hatalar ve tanımlanamayan sorunlara neden olabilir.
 
