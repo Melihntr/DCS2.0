@@ -8,7 +8,7 @@ public class InterfaceSegregationDemo {
 
     // --- KÖTÜ YAKLAŞIM (Şişkin Arayüz) ---
 
-    // ❌ İHLAL: Bu arayüz çok fazla sorumluluk içeriyor.
+    // İHLAL: Bu arayüz çok fazla sorumluluk içeriyor.
     interface WorkerBad { 
         void work(); 
         void eat(); 
@@ -20,14 +20,14 @@ public class InterfaceSegregationDemo {
 
         @Override
         public void eat() {
-            // ❌ Robot yemek yiyemez ama bu metodu implement etmeye zorlandı.
+            // Robot yemek yiyemez ama bu metodu implement etmeye zorlandı.
             throw new UnsupportedOperationException("Robotlar yemek yiyemez!");
         }
     }
 
     // --- İYİ YAKLAŞIM (ISP Uygun) ---
 
-    // ✅ ÇÖZÜM: Spesifik ve küçük arayüzler.
+    // ÇÖZÜM: Spesifik ve küçük arayüzler.
     interface Workable { void work(); }
     interface Feedable { void eat(); }
 

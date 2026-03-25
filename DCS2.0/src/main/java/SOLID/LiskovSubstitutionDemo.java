@@ -5,7 +5,7 @@ package SOLID;
  */
 public class LiskovSubstitutionDemo {
 
-    // ❌ İHLAL: Ostrich (Devekuşu) bir Bird'dür ama uçamaz. fly() hata fırlatır.
+    // İHLAL: Ostrich (Devekuşu) bir Bird'dür ama uçamaz. fly() hata fırlatır.
     class Bird { public void fly() { System.out.println("Uçuyor..."); } }
     
     class Ostrich extends Bird {
@@ -13,7 +13,7 @@ public class LiskovSubstitutionDemo {
         public void fly() { throw new UnsupportedOperationException("Devekuşları uçamaz!"); }
     }
 
-    // ✅ UYGUN: Yetenekler arayüzlerle ayrılır.
+    // UYGUN: Yetenekler arayüzlerle ayrılır.
     interface IFlyable { void fly(); }
     class Sparrow implements IFlyable { public void fly() { System.out.println("Serçe uçuyor."); } }
     class OstrichClean { /* Sadece kuş özelliklerini alır, fly() zorlanmaz */ }

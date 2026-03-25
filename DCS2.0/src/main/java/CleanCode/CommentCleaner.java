@@ -6,7 +6,7 @@ package CleanCode;
  */
 public class CommentCleaner {
 
-    // ❌ KÖTÜ: Kod kendini anlatmadığı için yorum gereksinimi ve ölü kodlar.
+    // KÖTÜ: Kod kendini anlatmadığı için yorum gereksinimi ve ölü kodlar.
     public void processBad() {
         // Kullanıcı aktif mi kontrol et (Kod kendini anlatmıyor)
         // if (u.st == 1 && u.age > 18) { ... }  <-- ZOMBIE KOD
@@ -17,7 +17,7 @@ public class CommentCleaner {
         }
     }
 
-    // ✅ İYİ: Metot ve değişken isimleri yorum ihtiyacını ortadan kaldırır.
+    // İYİ: Metot ve değişken isimleri yorum ihtiyacını ortadan kaldırır.
     public void processGood() {
         boolean isAccountActive = true;
         

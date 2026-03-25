@@ -6,14 +6,14 @@ package CleanCode;
  */
 public class FunctionMastery {
 
-    // ❌ KÖTÜ: Kod tekrarı ve çok iş yapan fonksiyon.
+    // KÖTÜ: Kod tekrarı ve çok iş yapan fonksiyon.
     public void greetBad() {
         System.out.println("Merhaba Ahmet");
         System.out.println("Merhaba Mehmet");
         System.out.println("Merhaba Ayşe");
     }
 
-    // ✅ İYİ: DRY prensibi ve tek sorumluluk.
+    // İYİ: DRY prensibi ve tek sorumluluk.
     public void greetUser(String name) {
         // Fonksiyon sadece selam verme işini yapar.
         if (name == null || name.isEmpty()) return;

@@ -5,13 +5,13 @@ package SOLID;
  */
 public class SingleResponsibilityDemo {
 
-    // ❌ İHLAL: Hem veri tutuyor, hem hesaplıyor, hem kaydediyor (God Object).
+    // İHLAL: Hem veri tutuyor, hem hesaplıyor, hem kaydediyor (God Object).
     class EmployeeBad {
         public void calculatePay() { /* Muhasebe mantığı */ }
         public void saveToDatabase() { /* Veritabanı mantığı */ }
     }
 
-    // ✅ UYGUN: Sorumluluklar ayrıştırılmış.
+    // UYGUN: Sorumluluklar ayrıştırılmış.
     class EmployeeData { /* Sadece çalışan verisi */ }
     
     class PayCalculator { 

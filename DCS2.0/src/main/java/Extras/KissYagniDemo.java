@@ -5,12 +5,12 @@ package Extras;
  */
 public class KissYagniDemo {
 
-    // ❌ İHLAL (Aşırı Mühendislik): Basit bir toplama için karmaşık yapı (KISS ihlali).
+    // İHLAL (Aşırı Mühendislik): Basit bir toplama için karmaşık yapı (KISS ihlali).
     // Ayrıca "belki lazım olur" diye eklenen generic yapılar (YAGNI ihlali).
     interface IOperation<T> { T execute(T a, T b); }
     class MathFactory { /* ... karmaşık factory kodları ... */ }
 
-    // ✅ UYGUN (KISS & YAGNI): Problemi en basit ve gerekli yoldan çöz.
+    // UYGUN (KISS & YAGNI): Problemi en basit ve gerekli yoldan çöz.
     public int sum(int a, int b) {
         return a + b; // Sadece ihtiyacın olanı yap.
     }

@@ -6,7 +6,7 @@ package CouplingCohesion;
  */
 public class CohesionDemo {
 
-    // ❌ KÖTÜ: Coincidental Cohesion (Tesadüfi Birliktelik)
+    // KÖTÜ: Coincidental Cohesion (Tesadüfi Birliktelik)
     // Birbiriyle alakasız işler aynı sınıfta (Utils/Helpers gibi).
     class RandomUtils {
         public void saveToDb() { /* DB işi */ }
@@ -14,7 +14,7 @@ public class CohesionDemo {
         public void calculateTax() { /* Mantıksal iş */ }
     }
 
-    // ✅ İYİ: Functional Cohesion (Fonksiyonel Birliktelik)
+    // İYİ: Functional Cohesion (Fonksiyonel Birliktelik)
     // En iyi durumdur; sınıf tek ve spesifik bir amaca odaklanır.
     class TaxCalculator {
         public double calculateVat(double price) { return price * 0.20; }

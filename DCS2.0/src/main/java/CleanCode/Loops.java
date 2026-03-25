@@ -7,7 +7,7 @@ package CleanCode;
 public class Loops {
 
     public void demoLoops(int limit) {
-        // ❌ KÖTÜ: do-while koşul sağlanmasa bile bloğu en az bir kez çalıştırır.
+        // KÖTÜ: do-while koşul sağlanmasa bile bloğu en az bir kez çalıştırır.
         System.out.println("--- Do-While Başlıyor ---");
         int i = 20;
         do {
@@ -16,7 +16,7 @@ public class Loops {
             i++;
         } while (i < limit);
 
-        // ✅ İYİ: while döngüsü önce koşula bakar, uygun değilse bloğa hiç girmez.
+        // İYİ: while döngüsü önce koşula bakar, uygun değilse bloğa hiç girmez.
         System.out.println("\n--- While Başlıyor ---");
         int j = 20;
         while (j < limit) {

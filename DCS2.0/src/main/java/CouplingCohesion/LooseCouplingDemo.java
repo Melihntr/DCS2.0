@@ -11,7 +11,7 @@ public class LooseCouplingDemo {
         void log(String msg); 
     }
 
-    // ✅ ÇÖZÜM: Sınıfları 'static' yaparak main metodundan erişilebilir hale getirdik.
+    // ÇÖZÜM: Sınıfları 'static' yaparak main metodundan erişilebilir hale getirdik.
     static class FileLogger implements ILogger {
         @Override
         public void log(String msg) { 

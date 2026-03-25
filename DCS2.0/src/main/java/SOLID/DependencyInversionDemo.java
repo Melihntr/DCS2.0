@@ -15,7 +15,7 @@ public class DependencyInversionDemo {
         }
     }
 
-    // ❌ İHLAL: NotificationBad doğrudan EmailService'e bağımlı.
+    // İHLAL: NotificationBad doğrudan EmailService'e bağımlı.
     // Yarın SMS eklemek isterseniz bu sınıfı komple değiştirmeniz gerekir.
     static class NotificationBad {
         private EmailService service = new EmailService(); // Sıkı bağımlılık
@@ -27,7 +27,7 @@ public class DependencyInversionDemo {
 
     // --- İYİ YAKLAŞIM (DIP Uygun) ---
 
-    // ✅ SOYUTLAMA: Her iki modül de bu arayüze bağımlı olur.
+    // SOYUTLAMA: Her iki modül de bu arayüze bağımlı olur.
     interface MessageService { 
         void send(String msg); 
     }
@@ -48,7 +48,7 @@ public class DependencyInversionDemo {
         }
     }
 
-    // ✅ UYGUN: NotificationGood sadece MessageService arayüzünü tanır.
+    // UYGUN: NotificationGood sadece MessageService arayüzünü tanır.
     static class NotificationGood {
         private final MessageService service;
 

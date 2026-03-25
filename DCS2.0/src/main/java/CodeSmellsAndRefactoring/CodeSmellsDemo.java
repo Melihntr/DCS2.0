@@ -7,13 +7,13 @@ package CodeSmellsAndRefactoring;
  */
 public class CodeSmellsDemo {
 
-    // ❌ KOKU: Bloaters - Long Method & Data Clumps
+    // KOKU: Bloaters - Long Method & Data Clumps
     // startDate ve endDate sürekli beraber geziyor (Data Clump).
     public void printReport(String title, String startDate, String endDate) {
         // 50 satırlık rapor hazırlama mantığı... (Long Method)
     }
 
-    // ❌ KOKU: Object-Orientation Abuser - Switch Statements
+    // KOKU: Object-Orientation Abuser - Switch Statements
     // Yeni tip eklendiğinde bu metodun sürekli değişmesi gerekir (OCP ihlali).
     public double getSpeed(String birdType) {
         switch (birdType) {

@@ -6,7 +6,7 @@ package Extras;
  */
 public class DryDemo {
 
-    // ❌ İHLAL (WET): Aynı doğrulama mantığı iki farklı serviste kopyalanmış.
+    // İHLAL (WET): Aynı doğrulama mantığı iki farklı serviste kopyalanmış.
     class UserService {
         void register(int age) {
             if (age < 18) throw new RuntimeException("Yaş küçük"); // Tekrar 1
@@ -19,7 +19,7 @@ public class DryDemo {
         }
     }
 
-    // ✅ UYGUN (DRY): Mantık merkezileştirildi.
+    // UYGUN (DRY): Mantık merkezileştirildi.
     class AgeValidator {
         public static void validate(int age) {
             if (age < 18) throw new RuntimeException("Yaş küçük");

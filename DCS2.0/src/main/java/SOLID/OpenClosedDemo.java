@@ -8,7 +8,7 @@ public class OpenClosedDemo {
 
     // --- KÖTÜ YAKLAŞIM (Değişime Dirençli) ---
 
-    // ❌ İHLAL: Yeni bir ödeme tipi (örn. ApplePay) eklemek için bu metodu modifiye etmeniz gerekir.
+    // İHLAL: Yeni bir ödeme tipi (örn. ApplePay) eklemek için bu metodu modifiye etmeniz gerekir.
     static class PaymentProcessorBad {
         public void process(String type) {
             if (type.equals("CreditCard")) { 
@@ -22,7 +22,7 @@ public class OpenClosedDemo {
 
     // --- İYİ YAKLAŞIM (OCP Uygun) ---
 
-    // ✅ GENİŞLETİLEBİLİR YAPI: Arayüz (Interface) kullanımı.
+    // GENİŞLETİLEBİLİR YAPI: Arayüz (Interface) kullanımı.
     interface PaymentMethod { 
         void process(); 
     }

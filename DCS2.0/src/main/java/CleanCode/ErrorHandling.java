@@ -5,13 +5,13 @@ package CleanCode;
  */
 public class ErrorHandling {
 
-    // ❌ KÖTÜ: Hata durumunda sadece null veya eksi değer dönmek (Belirsizlik yaratır).
+    // KÖTÜ: Hata durumunda sadece null veya eksi değer dönmek (Belirsizlik yaratır).
     public int divideBad(int a, int b) {
         if (b == 0) return -1; // -1 gerçek bir sonuç mu yoksa hata mı?
         return a / b;
     }
 
-    // ✅ İYİ: Try-Catch kullanarak hatayı yönetmek ve programı tutarlı tutmak.
+    // İYİ: Try-Catch kullanarak hatayı yönetmek ve programı tutarlı tutmak.
     public void divideGood(int a, int b) {
         try {
             // Uygulama bu blokta hata olabileceğini bilir.

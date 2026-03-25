@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class MethodSizeAndResponsibility {
 
-    // ❌ KÖTÜ YAKLAŞIM: Çok iş yapan "Dev" metod (Big Ball of Mud)
+    // KÖTÜ YAKLAŞIM: Çok iş yapan "Dev" metod (Big Ball of Mud)
     public void handleReport(List<Integer> numbers) {
         // Hesaplama yapıyor
         double sum = 0;
@@ -23,7 +23,7 @@ public class MethodSizeAndResponsibility {
         System.out.println("Ortalama Skor: " + avg);
     }
 
-    // ✅ İYİ YAKLAŞIM: Parçalanmış ve odaklanmış metodlar
+    // İYİ YAKLAŞIM: Parçalanmış ve odaklanmış metodlar
     public void generateReport(List<Integer> numbers) {
         double average = calculateAverage(numbers);
         printReport(average);

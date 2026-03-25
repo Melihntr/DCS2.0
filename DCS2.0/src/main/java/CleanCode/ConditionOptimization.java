@@ -6,7 +6,7 @@ package CleanCode;
  */
 public class ConditionOptimization {
 
-    // ❌ KÖTÜ YAKLAŞIM: İç içe geçmiş (Nested) koşullar
+    // KÖTÜ YAKLAŞIM: İç içe geçmiş (Nested) koşullar
     public String checkAccessBad(int age, boolean hasPermission) {
         String result;
         if (age >= 18) {
@@ -21,7 +21,7 @@ public class ConditionOptimization {
         return result;
     }
 
-    // ✅ İYİ YAKLAŞIM: Guard Clauses (Erken Dönüş)
+    // İYİ YAKLAŞIM: Guard Clauses (Erken Dönüş)
     public String checkAccessGood(int age, boolean hasPermission) {
         // Negatif durumları başta eleyip metoddan çıkıyoruz
         if (age < 18) {

@@ -12,7 +12,7 @@ public class RefactoringTechniques {
     class Item { double price; }
     class Order { List<Item> items; String customerName; }
 
-    // ❌ KOKU: Long Method & Primitive Obsession
+    // KOKU: Long Method & Primitive Obsession
     public void printOrderDetails(Order order) {
         // Hesaplama mantığı metodun içinde boğulmuş.
         double total = 0;
@@ -22,7 +22,7 @@ public class RefactoringTechniques {
         System.out.println("Total: " + total);
     }
 
-    // ✅ İYİ (Refactored): Extract Method
+    // İYİ (Refactored): Extract Method
     public void printOrderDetailsClean(Order order) {
         double total = calculateTotal(order.items); // Hesaplama ayrıldı.
         printSummary(order.customerName, total);    // Yazdırma ayrıldı.

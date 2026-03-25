@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class NamingConvention {
 
-    // ❌ KÖTÜ YAKLAŞIM
+    // KÖTÜ YAKLAŞIM
     public void process() {
         List<int[]> l1 = new ArrayList<>(); // l1 nedir? int[] ne tutuyor?
         int d = 14; // d nedir?
@@ -19,7 +19,7 @@ public class NamingConvention {
         }
     }
 
-    // ✅ İYİ YAKLAŞIM
+    // İYİ YAKLAŞIM
     public void processStudentGrades() {
         // İsimlendirme niyet belirtir
         final int MAX_EXAM_DAYS = 14; 
