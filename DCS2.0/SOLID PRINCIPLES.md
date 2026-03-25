@@ -5,7 +5,7 @@ Usta yazılımcı Robert C. Martin’in kitabı “**Clean Code**” şu cümlel
 
 Bu cümleden de anlaşılacağı üzerine clean code/ temiz kod bir yazılım projesinin geleceği açısından kilit noktasıdır. Clean code/ temiz kodun tercih edilmediği yazılım geliştirme aşamalarının projenin ileriki adımları için bir tehdit olduğunu söyleyebiliriz. Çünkü yazdığımız kod gün geçtikçe karmaşıklaşır, okunamaz ve işin içinden çıkılmaz bir hale gelir ki bu durum projenin iptaline kadar gidebilir. Yani hüsranka sonuçlanabilir. Buna verilebilecek örneklerden birisi;
 
-80’lerde bir şirket müthiş ve popüler bir uygulama yazmıştır. Fakat bir süre sonra yeni sürüm çıkma dönemleri (release) uzamaya başlar. Bir sonraki sürümde hatalar ortaya çıkar, yüklenme süresi artar ve çökmeler artar. Zaten sonrasında bu sirket piyasadan çekilir. Olaydan 20 yıl sonra şirketin ilk çalışanlarından biriyle karşılaşılır ve o zaman ne olduğu ve şirketin neden bir anda ortadan kaybolduğu sorulur. Cevap ise şudur: “Ürünü markete erkenden sürebilmek için çok fazla acele etmişlerdi ve kodda çok büyük bir kargaşaya sebep olmuşlardı. Daha fazla özellik ekledikçe kod daha kötü bir hal almış ve o kadar kötü bir hale gelmişti ki artık kodu yönetemiyorlardı. Böylece kötü, kontrol edilemez kod, şirketin kapanmasına sebep olmuştu.” Peki bu kod ne oldu da bu denli bir hızla kötü koda dönüştü? Bunun için pek çok sebep vardır. Bunlardan bazıları; gereksinimlerin çok fazla değişmesi, teslim tarihlerinin çok sık olması ve şimdi yazayım sonra refactor ederim düşüncesidir. Fakat “**Later equals never (Sonra asla demektir)**”.
+80’lerde bir şirket müthiş ve popüler bir uygulama yazmıştır. Fakat bir süre sonra yeni sürüm çıkma dönemleri (release) uzamaya başlar. Bir sonraki sürümde hatalar ortaya çıkar, yüklenme süresi artar ve çökmeler artar. Zaten sonrasında bu sirket piyasadan çekilir. Olaydan 20 yıl sonra şirketin ilk çalışanlarından biriyle karşılaşılır ve o zaman ne olduğu ve şirketin neden bir anda ortadan kaybolduğu sorulur. Cevap ise şudur: “Ürünü markete erkenden sürebilmek için çok fazla acele etmişlerdi ve kodda çok büyük bir kargaşaya sebep olmuşlardı. Daha fazla özellik ekledikçe kod daha kötü bir hal almış ve o kadar kötü bir hale gelmişti ki artık kodu yönetemiyorlardı. Böylece kötü, kontrol edilemez kod, şirketin kapanmasına sebep olmuştu.” Peki bu kod ne oldu da bu denli bir hızla kötü koda dönüştü? Bunun için pek çok sebep vardır. Bunlardan bazıları; gereksinimlerin çok fazla değişmesi, teslim tarihlerinin çok sık olması ve şimdi yazalım sonra refactor ederiz düşüncesidir. Fakat “**Later equals never (Sonra asla demektir)**”.
 
 **CLEAN CODE (TEMİZ KOD)**
 
@@ -76,7 +76,7 @@ Bir diğer örnek;
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*7AmuTyvyKsgKS0ZesxplFQ.png)
 
-Burada koda baktığımda aklımda canlanan tek şey;
+Burada koda bakıldığında da akılda canlanan tek şey;
 
 1- “realList” ne içeriyor?
 
