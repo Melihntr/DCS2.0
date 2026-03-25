@@ -1,4 +1,4 @@
-package CleanCode;
+package main.java.CleanCode;
 
 import java.util.Arrays;
 import java.util.List;

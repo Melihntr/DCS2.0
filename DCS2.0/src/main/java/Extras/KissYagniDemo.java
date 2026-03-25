@@ -1,4 +1,4 @@
-package Extras;
+package main.java.Extras;
 
 /**
  * 5.5 & 5.6: KISS ve YAGNI Prensipleri

@@ -1,4 +1,4 @@
-package CleanCode;
+package main.java.CleanCode;
 /**
  * C1.7: Hata Yönetimi (Error Handling)
  * Amaç: Program akışını bozmadan hataları güvenli bir kapsamda (scope) ele almak.

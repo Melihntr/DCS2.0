@@ -1,4 +1,4 @@
-package Extras;
+package main.java.Extras;
 
 /**
  * 5.4: DRY Prensipleri

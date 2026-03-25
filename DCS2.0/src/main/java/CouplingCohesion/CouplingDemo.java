@@ -1,4 +1,4 @@
-package CouplingCohesion;
+package main.java.CouplingCohesion;
 
 /**
  * 3.3 & 3.4: Coupling (Bağımlılık) Çeşitleri

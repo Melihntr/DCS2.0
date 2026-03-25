@@ -1,4 +1,4 @@
-package CouplingCohesion;
+package main.java.CouplingCohesion;
 
 /**
  * 3.1 & 3.2: Cohesion (Birliktelik) Çeşitleri

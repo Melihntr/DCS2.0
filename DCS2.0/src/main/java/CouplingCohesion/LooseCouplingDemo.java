@@ -1,4 +1,4 @@
-package CouplingCohesion;
+package main.java.CouplingCohesion;
 
 /**
  * 3.5: Abstract Coupling ve Loose Coupling

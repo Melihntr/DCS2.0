@@ -1,4 +1,4 @@
-package SOLID;
+package main.java.SOLID;
 
 /**
  * 2.3: LSP - Liskov'un Yerine Geçme Prensibi

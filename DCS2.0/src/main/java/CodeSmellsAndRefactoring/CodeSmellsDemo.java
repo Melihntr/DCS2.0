@@ -1,4 +1,4 @@
-package CodeSmellsAndRefactoring;
+package main.java.CodeSmellsAndRefactoring;
 
 /**
  * 4.2: Code Smells Örnekleri

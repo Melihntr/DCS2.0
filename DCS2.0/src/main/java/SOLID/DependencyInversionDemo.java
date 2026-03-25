@@ -1,4 +1,4 @@
-package SOLID;
+package main.java.SOLID;
 
 /**
  * 2.5: DIP - Bağımlılığın Ters Çevrilmesi

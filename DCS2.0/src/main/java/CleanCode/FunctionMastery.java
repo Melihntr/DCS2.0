@@ -1,4 +1,4 @@
-package CleanCode;
+package main.java.CleanCode;
 
 /**
  * C1.6: Fonksiyonlar ve DRY
