@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="360c1d2f-fbd2-444f-b324-d34061e31a00" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/CommentCleaner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/CommentCleaner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/ConditionOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/ConditionOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/ErrorHandling.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/ErrorHandling.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/FunctionMastery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/FunctionMastery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/Loops.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/Loops.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/MethodSizeAndResponsibility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/MethodSizeAndResponsibility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/NamingConvention.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/NamingConvention.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/CodeSmellsDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/CodeSmellsDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/RefactoringTechniques.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/RefactoringTechniques.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CouplingCohesion/CohesionDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CouplingCohesion/CohesionDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CouplingCohesion/LooseCouplingDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CouplingCohesion/LooseCouplingDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Extras/DryDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Extras/DryDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Extras/KissYagniDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Extras/KissYagniDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/DependencyInversionDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/DependencyInversionDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/InterfaceSegregationDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/InterfaceSegregationDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/LiskovSubstitutionDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/LiskovSubstitutionDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/OpenClosedDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/OpenClosedDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/SingleResponsibilityDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/SingleResponsibilityDemo.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/M_AVCI16/IdeaProjects/DCS2.0" value="38WQImgkET5sU1qvsjoSwP3d4Q9" />
+    </persistenceIdMap>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Rebase.Settings">
+    <option name="NEW_BASE" value="origin/Step1-b" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="Step1-b" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Melihntr&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Melihntr/DCS2.0.git&quot;,
+    &quot;accountId&quot;: &quot;9c62dbdf-4fcb-4cd3-9d4c-83b7d6681a55&quot;
+  }
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="38WQImgkET5sU1qvsjoSwP3d4Q9" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Araba.executor": "Run",
+    "Application.AsyncErrorHandlingExample.executor": "Debug",
+    "Application.AtomicIntegerExample.executor": "Run",
+    "Application.CallableExample.executor": "Run",
+    "Application.CallbackExample.executor": "Run",
+    "Application.Collector.executor": "Run",
+    "Application.CompletableFutureExample.executor": "Run",
+    "Application.ConcurrencyIssues.executor": "Run",
+    "Application.CriticalSectionAndRaceCondition.executor": "Run",
+    "Application.DaemonThreadExample.executor": "Run",
+    "Application.Example1 (1).executor": "Run",
+    "Application.Example1.executor": "Run",
+    "Application.Example2.executor": "Run",
+    "Application.ExampleB.executor": "Run",
+    "Application.ExampleC.executor": "Run",
+    "Application.ExampleD.executor": "Run",
+    "Application.ExceptionHandlingExample.executor": "Run",
+    "Application.ExecutorServiceExample.executor": "Run",
+    "Application.ForkJoinExample.executor": "Run",
+    "Application.GcExamples.executor": "Run",
+    "Application.HeapMemory.executor": "Run",
+    "Application.InterruptExample.executor": "Run",
+    "Application.JProfilerDemo.executor": "Run",
+    "Application.JarExample.executor": "Run",
+    "Application.JavaVersionCheck.executor": "Run",
+    "Application.JoinMethodExample.executor": "Run",
+    "Application.ListExample.executor": "Run",
+    "Application.Loops.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.Main2.executor": "Run",
+    "Application.Main3.executor": "Run",
+    "Application.Main4.executor": "Run",
+    "Application.MapExample.executor": "Run",
+    "Application.MavenModules.executor": "Run",
+    "Application.Multithreading.executor": "Run",
+    "Application.New.executor": "Run",
+    "Application.OuterInner.executor": "Run",
+    "Application.PassByValueDemo.executor": "Run",
+    "Application.Person.executor": "Run",
+    "Application.ProfilingExample.executor": "Run",
+    "Application.ReentrantLockExample.executor": "Run",
+    "Application.ReferenceTypes.executor": "Run",
+    "Application.RefrenceTypesDemo.executor": "Run",
+    "Application.RunnableExample.executor": "Run",
+    "Application.SemaphoreExample.executor": "Run",
+    "Application.SetExample.executor": "Run",
+    "Application.Solitaire.executor": "Run",
+    "Application.Spider.executor": "Run",
+    "Application.StaticDemo.executor": "Run",
+    "Application.StringPoolExample.executor": "Run",
+    "Application.SumBenchmark.executor": "Run",
+    "Application.SwtichCaseDemo.executor": "Run",
+    "Application.SynchronizedExample.executor": "Run",
+    "Application.ThreadLifeCycleStatesExample.executor": "Run",
+    "Application.ThreadLifecycle.executor": "Run",
+    "Application.ThreadLocalExample.executor": "Run",
+    "Application.ThreadStateDemo.executor": "Run",
+    "Application.ThreadStateExample.executor": "Run",
+    "Application.ThreadStates.executor": "Run",
+    "Application.ThreadStatesDemo.executor": "Run",
+    "Application.Training.executor": "Run",
+    "Application.UncheckedException.executor": "Run",
+    "Application.VirtualThreadExample.executor": "Run",
+    "Application.VolatileExample.executor": "Run",
+    "Application.YoungGenerationExample.executor": "Run",
+    "Application.com.example.ModuleA.Example1.executor": "Run",
+    "Application.idk.executor": "Run",
+    "Application.multithreading.executor": "Run",
+    "Application.object.executor": "Run",
+    "Application.threadExtends.executor": "Run",
+    "Maven.0 [clean].executor": "Run",
+    "Maven.0 [compile].executor": "Run",
+    "Maven.0 [deploy].executor": "Run",
+    "Maven.0 [install].executor": "Run",
+    "Maven.0 [package].executor": "Run",
+    "Maven.Module1 [clean].executor": "Run",
+    "Maven.Module1 [compile].executor": "Run",
+    "Maven.Module1 [install].executor": "Run",
+    "Maven.Module2 [clean].executor": "Run",
+    "Maven.Module2 [package].executor": "Run",
+    "Maven.Module33 [clean].executor": "Run",
+    "Maven.Module33 [compile].executor": "Run",
+    "Maven.Module33 [install].executor": "Run",
+    "Maven.ModuleA [clean].executor": "Run",
+    "Maven.ModuleA [compile].executor": "Run",
+    "Maven.ModuleA [install].executor": "Run",
+    "Maven.ModuleA [validate].executor": "Run",
+    "Maven.jmh-benchmark [clean].executor": "Run",
+    "Maven.jmh-benchmark [install].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "Step3-a",
+    "ignore.preview.features.used": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/M_AVCI16/IdeaProjects/DCS2.0",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\M_AVCI16\IdeaProjects\" />
+      <recent name="C:\Users\M_AVCI16\IdeaProjects\DCS2.0" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="DCS2.0" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="DCS2.0" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="360c1d2f-fbd2-444f-b324-d34061e31a00" name="Changes" comment="" />
+      <created>1768912770044</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1768912770044</updated>
+      <workItem from="1768912772227" duration="5641000" />
+      <workItem from="1768918657037" duration="5000" />
+      <workItem from="1768974441259" duration="8183000" />
+      <workItem from="1768982717935" duration="4018000" />
+      <workItem from="1768989490576" duration="2000" />
+      <workItem from="1768989564931" duration="1202000" />
+      <workItem from="1768998945362" duration="1710000" />
+      <workItem from="1769665063575" duration="11346000" />
+      <workItem from="1769749411966" duration="583000" />
+      <workItem from="1769750021021" duration="189000" />
+      <workItem from="1769750216537" duration="5475000" />
+      <workItem from="1769757695613" duration="3072000" />
+      <workItem from="1769765564331" duration="7551000" />
+      <workItem from="1769773184985" duration="1538000" />
+      <workItem from="1769774778698" duration="6255000" />
+      <workItem from="1770016743348" duration="1369000" />
+      <workItem from="1770018144841" duration="12305000" />
+      <workItem from="1770034000753" duration="1326000" />
+      <workItem from="1770187980140" duration="6475000" />
+      <workItem from="1770275275952" duration="2323000" />
+      <workItem from="1770277636026" duration="844000" />
+      <workItem from="1770278500867" duration="882000" />
+      <workItem from="1770279441826" duration="324000" />
+      <workItem from="1770279783269" duration="4264000" />
+      <workItem from="1770287791468" duration="41000" />
+      <workItem from="1770287910492" duration="375000" />
+      <workItem from="1770288314564" duration="574000" />
+      <workItem from="1770288912848" duration="312000" />
+      <workItem from="1770289272426" duration="188000" />
+      <workItem from="1770289525987" duration="39000" />
+      <workItem from="1770289605603" duration="156000" />
+      <workItem from="1770289786163" duration="502000" />
+      <workItem from="1770290327120" duration="594000" />
+      <workItem from="1770290946450" duration="35000" />
+      <workItem from="1770291027937" duration="302000" />
+      <workItem from="1770291353068" duration="1869000" />
+      <workItem from="1770293523667" duration="124000" />
+      <workItem from="1770293713482" duration="17000" />
+      <workItem from="1770293757685" duration="8000" />
+      <workItem from="1770293870888" duration="1174000" />
+      <workItem from="1770295080651" duration="1769000" />
+      <workItem from="1770296923077" duration="419000" />
+      <workItem from="1770297419011" duration="163000" />
+      <workItem from="1770297628747" duration="845000" />
+      <workItem from="1770790143641" duration="25000" />
+    </task>
+    <task id="LOCAL-00001" summary="A">
+      <option name="closed" value="true" />
+      <created>1770275030214</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1770275030214</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="Spare2" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="A" />
+    <option name="LAST_COMMIT_MESSAGE" value="A" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.InterruptedException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/AdvancedJava/b3_async_programming/AsyncErrorHandlingExample.java</url>
+          <line>8</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
