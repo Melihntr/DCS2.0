@@ -5,154 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="05eed03b-268e-475e-8797-a653b6812ae9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.project.facet.core.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/0.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/CommentCleaner.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/ConditionOptimization.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/ErrorHandling.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/FunctionMastery.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/Loops.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/MethodSizeAndResponsibility.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/NamingConvention.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CodeSmellsAndRefactoring/CodeSmellsDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CodeSmellsAndRefactoring/RefactoringTechniques$Item.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CodeSmellsAndRefactoring/RefactoringTechniques$Order.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CodeSmellsAndRefactoring/RefactoringTechniques.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CodeSmellsAndRefactoring/SustainabilityDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CohesionDemo$RandomUtils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CohesionDemo$TaxCalculator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CohesionDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CouplingDemo$CarBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CouplingDemo$CarGood.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CouplingDemo$EngineBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CouplingDemo$EngineGood.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CouplingDemo$IEngine.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CouplingDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/LooseCouplingDemo$BusinessService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/LooseCouplingDemo$DbLogger.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/LooseCouplingDemo$FileLogger.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/LooseCouplingDemo$ILogger.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/LooseCouplingDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/Extras/DryDemo$AdminService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/Extras/DryDemo$AgeValidator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/Extras/DryDemo$UserService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/Extras/DryDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/Extras/KissYagniDemo$IOperation.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/Extras/KissYagniDemo$MathFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/Extras/KissYagniDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/Extras/TddDemo$Calculator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/Extras/TddDemo$CalculatorRefactored.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/Extras/TddDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo$EmailService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo$EmailServiceClean.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo$MessageService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo$NotificationBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo$NotificationGood.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo$SmsService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo$Feedable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo$HumanWorker.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo$RobotWorker.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo$RobotWorkerBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo$Workable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo$WorkerBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/LiskovSubstitutionDemo$Bird.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/LiskovSubstitutionDemo$IFlyable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/LiskovSubstitutionDemo$Ostrich.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/LiskovSubstitutionDemo$OstrichClean.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/LiskovSubstitutionDemo$Sparrow.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/LiskovSubstitutionDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/OpenClosedDemo$CreditCardPayment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/OpenClosedDemo$CryptoPayment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/OpenClosedDemo$PaymentMethod.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/OpenClosedDemo$PaymentProcessorBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/OpenClosedDemo$PaymentProcessorClean.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/OpenClosedDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/SingleResponsibilityDemo$EmployeeBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/SingleResponsibilityDemo$EmployeeData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/SingleResponsibilityDemo$EmployeeRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/SingleResponsibilityDemo$PayCalculator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/SingleResponsibilityDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/CommentCleaner.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/ConditionOptimization.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/ErrorHandling.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/FunctionMastery.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/Loops.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/MethodSizeAndResponsibility.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/NamingConvention.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CodeSmellsAndRefactoring/CodeSmellsDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CodeSmellsAndRefactoring/RefactoringTechniques$Item.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CodeSmellsAndRefactoring/RefactoringTechniques$Order.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CodeSmellsAndRefactoring/RefactoringTechniques.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CodeSmellsAndRefactoring/SustainabilityDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CohesionDemo$RandomUtils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CohesionDemo$TaxCalculator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CohesionDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CouplingDemo$CarBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CouplingDemo$CarGood.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CouplingDemo$EngineBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CouplingDemo$EngineGood.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CouplingDemo$IEngine.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CouplingDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/LooseCouplingDemo$BusinessService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/LooseCouplingDemo$DbLogger.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/LooseCouplingDemo$FileLogger.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/LooseCouplingDemo$ILogger.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/LooseCouplingDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/Extras/DryDemo$AdminService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/Extras/DryDemo$AgeValidator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/Extras/DryDemo$UserService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/Extras/DryDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/Extras/KissYagniDemo$IOperation.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/Extras/KissYagniDemo$MathFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/Extras/KissYagniDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/Extras/TddDemo$Calculator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/Extras/TddDemo$CalculatorRefactored.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/Extras/TddDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo$Feedable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo$HumanWorker.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo$RobotWorker.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo$RobotWorkerBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo$Workable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo$WorkerBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/LiskovSubstitutionDemo$Bird.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/LiskovSubstitutionDemo$IFlyable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/LiskovSubstitutionDemo$Ostrich.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/LiskovSubstitutionDemo$OstrichClean.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/LiskovSubstitutionDemo$Sparrow.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/LiskovSubstitutionDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/OpenClosedDemo$CreditCardPayment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/OpenClosedDemo$CryptoPayment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/OpenClosedDemo$PaymentMethod.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/OpenClosedDemo$PaymentProcessorBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/OpenClosedDemo$PaymentProcessorClean.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/OpenClosedDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/SingleResponsibilityDemo$EmployeeBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/SingleResponsibilityDemo$EmployeeData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/SingleResponsibilityDemo$EmployeeRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/SingleResponsibilityDemo$PayCalculator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/SOLID/SingleResponsibilityDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo$EmailService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo$EmailServiceClean.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo$MessageService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo$NotificationBad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo$NotificationGood.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo$SmsService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,21 +15,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Melihntr"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Melihntr&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
-    "url": "https://github.com/Melihntr/DCS2.0.git",
+    "url": "https://github.com/Melihntr/DCS2.0",
     "accountId": "9c62dbdf-4fcb-4cd3-9d4c-83b7d6681a55"
   }
 }]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="3BQgKpgx2Kj3JxrWLwkLZTkstFc" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -189,15 +42,29 @@
     "Application.CommentCleaner.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "Step3-a",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/M_AVCI16/dev/DCS2.0",
+    "last_opened_file_path": "C:/Users/M_AVCI16/Desktop/Dosyasal/DCS2.0",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="DCS2.0" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="DCS2.0" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
