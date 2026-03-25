@@ -42,7 +42,6 @@ Kodlama yaparken okunabilirlik (readability), değiştirilebilirlik (changeabili
 
 Yazılım alanında değişkenler, sabitler, fonksiyonlar, sınıflar, paketler gibi tüm nesnelerin isimleri vardır. Clean code yazabilmemiz için clean code prensiplerine uygun olarak açık ve anlaşılır kodlar yazmalıyız. Doğru isimlendirme, yorum satırlarına ve detaylı kod incelemelerine gerek duymadan ilgili kodun anlaşılmasını sağlayacaktır. Tüm nesnelerin isimlendirilirken belirlenmiş bazı kuralları vardır.
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*gjFjJhqFgquD2GlX90Q3DQ.jpeg)
 
@@ -50,13 +49,11 @@ Press enter or click to view image in full size
 
 Variables (değişkenler) ve constants (sabitler) gibi içerisinde veri barındıran yapılar isimlendirilirken içerisinde barındırdığı verinin ne olduğuyla ilgili net ve açıklayıcı sıfatlarla isim ön eklerinden oluşan kısa ifadeler kullanılmalıdır. İsimlendirme yapılırken daha sonra okunmasını zorlaştıracak gereksiz kısaltmalardan kaçınılmalı ve telaffuz edilmesi kolay isimler kullanılmalıdır.
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*h_vj_XbYpcs-WknJFWd1Cw.png)
 
 Mesela burada gün cinsinden geçen süre int tipinde bir değişkenle tutulmak istenmiş fakat “d” harfi, günle ya da süreyle ilgili en ufak bir ipucu bile vermiyor. Ayrıca doküman içerisinde “d” değişkenini aradığımızda sonucun birçok satırda bulunma olasılığı vardır bu da aranabilirlik özelliğinin azalmasına neden olur.
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*EmlZqGxbvItj_O7MAwtEGA.png)
 
@@ -66,19 +63,16 @@ Ayrıca isimlendirme yapılırken belli başlı kod standartları vardır. Bunla
 
 ·  **Camel Case:** İsimdeki ilk kelimenin ilk harfi her zaman küçük harfle başlar, ikinci kelimenin baş harfi büyüktür.
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*s95_9X6F_v5eOcpISVLUkw.png)
 
 ·  **Pascal Case:** İsimdeki tüm kelimlerin ilk harfleri büyük harfle başlar.
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*g1BNAb0ENGujcHspN9Uk-A.png)
 
 Bir diğer örnek;
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*7AmuTyvyKsgKS0ZesxplFQ.png)
 
@@ -92,7 +86,6 @@ Burada koda baktığımda aklımda canlanan tek şey;
 
 Fakat yazdığımız kodlar neye karşılık geldiklerini açık ve net bir şekilde belli etmelidirler. Bu yüzden bu kodu şu şekilde yeniden düzenleyebiliriz  **refactor (yeniden yapılandırma).**
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*AG1xdE9uUGqbyn9j4qKpdw.png)
 
@@ -100,7 +93,6 @@ Burada ise “realList” dizisinin aslında öğrenci notlarını tuttuğunu, 7
 
 · Kötü isim örneklerinden biri de küçük “l” ve büyük “O” kullanmaktır. Çünkü küçük “l”, 1’e; büyük “O”, 0’a benzer ve kodda karmaşa yaratabilir.
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*mLj2j5b8mgbEGUyc0H4zIQ.png)
 
@@ -110,7 +102,6 @@ Press enter or click to view image in full size
 
 · İsimlendirme yaparken birbirine yakın çağrışımlı kelimeler kullanmaktan kaçınmalıyız çünkü aynı scope(kapsam) içerisinde belirsizlik yaratabilir. Mesela aşağıdaki kodda hangi methodu kullanacağımız konusunda kafa karışıklığı yaşarız.
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*qUW09_UnknXFcQxvBsqQgA.png)
 
@@ -122,7 +113,6 @@ Fonksiyonlar isimlendirilirken tutarlı olunmalıdır. Örnek olarak veri getirm
 
 Mesela bu örnekte aynı konseptte yapılan işler için farklı eylemler kullanılmış. Bu clean code prensiplerine aykırı bir durumdur.
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*chb8mEquwc3t31yzsMC-Fg.png)
 
@@ -146,13 +136,11 @@ Mesela aşağıdaki koda baktığımızda çoğu yazılımcıya ikinci koşul da
 
 · Boolean bir değeri condition içerisinde tekrar “true” ya da “false”a eşitlemek gereksiz bir kalabalık yaratacaktır. Bu yüzden şu kullanım tercih edilebilir:
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*R8hpeH9FJn2RhI94WieDoQ.png)
 
 · Bir grup seçenek arasından seçim yapacaksak bunu static olarak vermektense enumlara bağlayıp kullanmak daha yerinde olacaktır. Böylece kodda ilgili bir opsiyonu değiştirmek istediğimizde o opsiyonun kullanıldığı yerleri tek tek bulup değiştirmek yerine ilgili enum opsiyonunu değiştirmemiz yeterli olacaktır.
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*zPz3BJ9ETLQTSJfDWy8BCg.png)
 
@@ -393,8 +381,6 @@ class Notification {
 
 Tasarım kalıpları ile ilgili süreçleri ve sorumlulukları anlayabilmek için cohesion (birliktelik) ve coupling (bağımlılık) kavramlarını iyi anlıyor olmak gerekiyor.  _Coupling_  ve  _Cohesion_  kavramlari iyi bir Object Oriented (OO) dizayna sahip bir yazılım ürünü ortaya çıkartmak için olmazsa olmazdır ve kalitesiyle doğrudan ilgilidir. Genel olarak kaliteyi arttırabilmek için nesneler arasında oldukça  **gevşek bağımlı ve yüksek uyumlu bir tasarım**  izlenmelidir. (Loose coupling and high cohesion)
 
-Press enter or click to view image in full size
-
 
 #### 3.1 Cohesion
 
@@ -412,7 +398,6 @@ Yazılımcıların sınıflar üzerinde yapmış olduğu modellemelere göre far
 
 -   **Coincidental Cohesion (Tesadüfi):** Sınıfta yer alan süreçlerin gelişi güzel olarak bir araya gelmesi durumudur. Nesneler arası soyutlama yok denecek kadar azdır ve aynı zamanda nesne organizasyonu ile hiçbir ilgisi yoktur gelişi güzel yazılmıştır. Bu tarz yapılara daha çok Utils, Helpers gibi isimlendirilen sınıflarda rastlarız.  **Karşılaşılabilecek en kötü durum budur.**
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*4q6BjVzG9jrCqDwj0LFzmQ.png)
 
@@ -420,7 +405,6 @@ Press enter or click to view image in full size
 
 -   **Logical Cohesion (Mantıksal):** Modülün içerisinde ki parçalar doğaları gereği farklı olsalar bile mantıksal olarak aynı şeyi yapmak üzere kategorize edilirler. Örnek olarak çıktı alınan bir raporun tüm süreçlerini bir modül altında toparlamak verilebilir (db access, readfile, print file gibi tüm süreçlerin bir yerde toplanması gibi).
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*tSSZXaA9eNifz2pZvOYMog.png)
 
@@ -428,7 +412,6 @@ Press enter or click to view image in full size
 
 -   **Temporal Cohesion (Zamansal):** Bir modülün içerisinde ki parçaların çalışma zamanına göre gruplandırılmasıdır. Örneğin açık dosyaları loglayan, loglama yaparken hata günlüğü oluşturan ve bunların yanında senaryolara göre kullanıcıyı bilgilendiren bir modül.
 
-Press enter or click to view image in full size
 
 ![](https://miro.medium.com/v2/resize:fit:700/1*GVURg9KsOZWy7mMgeEgD9A.png)
 
