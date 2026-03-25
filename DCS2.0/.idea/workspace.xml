@@ -4,219 +4,200 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="360c1d2f-fbd2-444f-b324-d34061e31a00" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/CommentCleaner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/CommentCleaner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/ConditionOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/ConditionOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/ErrorHandling.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/ErrorHandling.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/FunctionMastery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/FunctionMastery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/Loops.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/Loops.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/MethodSizeAndResponsibility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/MethodSizeAndResponsibility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/NamingConvention.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/NamingConvention.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/CodeSmellsDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/CodeSmellsDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/RefactoringTechniques.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/RefactoringTechniques.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CouplingCohesion/CohesionDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CouplingCohesion/CohesionDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CouplingCohesion/LooseCouplingDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CouplingCohesion/LooseCouplingDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Extras/DryDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Extras/DryDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Extras/KissYagniDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Extras/KissYagniDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/DependencyInversionDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/DependencyInversionDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/InterfaceSegregationDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/InterfaceSegregationDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/LiskovSubstitutionDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/LiskovSubstitutionDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/OpenClosedDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/OpenClosedDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/SingleResponsibilityDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/SingleResponsibilityDemo.java" afterDir="false" />
+    <list default="true" id="05eed03b-268e-475e-8797-a653b6812ae9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.project.facet.core.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/0.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/CommentCleaner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/ConditionOptimization.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/ErrorHandling.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/FunctionMastery.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/Loops.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/MethodSizeAndResponsibility.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CleanCode/NamingConvention.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CodeSmellsAndRefactoring/CodeSmellsDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CodeSmellsAndRefactoring/RefactoringTechniques$Item.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CodeSmellsAndRefactoring/RefactoringTechniques$Order.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CodeSmellsAndRefactoring/RefactoringTechniques.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CodeSmellsAndRefactoring/SustainabilityDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CohesionDemo$RandomUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CohesionDemo$TaxCalculator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CohesionDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CouplingDemo$CarBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CouplingDemo$CarGood.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CouplingDemo$EngineBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CouplingDemo$EngineGood.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CouplingDemo$IEngine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/CouplingDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/LooseCouplingDemo$BusinessService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/LooseCouplingDemo$DbLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/LooseCouplingDemo$FileLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/LooseCouplingDemo$ILogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/CouplingCohesion/LooseCouplingDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Extras/DryDemo$AdminService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Extras/DryDemo$AgeValidator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Extras/DryDemo$UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Extras/DryDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Extras/KissYagniDemo$IOperation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Extras/KissYagniDemo$MathFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Extras/KissYagniDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Extras/TddDemo$Calculator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Extras/TddDemo$CalculatorRefactored.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Extras/TddDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo$EmailService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo$EmailServiceClean.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo$MessageService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo$NotificationBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo$NotificationGood.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo$SmsService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/DependencyInversionDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo$Feedable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo$HumanWorker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo$RobotWorker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo$RobotWorkerBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo$Workable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo$WorkerBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/InterfaceSegregationDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/LiskovSubstitutionDemo$Bird.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/LiskovSubstitutionDemo$IFlyable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/LiskovSubstitutionDemo$Ostrich.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/LiskovSubstitutionDemo$OstrichClean.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/LiskovSubstitutionDemo$Sparrow.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/LiskovSubstitutionDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/OpenClosedDemo$CreditCardPayment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/OpenClosedDemo$CryptoPayment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/OpenClosedDemo$PaymentMethod.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/OpenClosedDemo$PaymentProcessorBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/OpenClosedDemo$PaymentProcessorClean.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/OpenClosedDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/SingleResponsibilityDemo$EmployeeBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/SingleResponsibilityDemo$EmployeeData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/SingleResponsibilityDemo$EmployeeRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/SingleResponsibilityDemo$PayCalculator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/SOLID/SingleResponsibilityDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/CommentCleaner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/ConditionOptimization.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/ErrorHandling.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/FunctionMastery.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/Loops.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/MethodSizeAndResponsibility.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CleanCode/NamingConvention.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CodeSmellsAndRefactoring/CodeSmellsDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CodeSmellsAndRefactoring/RefactoringTechniques$Item.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CodeSmellsAndRefactoring/RefactoringTechniques$Order.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CodeSmellsAndRefactoring/RefactoringTechniques.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CodeSmellsAndRefactoring/SustainabilityDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CohesionDemo$RandomUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CohesionDemo$TaxCalculator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CohesionDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CouplingDemo$CarBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CouplingDemo$CarGood.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CouplingDemo$EngineBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CouplingDemo$EngineGood.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CouplingDemo$IEngine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/CouplingDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/LooseCouplingDemo$BusinessService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/LooseCouplingDemo$DbLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/LooseCouplingDemo$FileLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/LooseCouplingDemo$ILogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/CouplingCohesion/LooseCouplingDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/Extras/DryDemo$AdminService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/Extras/DryDemo$AgeValidator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/Extras/DryDemo$UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/Extras/DryDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/Extras/KissYagniDemo$IOperation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/Extras/KissYagniDemo$MathFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/Extras/KissYagniDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/Extras/TddDemo$Calculator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/Extras/TddDemo$CalculatorRefactored.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/Extras/TddDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo$Feedable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo$HumanWorker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo$RobotWorker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo$RobotWorkerBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo$Workable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo$WorkerBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/InterfaceSegregationDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/LiskovSubstitutionDemo$Bird.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/LiskovSubstitutionDemo$IFlyable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/LiskovSubstitutionDemo$Ostrich.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/LiskovSubstitutionDemo$OstrichClean.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/LiskovSubstitutionDemo$Sparrow.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/LiskovSubstitutionDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/OpenClosedDemo$CreditCardPayment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/OpenClosedDemo$CryptoPayment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/OpenClosedDemo$PaymentMethod.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/OpenClosedDemo$PaymentProcessorBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/OpenClosedDemo$PaymentProcessorClean.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/OpenClosedDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/SingleResponsibilityDemo$EmployeeBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/SingleResponsibilityDemo$EmployeeData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/SingleResponsibilityDemo$EmployeeRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/SingleResponsibilityDemo$PayCalculator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/SOLID/SingleResponsibilityDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo$EmailService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo$EmailServiceClean.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo$MessageService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo$NotificationBad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo$NotificationGood.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo$SmsService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/production/0/main/java/SOLID/DependencyInversionDemo.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CopilotPersistence">
-    <persistenceIdMap>
-      <entry key="_C:/Users/M_AVCI16/IdeaProjects/DCS2.0" value="38WQImgkET5sU1qvsjoSwP3d4Q9" />
-    </persistenceIdMap>
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="Git.Rebase.Settings">
-    <option name="NEW_BASE" value="origin/Step1-b" />
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$/.." value="Step1-b" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Melihntr&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Melihntr"
   }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Melihntr/DCS2.0.git&quot;,
-    &quot;accountId&quot;: &quot;9c62dbdf-4fcb-4cd3-9d4c-83b7d6681a55&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Melihntr/DCS2.0.git",
+    "accountId": "9c62dbdf-4fcb-4cd3-9d4c-83b7d6681a55"
   }
-}</component>
-  <component name="McpProjectServerCommands">
-    <commands />
-    <urls />
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 1
-}</component>
-  <component name="ProjectId" id="38WQImgkET5sU1qvsjoSwP3d4Q9" />
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="3BQgKpgx2Kj3JxrWLwkLZTkstFc" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Araba.executor": "Run",
-    "Application.AsyncErrorHandlingExample.executor": "Debug",
-    "Application.AtomicIntegerExample.executor": "Run",
-    "Application.CallableExample.executor": "Run",
-    "Application.CallbackExample.executor": "Run",
-    "Application.Collector.executor": "Run",
-    "Application.CompletableFutureExample.executor": "Run",
-    "Application.ConcurrencyIssues.executor": "Run",
-    "Application.ConditionOptimization.executor": "Run",
-    "Application.CriticalSectionAndRaceCondition.executor": "Run",
-    "Application.DaemonThreadExample.executor": "Run",
-    "Application.DependencyInversionDemo.executor": "Run",
-    "Application.Example1 (1).executor": "Run",
-    "Application.Example1.executor": "Run",
-    "Application.Example2.executor": "Run",
-    "Application.ExampleB.executor": "Run",
-    "Application.ExampleC.executor": "Run",
-    "Application.ExampleD.executor": "Run",
-    "Application.ExceptionHandlingExample.executor": "Run",
-    "Application.ExecutorServiceExample.executor": "Run",
-    "Application.ForkJoinExample.executor": "Run",
-    "Application.GcExamples.executor": "Run",
-    "Application.HeapMemory.executor": "Run",
-    "Application.InterfaceSegregationDemo.executor": "Run",
-    "Application.InterruptExample.executor": "Run",
-    "Application.JProfilerDemo.executor": "Run",
-    "Application.JarExample.executor": "Run",
-    "Application.JavaVersionCheck.executor": "Run",
-    "Application.JoinMethodExample.executor": "Run",
-    "Application.ListExample.executor": "Run",
-    "Application.Loops.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.Main2.executor": "Run",
-    "Application.Main3.executor": "Run",
-    "Application.Main4.executor": "Run",
-    "Application.MapExample.executor": "Run",
-    "Application.MavenModules.executor": "Run",
-    "Application.Multithreading.executor": "Run",
-    "Application.New.executor": "Run",
-    "Application.OuterInner.executor": "Run",
-    "Application.PassByValueDemo.executor": "Run",
-    "Application.Person.executor": "Run",
-    "Application.ProfilingExample.executor": "Run",
-    "Application.ReentrantLockExample.executor": "Run",
-    "Application.ReferenceTypes.executor": "Run",
-    "Application.RefrenceTypesDemo.executor": "Run",
-    "Application.RunnableExample.executor": "Run",
-    "Application.SemaphoreExample.executor": "Run",
-    "Application.SetExample.executor": "Run",
-    "Application.Solitaire.executor": "Run",
-    "Application.Spider.executor": "Run",
-    "Application.StaticDemo.executor": "Run",
-    "Application.StringPoolExample.executor": "Run",
-    "Application.SumBenchmark.executor": "Run",
-    "Application.SwtichCaseDemo.executor": "Run",
-    "Application.SynchronizedExample.executor": "Run",
-    "Application.ThreadLifeCycleStatesExample.executor": "Run",
-    "Application.ThreadLifecycle.executor": "Run",
-    "Application.ThreadLocalExample.executor": "Run",
-    "Application.ThreadStateDemo.executor": "Run",
-    "Application.ThreadStateExample.executor": "Run",
-    "Application.ThreadStates.executor": "Run",
-    "Application.ThreadStatesDemo.executor": "Run",
-    "Application.Training.executor": "Run",
-    "Application.UncheckedException.executor": "Run",
-    "Application.VirtualThreadExample.executor": "Run",
-    "Application.VolatileExample.executor": "Run",
-    "Application.YoungGenerationExample.executor": "Run",
-    "Application.com.example.ModuleA.Example1.executor": "Run",
-    "Application.idk.executor": "Run",
-    "Application.multithreading.executor": "Run",
-    "Application.object.executor": "Run",
-    "Application.threadExtends.executor": "Run",
-    "Maven.0 [clean].executor": "Run",
-    "Maven.0 [compile].executor": "Run",
-    "Maven.0 [deploy].executor": "Run",
-    "Maven.0 [install].executor": "Run",
-    "Maven.0 [package].executor": "Run",
-    "Maven.Module1 [clean].executor": "Run",
-    "Maven.Module1 [compile].executor": "Run",
-    "Maven.Module1 [install].executor": "Run",
-    "Maven.Module2 [clean].executor": "Run",
-    "Maven.Module2 [package].executor": "Run",
-    "Maven.Module33 [clean].executor": "Run",
-    "Maven.Module33 [compile].executor": "Run",
-    "Maven.Module33 [install].executor": "Run",
-    "Maven.ModuleA [clean].executor": "Run",
-    "Maven.ModuleA [compile].executor": "Run",
-    "Maven.ModuleA [install].executor": "Run",
-    "Maven.ModuleA [validate].executor": "Run",
-    "Maven.jmh-benchmark [clean].executor": "Run",
-    "Maven.jmh-benchmark [install].executor": "Run",
+    "Application.CommentCleaner.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "Step3-a",
-    "ignore.preview.features.used": "true",
-    "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/M_AVCI16/IdeaProjects/DCS2.0",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "last_opened_file_path": "C:/Users/M_AVCI16/dev/DCS2.0",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\M_AVCI16\IdeaProjects\" />
-      <recent name="C:\Users\M_AVCI16\IdeaProjects\DCS2.0" />
-    </key>
-  </component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="DCS2.0" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="DCS2.0" />
-      <option name="filePath" />
-      <method v="2" />
-    </configuration>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -226,116 +207,13 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="360c1d2f-fbd2-444f-b324-d34061e31a00" name="Changes" comment="" />
-      <created>1768912770044</created>
+      <changelist id="05eed03b-268e-475e-8797-a653b6812ae9" name="Changes" comment="" />
+      <created>1774426646981</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1768912770044</updated>
-      <workItem from="1768912772227" duration="5641000" />
-      <workItem from="1768918657037" duration="5000" />
-      <workItem from="1768974441259" duration="8183000" />
-      <workItem from="1768982717935" duration="4018000" />
-      <workItem from="1768989490576" duration="2000" />
-      <workItem from="1768989564931" duration="1202000" />
-      <workItem from="1768998945362" duration="1710000" />
-      <workItem from="1769665063575" duration="11346000" />
-      <workItem from="1769749411966" duration="583000" />
-      <workItem from="1769750021021" duration="189000" />
-      <workItem from="1769750216537" duration="5475000" />
-      <workItem from="1769757695613" duration="3072000" />
-      <workItem from="1769765564331" duration="7551000" />
-      <workItem from="1769773184985" duration="1538000" />
-      <workItem from="1769774778698" duration="6255000" />
-      <workItem from="1770016743348" duration="1369000" />
-      <workItem from="1770018144841" duration="12305000" />
-      <workItem from="1770034000753" duration="1326000" />
-      <workItem from="1770187980140" duration="6475000" />
-      <workItem from="1770275275952" duration="2323000" />
-      <workItem from="1770277636026" duration="844000" />
-      <workItem from="1770278500867" duration="882000" />
-      <workItem from="1770279441826" duration="324000" />
-      <workItem from="1770279783269" duration="4264000" />
-      <workItem from="1770287791468" duration="41000" />
-      <workItem from="1770287910492" duration="375000" />
-      <workItem from="1770288314564" duration="574000" />
-      <workItem from="1770288912848" duration="312000" />
-      <workItem from="1770289272426" duration="188000" />
-      <workItem from="1770289525987" duration="39000" />
-      <workItem from="1770289605603" duration="156000" />
-      <workItem from="1770289786163" duration="502000" />
-      <workItem from="1770290327120" duration="594000" />
-      <workItem from="1770290946450" duration="35000" />
-      <workItem from="1770291027937" duration="302000" />
-      <workItem from="1770291353068" duration="1869000" />
-      <workItem from="1770293523667" duration="124000" />
-      <workItem from="1770293713482" duration="17000" />
-      <workItem from="1770293757685" duration="8000" />
-      <workItem from="1770293870888" duration="1174000" />
-      <workItem from="1770295080651" duration="1769000" />
-      <workItem from="1770296923077" duration="419000" />
-      <workItem from="1770297419011" duration="163000" />
-      <workItem from="1770297628747" duration="845000" />
-      <workItem from="1770790143641" duration="25000" />
+      <updated>1774426646981</updated>
     </task>
-    <task id="LOCAL-00001" summary="A">
-      <option name="closed" value="true" />
-      <created>1770275030214</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1770275030214</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="Spare2" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="A" />
-    <option name="LAST_COMMIT_MESSAGE" value="A" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="java.lang.InterruptedException" package="java.lang" />
-          <option name="timeStamp" value="1" />
-        </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/AdvancedJava/b3_async_programming/AsyncErrorHandlingExample.java</url>
-          <line>8</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
