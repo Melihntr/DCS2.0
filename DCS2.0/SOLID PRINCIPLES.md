@@ -106,7 +106,7 @@ Burada koda bakıldığında da akılda canlanan tek şey;
 
 Fakat yazdığımız kodlar neye karşılık geldiklerini açık ve net bir şekilde belli etmelidirler. Bu yüzden bu kodu şu şekilde yeniden düzenleyebiliriz  **refactor (yeniden yapılandırma).**
 
-
+```
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -128,7 +128,7 @@ public class EssayOrnek {
         return temporaryNotes;
     }
 }
-
+```
 
 Burada ise “realList” dizisinin aslında öğrenci notlarını tuttuğunu, 70’in geçme notu olduğunu ve 70’e eşit veya daha yüksek alan notların ise “temporaryNotes” adlı dizide tutulduğunu rahat bir şekilde anlayabiliyorum.
 
@@ -139,7 +139,22 @@ Burada ise “realList” dizisinin aslında öğrenci notlarını tuttuğunu, 7
 
 · Kısaltma kullanmaktan olabildiğince kaçınmalıyız. Çünkü kısaltmalar kodumuzda kullandığımız değişkenlerin işlevini tam olarak yansıtamayabilir. Fakat bu durumun istisnası döngülerde görülebilir. Döngülerde alışılagelmiş bir durum olaral döngü değişkenleri tek karakterden oluşur.
 
-![](https://miro.medium.com/v2/resize:fit:635/1*NEA8TooXTrzg-e1S4gjaaw.png)
+```
+public class Main {
+    public static void main(String[] args) {
+        int[] numbers = new int[10];
+        int k, j;
+
+        for (k = 0; k < 10; k++) {
+            numbers[k] = k * k;
+        }
+
+        for (j = 0; j < 10; j++) {
+            System.out.printf("numbers[%d]: %d\n", j, numbers[j]);
+        }
+    }
+}
+```
 
 · İsimlendirme yaparken birbirine yakın çağrışımlı kelimeler kullanmaktan kaçınmalıyız çünkü aynı scope(kapsam) içerisinde belirsizlik yaratabilir. Mesela aşağıdaki kodda hangi methodu kullanacağımız konusunda kafa karışıklığı yaşarız.
 
