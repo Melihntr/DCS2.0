@@ -106,8 +106,29 @@ Burada koda bakıldığında da akılda canlanan tek şey;
 
 Fakat yazdığımız kodlar neye karşılık geldiklerini açık ve net bir şekilde belli etmelidirler. Bu yüzden bu kodu şu şekilde yeniden düzenleyebiliriz  **refactor (yeniden yapılandırma).**
 
+```
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-![](https://miro.medium.com/v2/resize:fit:700/1*AG1xdE9uUGqbyn9j4qKpdw.png)
+public class EssayOrnek {
+    private List<Float> studentNotes = new ArrayList<>(Arrays.asList(10f, 52f, 43f, 65f, 70f, 73f, 93f, 84f, 88f));
+    
+    public final float PASSING_GRADES = 70f;
+
+    public List<Float> fetchNotesThatPass() {
+        List<Float> temporaryNotes = new ArrayList<>();
+        
+        for (Float note : studentNotes) {
+            if (note >= PASSING_GRADES) {
+                temporaryNotes.add(note);
+            }
+        }
+        
+        return temporaryNotes;
+    }
+}
+```
 
 Burada ise “realList” dizisinin aslında öğrenci notlarını tuttuğunu, 70’in geçme notu olduğunu ve 70’e eşit veya daha yüksek alan notların ise “temporaryNotes” adlı dizide tutulduğunu rahat bir şekilde anlayabiliyorum.
 
