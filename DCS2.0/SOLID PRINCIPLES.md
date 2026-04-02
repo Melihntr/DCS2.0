@@ -577,7 +577,6 @@ Aşağıda Java dili ile hazırlanmış, detaylı SOLID rehberi yer almaktadır.
 -   **İhlal Durumu (God Object):** Bir `Employee` sınıfının hem çalışan verilerini tutması, hem maaş hesaplaması, hem de bu verileri veritabanına kaydetmesi. Veritabanı yapısı değiştiğinde veya maaş politikası değiştiğinde aynı sınıf modifiye edilir. Bu durum "Rigidity" (Sertlik) yaratır.
     
 
-**Java Örneği:**
 
 
 ```
@@ -603,8 +602,6 @@ public class EmployeeRepository { public void save(EmployeeData emp) { ... } }
 
 -   **İhlal Durumu:** Yeni bir ödeme yöntemi (örneğin PayPal) eklemek için mevcut `PaymentProcessor` sınıfındaki bir `switch-case` bloğuna yeni bir satır eklemek. Bu, mevcut çalışan kodu riske atar.
     
-
-**Java Örneği:**
 
 
 ```
@@ -634,8 +631,6 @@ public class PaymentProcessor {
 -   **İhlal Durumu:** Klasik "Kare-Dikdörtgen" problemi. Eğer `Square` sınıfı `Rectangle` sınıfından kalıtım alıyorsa ve `setHeight` metodunu çağırdığınızda genişlik de değişiyorsa, bu LSP ihlalidir. Çünkü bir dikdörtgen bekleyen kod, karenin bu özel davranışıyla karşılaşınca hata verebilir.
     
 
-**Java Örneği:**
-
 
 ```
 // KÖTÜ ÖRNEK (İhlal)
@@ -658,7 +653,6 @@ public class Ostrich extends Bird {
 -   **İhlal Durumu:** Bir `Worker` arayüzünde hem `work()` hem de `eat()` metodu varsa; yemek yemeye ihtiyaç duymayan bir "RobotWorker" sınıfı bu metodu boş bırakmak (dummy implementation) zorunda kalır.
     
 
-**Java Örneği:**
 
 
 ```
@@ -686,27 +680,61 @@ class RobotWorker implements Workable {
 -   **İhlal Durumu:** Bir `Notification` sınıfının doğrudan bir `EmailSender` sınıfını "new" anahtar kelimesiyle oluşturması. Yarın SMS ile bildirim göndermek isterseniz `Notification` sınıfını baştan aşağı değiştirmeniz gerekir.
     
 
-**Java Örneği:**
-
+1. Kötü Örnek (DIP'e Aykırı)
+Burada Notification sınıfı (üst seviye), doğrudan EmailService sınıfına (alt seviye) bağımlıdır.
 
 ```
-// İYİ ÖRNEK (DIP Uygun)
-interface MessageService { void send(String msg); }
-
-class EmailService implements MessageService {
-    public void send(String msg) { /* Email gönder */ }
+// Alt Seviye Sınıf
+class EmailService {
+    public void sendEmail(String message) {
+        System.out.println("Email gönderiliyor: " + message);
+    }
 }
 
+// Üst Seviye Sınıf
 class Notification {
-    private final MessageService service;
+    private EmailService emailService = new EmailService(); // SIKI BAĞLILIK!
 
-    // Bağımlılık dışarıdan enjekte edilir (Dependency Injection)
-    public Notification(MessageService service) {
-        this.service = service;
+    public void send(String message) {
+        emailService.sendEmail(message);
     }
-    
-    public void notifyUser(String message) {
-        service.send(message);
+}
+```
+Problem: Yarın SMS ile bildirim göndermek isterseniz Notification sınıfını baştan aşağı değiştirmeniz gerekir.
+
+2. İyi Örnek (DIP Uygulanmış)
+Önce bir soyutlama (Interface) oluştururuz. Hem üst seviye hem alt seviye bu arayüze bağlanır.
+
+```
+// Soyutlama (Interface)
+interface MessageService {
+    void sendMessage(String message);
+}
+
+// Alt Seviye Sınıflar (Detaylar)
+class EmailService implements MessageService {
+    public void sendMessage(String message) {
+        System.out.println("Email: " + message);
+    }
+}
+
+class SmsService implements MessageService {
+    public void sendMessage(String message) {
+        System.out.println("SMS: " + message);
+    }
+}
+
+// Üst Seviye Sınıf (Sadece Interface'e bağımlı)
+class Notification {
+    private MessageService messageService;
+
+    // Dependency Injection (Bağımlılık Enjeksiyonu) ile dışarıdan verilir
+    public Notification(MessageService service) {
+        this.messageService = service;
+    }
+
+    public void send(String message) {
+        messageService.sendMessage(message);
     }
 }
 ```
