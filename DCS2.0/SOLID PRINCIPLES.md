@@ -73,13 +73,13 @@ Ayrıca isimlendirme yapılırken belli başlı kod standartları vardır. Bunla
 
 Bir diğer örnek;
 
-''' 
+```
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class EssayOrnek {
-    // C#'taki başlangıç değerlerini atamak için Arrays.asList kullanabiliriz
+
     public List<Float> realList = new ArrayList<>(Arrays.asList(10f, 52f, 43f, 65f, 70f, 73f, 93f, 84f, 88f));
 
     public List<Float> fetchList() {
@@ -94,7 +94,7 @@ public class EssayOrnek {
         return list1;
     }
 }
-'''
+```
 
 Burada koda bakıldığında da akılda canlanan tek şey;
 
