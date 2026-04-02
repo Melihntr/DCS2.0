@@ -199,8 +199,26 @@ Yukarıdaki kodda ise aynı işlem tek satırda yazılmıştır.
 
 · Kısa devre mantığında ise her iki koşulu da kontrol etmek istediğimizde “&” operatörü kullanabiliriz. Yalnızca tek bir koşulun doğruluğunun yeterli olması durumunda ise “||” operatörünü kullanabiliriz.
 
+```
+public class Main {
+    public static void main(String[] args) {
+        boolean a = true || secondOperand();
+        System.out.println(a);
+        // Çıktı: true
 
-![](https://miro.medium.com/v2/resize:fit:700/1*7CR2BiaFTCMdUK96PZ11Ug.png)
+        boolean b = false || secondOperand();
+        System.out.println(b);
+        // Çıktı: 
+        // Second operand is evaluated.
+        // true
+    }
+
+    public static boolean secondOperand() {
+        System.out.println("Second operand is evaluated.");
+        return true;
+    }
+}
+```
 
 · Validasyonları iç içe “if” kullanarak yapmak çoğu yazılımcının düştüğü bir yazılım yanlışıdır. Bu şekilde bir validasyon zincirinin okunması ve aynı zamanda hangi “if”in hangi “else”e denk geldiğinin anlaşılması zordur. Bunun yerine “if”leri alt alta sıralayıp ilk yakalanan validasyondan itibaren kodu return etmek daha doğrudur.
 
@@ -211,24 +229,103 @@ Yukarıdaki kodda ise aynı işlem tek satırda yazılmıştır.
 
 · Çoğu kodlama dilinde yaygın olarak kullanılan döngüler for, for..each ve while’dır . Ancaj bunların yanı sıra do-while döngüsünden de bahsedebiliriz. Do-while döngüsü, belirtilen koşul doğru ya da yanlış olsun bir kez kesinlikle calışır. Yani ilk önce kod bloğu çalışır sonra koşul kontrol edilir. Bu yüzden clean code yazmak isteyen yazılımcıların çok da tercih ettiği bir yöntem değildir. Do-while’ın muadili olarak for, for…each veya while döngülerinin kullanılması kodun hem organizasyonu hem de performansı açısından daha etkilidir.
 
-![](https://miro.medium.com/v2/resize:fit:654/1*P6IvC9YzxDkX3nQn-nlwxw.png)
+
+```
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        float array[] = {1.1f, 2.2f, 3.3f, 4.4f, 5.5f};
+        int k, sum = 0;
+
+        do {
+            for (k = 0; k < 5; k++) {
+                sum += array[k];
+            }
+            System.out.printf("Toplam: %d\n", sum);
+        }
+        while (array[0] == 2.2f);
+    }
+}
+```
 
 Yukarıdaki kodda koşul sağlanmamasına rağmen sonuç ekrana “16.5” olarak yazdırılacaktır.
 
-![](https://miro.medium.com/v2/resize:fit:608/1*3bntMwn_BLkfQ3YeLTIPYg.png)
+```
+public class Main {
+    public static void main(String[] args) {
+        float array[] = {1.1f, 2.2f, 3.3f, 4.4f, 5.5f};
+        int k, sum = 0;
+
+        while (array[0] == 2.2f) {
+            for (k = 0; k < 5; k++) {
+                sum += array[k];
+                System.out.printf("Sum: %d\n", sum);
+            }
+        }
+    }
+}
+```
 
 Yukarıdaki kodda ilk önce koşul kontrol edilir ve koşul sağlanmadığı için ekrana sonuç yazdırılmaz. Bu yüzden do-while döngülerinin kullanımı kodda yanlış sonuçlar verebilir.
 
 **1.4**  **YORUM SATIRI (COMMENT LINE)**
 
-Yorum satırlarını kodda kendimizi ifade edebilmek için kullanırız. Fakat kodumuzdaki yorum satırları her zaman kusurlarımızdır. Çünkü onlarsız ne yapacağımızı bilmez ve kötü kodlarımızı perdelemek için kullanırız. Kötü ve ne yaptığı belli olmayan kod parçacıklarını açıklamak için yorum satırı yazmaya yöneliriz. Fakat bu kodumuz için çok tehlikelidir. Çünkü yazdığımız kodlar değişir, gelişir ancak yorum satırları maintain edilmez (düzeltilmez). Bu yüzden kodumuz yorum satırlarına ihtiyaç duymadan kendi kendini açıklayabilmelidir. Yazılımcının niyeti yorum satırları olmadan da anlaşılabilmelidir.
+Yorum satırlarını kodda niyetimizi ifade etmek için kullanırız. Ancak temiz kod felsefesine göre, bir koda yorum satırı ekleme ihtiyacı duyuyorsak bu genellikle kodun yeterince açık olmadığının bir göstergesidir. Kod zamanla güncellenir ancak yorum satırları genellikle unutulur; bu da kodun işleyişi ile açıklaması arasında çelişki yaratır.
 
-· Ayrıca zombie kod denilen kullanılmayan ve yorum satırları içerisine alınan kod blokları da kafa karışıklığına yol açar ve okunurluğu azaltır. Bu yüzden zombie kod kullanımından da kaçınılmalıdır.
+Ayrıca "Zombi Kod" dediğimiz, artık kullanılmayan ancak "belki lazım olur" düşüncesiyle silinmeyip yorum satırına alınan kod blokları, projenin okunabilirliğini ciddi oranda düşürür ve kafa karışıklığına yol açar.
 
+Kötü Örnek (Zombi Kod ve Gereksiz Yorumlar)
+Aşağıdaki kodda hem ne yaptığı belli olmayan değişken isimleri için yorum kullanılmış hem de eski kodlar silinmeyerek karmaşa yaratılmıştır:
 
-![](https://miro.medium.com/v2/resize:fit:700/1*uhFPoXCwfG6hqIhuWCXKLQ.png)
+```
+public class OgrenciServisi {
+    // Listeyi filtreleyen metod
+    public List<Float> filtrele(List<Float> n) {
+        // Geçici liste oluşturuyoruz
+        List<Float> l1 = new ArrayList<>(); 
+        
+        for (Float x : n) {
+            // Eğer not 70'ten büyükse ekle
+            if (x >= 70) {
+                l1.add(x);
+            }
+        }
+        
+        /* ESKİ KOD - ARTIK KULLANILMIYOR
+        for (Float x : n) {
+            if (x >= 50) {
+                System.out.println("Geçti");
+            }
+        }
+        */
+        
+        return l1; // Listeyi dön
+    }
+}
+```
 
-Yukarıdaki kodda yorum satırı içinde bir sürü zombie kod bulunmaktadır ve bu yüzden kod karmaşık görünmektedir.
+İyi Örnek (Temiz ve Kendi Kendini Açıklayan Kod)
+```
+Temiz kodda değişken ve metod isimleri o kadar açıklayıcıdır ki yorum satırına gerek kalmaz. Zombi kodlar ise projeden tamamen temizlenir:
+
+Java
+public class StudentService {
+    private final float PASSING_GRADE = 70.0f;
+
+    public List<Float> fetchPassingNotes(List<Float> allNotes) {
+        List<Float> successfulNotes = new ArrayList<>();
+
+        for (Float currentNote : allNotes) {
+            if (currentNote >= PASSING_GRADE) {
+                successfulNotes.add(currentNote);
+            }
+        }
+
+        return successfulNotes;
+    }
+}
+```
 
 **1.5**  **FONKSİYONLAR (FUNCTIONS)**
 
@@ -238,13 +335,74 @@ Dry (Don’t repeat yourself), çoğu yazılımcının duyduğu bir kodlama pren
 
 Örneğin aşağıdaki kodda 3 farklı yerde isim değişkeninin de içinde olduğu bir cümle yazdırılmak isteniyor. Fakat bu 3 ile sınırlı kalmak zorunda değil daha karmaşık , binlerce satır kod yazdığımızda bu durum başımızı ağrıtabilir. Bunun “Greet” fonksiyonu oluşturarak her seferinde bu fonksiyonu çağırıp işlemlerimizi daha basit, kafa karışıklığı yaratmadan halledebiliriz.
 
+```
+import java.util.Scanner;
 
-![](https://miro.medium.com/v2/resize:fit:700/1*OW82SYhwei652mGfN7LXug.png)
+class Student {
+    String nameOfStudent;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Student names = new Student();
+
+        System.out.println("Enter your mom's name: ");
+        names.nameOfStudent = scanner.nextLine();
+        greet(names.nameOfStudent, names.nameOfStudent.length());
+
+        System.out.println("\nEnter your dad's name: ");
+        names.nameOfStudent = scanner.nextLine();
+        greet(names.nameOfStudent, names.nameOfStudent.length());
+
+        System.out.println("\nEnter your sister's name: ");
+        names.nameOfStudent = scanner.nextLine();
+        greet(names.nameOfStudent, names.nameOfStudent.length());
+        
+        scanner.close();
+    }
+
+    public static void greet(String name, int length) {
+        System.out.printf("Hi %s, what's up today?\n", name);
+    }
+}
+```
 
 · Fonksiyonlarımızı yazarken göz önünde bulundurulması gereken en önemli noktalardan birisi uzunluklarıdır. Bir fonksiyon çokça satırdan oluşuyorsa orada durup bu kodu nasıl daha küçük parçalara bölebiliriz diye düşünmeliyiz ve mümkün olduğu kadar parçalamalıyız. İdeal olan fonksiyon uzunluğu maximum 20 satırdır ve bir satırda en fazla 150 karakter bulunmalıdır.
 
+```
+import java.util.Scanner;
 
-![](https://miro.medium.com/v2/resize:fit:700/1*C7MZOswhincJ9ZxLwL2WbA.png)
+public class Main {
+    public static int milletvekiliAta(int[][] dizi, int ilKod) {
+        Scanner scanner = new Scanner(System.in);
+        int kontenjan, i, enBuyuk;
+
+        System.out.printf("Lutfen %d kodlu il icin milletvekili kontenjanini giriniz: ", ilKod);
+        kontenjan = scanner.nextInt();
+        int kopyaKontenjan = kontenjan;
+
+        for (i = 0; i < 6; i++) {
+            dizi[2][i] = 0;
+        }
+
+        while (kontenjan > 0) {
+            enBuyuk = 0;
+            for (i = 0; i < 6; i++) {
+                if (dizi[1][i] >= dizi[1][enBuyuk]) {
+                    enBuyuk = i;
+                }
+            }
+            dizi[2][enBuyuk] += 1;
+            dizi[1][enBuyuk] /= 2;
+            kontenjan -= 1;
+        }
+
+        System.out.println();
+        return kopyaKontenjan;
+    }
+}
+```
 
 Bu kodda görüldüğü üzere fonksiyonun satır sayısı 20’yi geçmiştir ve okunabilirliği büyük oranda azalmıştır. Eğer fonksiyonumuzu daha kısa tutsaydık hem okunabilirliği artar hem de geliştirilmesi kolaylaşabilirdi.
 
@@ -252,15 +410,116 @@ Bu kodda görüldüğü üzere fonksiyonun satır sayısı 20’yi geçmiştir v
 
 Örneğin aşağıdaki kodda toplam ve ortalama aynı fonksiyon içerisinde hesaplanmaktadır fakat bu ileride sorun yaratabilir bu yüzden her zaman fonksiyonlarımızı yalnızca tek bir işlevi yerine getirecek şekilde yazmalıyız.
 
-![](https://miro.medium.com/v2/resize:fit:700/1*xouOTDBRHbRjSTzsGHBH-Q.png)
+```
+public class Main {
+    public static void main(String[] args) {
+        int[] array = {3, 5, 4, 1, 2};
+        calculate(array, 5);
+    }
+
+    public static void calculate(int[] x, int length) {
+        int k, sum = 0, average;
+        
+        for (k = 0; k < length; k++) {
+            sum += x[k];
+        }
+        
+        average = sum / length;
+        System.out.printf("Sum: %d\nAverage: %.2f\n", sum, (float) average);
+    }
+}
+```
 
 Bu kodu düzelterek (refactor)şu şekilde yazarsak daha sağlıklı bir kodlama yapmış oluruz.
 
-![](https://miro.medium.com/v2/resize:fit:700/1*ldrVNAJZ_kbEF8RDSosLHw.png)
+```
+public class Main {
+    public static void main(String[] args) {
+        int result;
+        int[] array = {3, 5, 4, 1, 2};
+
+        result = add(array, 5);
+        System.out.printf("The sum of this array: %d\n", result);
+        
+        findAverage(result, 5);
+    }
+
+    public static int add(int[] x, int length) {
+        int k, sum = 0;
+        for (k = 0; k < length; k++) {
+            sum += x[k];
+        }
+        return sum;
+    }
+
+    public static void findAverage(int sum, int length) {
+        float average;
+        // C kodundaki mantık hatasını düzeltmek için sum'ı length'e bölüyoruz
+        average = (float) sum / length;
+        System.out.printf("The average of this array: %.2f\n", average);
+    }
+}
+```
 
 · Bir fonksiyonun çok fazla parametre alması ileride kodun çalışabilirliği açısından sıkıntı yaratabilecekken o fonksiyonun birden fazla iş yaptığının da göstergesi olabilir. Fonksiyonlar için en uygunu hiç parametre almamalarıdır.
 
-![](https://miro.medium.com/v2/resize:fit:700/1*TRspBT_w61IQy4PUJAwYRg.png)
+
+```
+import java.util.Scanner;
+
+public class FinalProject {
+    
+    public static void main(String[] args) {
+        int toplamOy = 0;
+
+        // İl 1 işlemleri
+        int[][] il1 = new int[4][6];
+        int il1_kod = 1;
+        int il1_toplamOy = oyGir(il1, il1_kod);
+        int il1_kontenjan = milletvekiliAta(il1, il1_kod);
+
+        // İl 2 işlemleri
+        int[][] il2 = new int[4][6];
+        int il2_kod = 2;
+        int il2_toplamOy = oyGir(il2, il2_kod);
+        int il2_kontenjan = milletvekiliAta(il2, il2_kod);
+
+        // İl 3 işlemleri
+        int[][] il3 = new int[4][6];
+        int il3_kod = 3;
+        int il3_toplamOy = oyGir(il3, il3_kod);
+        int il3_kontenjan = milletvekiliAta(il3, il3_kod);
+
+        // İl 4 işlemleri
+        int[][] il4 = new int[4][6];
+        int il4_kod = 4;
+        int il4_toplamOy = oyGir(il4, il4_kod);
+        int il4_kontenjan = milletvekiliAta(il4, il4_kod);
+    }
+
+    // Prototip tanımlamaların Java karşılıkları
+    public static int oyGir(int[][] dizi, int ilKod) {
+        // Metot gövdesi buraya gelecek
+        return 0;
+    }
+
+    public static int milletvekiliAta(int[][] dizi, int ilKod) {
+        // Metot gövdesi buraya gelecek
+        return 0;
+    }
+
+    public static int listele(int[][] dizi, int ilKod, int toplamOy, int kontenjan) {
+        // Metot gövdesi buraya gelecek
+        return 0;
+    }
+
+    public static void genelListe(int[][] dizi1, int[][] dizi2, int[][] dizi3, int[][] dizi4, int[][] dizi5,
+                                  int il1_birinciParti, int il2_birinciParti, int il3_birinciParti, 
+                                  int il4_birinciParti, int il5_birinciParti) {
+        // Metot gövdesi buraya gelecek
+    }
+}
+```
 
 **1.6**  **HATA/İSTİSNA YÖNETİMİ (ERROR HANDLING)**
 
@@ -272,6 +531,51 @@ Eskiden hata ayıklarken try-cath fonksiyonları yokken hata kodlarını return 
 
 · Catch blokları, programınızı tutarlı bir durumda bırakmak zorundadırlar.
 
+Kötü Örnek: Hata Kodu Dönmek (Return Error Codes)
+Bu yöntemde, her işlemden sonra "Hata var mı?" diye kontrol etmek zorunda kalırsın. Bu da asıl işi yapan kodun (business logic) okunmasını zorlaştırır.
+
+```
+public class DeviceController {
+    public void sendData() {
+        // Fonksiyonlar hata kodları dönüyor (-1, 0, 1 gibi)
+        int status = openConnection();
+        
+        if (status == 1) { // Bağlantı başarılıysa
+            int sendStatus = transmit();
+            
+            if (sendStatus == -1) { // Gönderim hatası
+                System.out.println("Hata: Veri iletilemedi.");
+            } else {
+                closeConnection();
+            }
+        } else {
+            System.out.println("Hata: Cihaza bağlanılamadı.");
+        }
+    }
+}
+```
+```
+İyi Örnek: Try-Catch Kullanımı
+Bu yöntemde "mutlu yol" (happy path) ile "hata yönetimi" birbirinden ayrılır. Kod çok daha temiz ve akıcı görünür.
+
+Java
+public class DeviceController {
+    public void sendData() {
+        try {
+            tryToSendData();
+        } catch (DeviceException e) {
+            // Hata yakalandığında kullanıcıyı bilgilendir ve sistemi güvenli tut
+            System.err.println("İşlem başarısız: " + e.getMessage());
+        }
+    }
+
+    private void tryToSendData() throws DeviceException {
+        openConnection();
+        transmit();
+        closeConnection();
+    }
+}
+```
 ## 2.  SOLID Tasarım Prensipleri
 SOLID prensipleri, nesne yönelimli programlamada (OOP) esnek, bakımı kolay ve genişletilebilir bir mimari kurmanın anayasası gibidir. Akademik düzeyde bir inceleme yaparken, her prensibi sadece "ne olduğuyla" değil, **"neyi engellediğiyle" (ihlaller)** ve **"nasıl düzelttiğiyle"** ele almak gerekir.
 
