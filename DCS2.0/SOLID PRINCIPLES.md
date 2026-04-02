@@ -550,30 +550,6 @@ Bu yöntemde, her işlemden sonra "Hata var mı?" diye kontrol etmek zorunda kal
 ```
 public class DeviceController {
     public void sendData() {
-        // Fonksiyonlar hata kodları dönüyor (-1, 0, 1 gibi)
-        int status = openConnection();
-        
-        if (status == 1) { // Bağlantı başarılıysa
-            int sendStatus = transmit();
-            
-            if (sendStatus == -1) { // Gönderim hatası
-                System.out.println("Hata: Veri iletilemedi.");
-            } else {
-                closeConnection();
-            }
-        } else {
-            System.out.println("Hata: Cihaza bağlanılamadı.");
-        }
-    }
-}
-```
-
-İyi Örnek: Try-Catch Kullanımı
-Bu yöntemde "mutlu yol" (happy path) ile "hata yönetimi" birbirinden ayrılır. Kod çok daha temiz ve akıcı görünür.
-
-```
-public class DeviceController {
-    public void sendData() {
         try {
             tryToSendData();
         } catch (DeviceException e) {
