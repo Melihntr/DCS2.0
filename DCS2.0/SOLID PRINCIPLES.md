@@ -73,8 +73,28 @@ Ayrıca isimlendirme yapılırken belli başlı kod standartları vardır. Bunla
 
 Bir diğer örnek;
 
+''' 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-![](https://miro.medium.com/v2/resize:fit:700/1*7AmuTyvyKsgKS0ZesxplFQ.png)
+public class EssayOrnek {
+    // C#'taki başlangıç değerlerini atamak için Arrays.asList kullanabiliriz
+    public List<Float> realList = new ArrayList<>(Arrays.asList(10f, 52f, 43f, 65f, 70f, 73f, 93f, 84f, 88f));
+
+    public List<Float> fetchList() {
+        List<Float> list1 = new ArrayList<>();
+        
+        for (Float item : realList) {
+            if (item >= 70) {
+                list1.add(item);
+            }
+        }
+        
+        return list1;
+    }
+}
+'''
 
 Burada koda bakıldığında da akılda canlanan tek şey;
 
