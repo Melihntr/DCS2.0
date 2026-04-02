@@ -468,7 +468,6 @@ public class Main {
 
     public static void findAverage(int sum, int length) {
         float average;
-        // C kodundaki mantık hatasını düzeltmek için sum'ı length'e bölüyoruz
         average = (float) sum / length;
         System.out.printf("The average of this array: %.2f\n", average);
     }
