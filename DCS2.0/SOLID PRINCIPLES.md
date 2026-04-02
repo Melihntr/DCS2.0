@@ -106,7 +106,7 @@ Burada koda bakıldığında da akılda canlanan tek şey;
 
 Fakat yazdığımız kodlar neye karşılık geldiklerini açık ve net bir şekilde belli etmelidirler. Bu yüzden bu kodu şu şekilde yeniden düzenleyebiliriz  **refactor (yeniden yapılandırma).**
 
-```
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -128,7 +128,7 @@ public class EssayOrnek {
         return temporaryNotes;
     }
 }
-```
+
 
 Burada ise “realList” dizisinin aslında öğrenci notlarını tuttuğunu, 70’in geçme notu olduğunu ve 70’e eşit veya daha yüksek alan notların ise “temporaryNotes” adlı dizide tutulduğunu rahat bir şekilde anlayabiliyorum.
 
@@ -306,10 +306,9 @@ public class OgrenciServisi {
 ```
 
 İyi Örnek (Temiz ve Kendi Kendini Açıklayan Kod)
-```
-Temiz kodda değişken ve metod isimleri o kadar açıklayıcıdır ki yorum satırına gerek kalmaz. Zombi kodlar ise projeden tamamen temizlenir:
 
-Java
+Temiz kodda değişken ve metod isimleri o kadar açıklayıcıdır ki yorum satırına gerek kalmaz. Zombi kodlar ise projeden tamamen temizlenir:
+```
 public class StudentService {
     private final float PASSING_GRADE = 70.0f;
 
@@ -554,11 +553,11 @@ public class DeviceController {
     }
 }
 ```
-```
+
 İyi Örnek: Try-Catch Kullanımı
 Bu yöntemde "mutlu yol" (happy path) ile "hata yönetimi" birbirinden ayrılır. Kod çok daha temiz ve akıcı görünür.
 
-Java
+```
 public class DeviceController {
     public void sendData() {
         try {
