@@ -1083,6 +1083,7 @@ public class Car {
         this.engine = engine;
     }
 }
+
 Bu şekilde,
 Car
 nesnesi,
