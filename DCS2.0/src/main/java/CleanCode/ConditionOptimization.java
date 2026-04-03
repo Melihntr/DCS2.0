@@ -1,4 +1,4 @@
-package main.java.CleanCode;
+package CleanCode;
 
 /**
  * C1.3: Koşul Optimizasyonu

@@ -1,4 +1,4 @@
-package main.java.CleanCode;
+package CleanCode;
 
 /**
  * C1.5: Yorum Satırları (Comments)

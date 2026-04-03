@@ -1,4 +1,4 @@
-package main.java.SOLID;
+package SOLID;
 
 /**
  * 2.2: OCP - Açık/Kapalı Prensibi

@@ -1,4 +1,4 @@
-package main.java.Extras;
+package Extras;
 
 /**
  * 5.1 & 5.2: TDD Döngüsü Uygulaması

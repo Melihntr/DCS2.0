@@ -1,4 +1,4 @@
-package main.java.SOLID;
+package SOLID;
 
 /**
  * 2.1: SRP - Tek Sorumluluk Prensibi

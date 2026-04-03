@@ -1,4 +1,4 @@
-package main.java.CodeSmellsAndRefactoring;
+package CodeSmellsAndRefactoring;
 
 import java.util.List;
 

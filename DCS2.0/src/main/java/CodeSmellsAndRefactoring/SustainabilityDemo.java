@@ -1,4 +1,4 @@
-package main.java.CodeSmellsAndRefactoring;
+package CodeSmellsAndRefactoring;
 
 /**
  * 4.4: Sürdürülebilirlik Örneği

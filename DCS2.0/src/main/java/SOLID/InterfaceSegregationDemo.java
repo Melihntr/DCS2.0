@@ -1,4 +1,4 @@
-package main.java.SOLID;
+package SOLID;
 
 /**
  * 2.4: ISP - Arayüz Ayrıştırma Prensibi
