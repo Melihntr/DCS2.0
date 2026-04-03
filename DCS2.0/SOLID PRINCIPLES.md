@@ -542,8 +542,6 @@ Eskiden hata ayıklarken try-cath fonksiyonları yokken hata kodlarını return 
 
 · Catch blokları, programınızı tutarlı bir durumda bırakmak zorundadırlar.
 
-Kötü Örnek: Hata Kodu Dönmek (Return Error Codes)
-Bu yöntemde, her işlemden sonra "Hata var mı?" diye kontrol etmek zorunda kalırsın. Bu da asıl işi yapan kodun (business logic) okunmasını zorlaştırır.
 
 ```
 public class DeviceController {
