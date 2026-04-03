@@ -1028,7 +1028,7 @@ public class Car {
     public Car() {
         engine = new Engine();
     }
-}
+
 Ancak, bu yaklaşımın dezavantajları vardır. Örneğin,
 Engine
 nesnesini değiştirmek isterseniz,
@@ -1047,7 +1047,7 @@ public class Car {
     public Car(Engine engine) {
         this.engine = engine;
     }
-}
+
 Dependency Inversion Principle (DIP)
 
 Dependency Inversion Principle, yazılım geliştirme prensibidir. Bu prensibe göre:
@@ -1074,7 +1074,7 @@ nesnesinin soyutlamasına (interface) bağımlı olmalıdır:
 
 public interface Engine {
     void start();
-}
+
 
 public class Car {
     private Engine engine;
@@ -1082,7 +1082,7 @@ public class Car {
     public Car(Engine engine) {
         this.engine = engine;
     }
-}
+
 
 Bu şekilde,
 Car
