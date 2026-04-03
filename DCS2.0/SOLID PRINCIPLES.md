@@ -803,8 +803,7 @@ Modellemeler yapılırken bağımlılık türlerine göre türler oraya çıkmı
 #### 3.5 OOP merkezi dillerde farklı bağımlılık tipleri
 
 -   **Inheritance Coupling (Miras Bağımlılığı):** Kalıtım ile birlikte sınıflar arasında oluşan sıkı bağı temsil eder. Child sınıf parent öğesinden türetilmişse, parent öğesine sıkıca bağlanmıştır**.** Parent sınıf üzerinde herhangi bir değişiklik yaparsanız, child sınıfta da değiştirmeniz gerekebilir.
--   **Abstract Coupling (Soyut Bağımlılık) :** Soyut üst sınıfa olan bağımlılıktır. Soyut bağımlılık diğer bağımlılık türlerine göre daha iyidir. Soyut bağımlılıkta nesneler sadece üst sınıfın tipini bilirler fakat gerçek tipini bilmezler (Polimorfizm). SOLID yazılım prensiplerinden Dependency Inversion (DI) ile elde edilir. Bunu bir sonraki yazımda ele alıyor olacağız.
-
+-   **Abstract Coupling (Soyut Bağımlılık) :** Soyut üst sınıfa olan bağımlılıktır. Soyut bağımlılık diğer bağımlılık türlerine göre daha iyidir. Soyut bağımlılıkta nesneler sadece üst sınıfın tipini bilirler fakat gerçek tipini bilmezler (Polimorfizm). SOLID yazılım prensiplerinden Dependency Inversion (DI) ile elde edilir.
 
 İyi bir tasarım, düşük bağımlılığa sahip olandır. Modüller arası bağlılık artarsa hata yapılma olasılığı artar, test edilebilme durumu da gittikçe zorlaşır. Bunun önüne geçebilmek için işlerin uygun bir şekilde alt parçalara hatta atomik denebilecek küçük parçalara bölünmesi gerekir. Bölünen küçük parça bir süreci yönetsin ve bu süreci tam anlamıyla tamamlasın ki başka bir parça ile bağımlılığı en az seviyede olsun.
 
