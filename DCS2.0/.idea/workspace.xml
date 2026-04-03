@@ -4,7 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="05eed03b-268e-475e-8797-a653b6812ae9" name="Changes" comment="" />
+    <list default="true" id="05eed03b-268e-475e-8797-a653b6812ae9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/MethodSizeAndResponsibility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/MethodSizeAndResponsibility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CleanCode/NamingConvention.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CleanCode/NamingConvention.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/CodeSmellsDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/CodeSmellsDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/RefactoringTechniques.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/RefactoringTechniques.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/SustainabilityDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CodeSmellsAndRefactoring/SustainabilityDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CouplingCohesion/CohesionDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CouplingCohesion/CohesionDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CouplingCohesion/CouplingDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CouplingCohesion/CouplingDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CouplingCohesion/LooseCouplingDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CouplingCohesion/LooseCouplingDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Extras/DryDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Extras/DryDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Extras/KissYagniDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Extras/KissYagniDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Extras/TddDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Extras/TddDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/DependencyInversionDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/DependencyInversionDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/InterfaceSegregationDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/InterfaceSegregationDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/LiskovSubstitutionDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/LiskovSubstitutionDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/OpenClosedDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/OpenClosedDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SOLID/SingleResponsibilityDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SOLID/SingleResponsibilityDemo.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,21 +53,22 @@
     <option name="showMembers" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.CommentCleaner.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Step3-a&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/M_AVCI16/Desktop/Dosyasal/DCS2.0&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.CommentCleaner.executor": "Run",
+    "Application.Loops.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Step3-a",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/M_AVCI16/Desktop/Dosyasal/DCS2.0",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="DCS2.0" />
