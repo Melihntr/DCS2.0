@@ -967,3 +967,125 @@ public class Validator {
 
 -   **İhlal:** "İleride belki kullanıcılar profil resmini siyah beyaz yapmak ister" deyip, henüz ortada profil resmi yükleme özelliği bile yokken görüntü işleme kütüphanesi eklemek.
 
+### 5.7 Snake Case
+
+Snake case, değişken isimlerinde kullanılan bir stildir. Bu stilde, kelimeler alt çizgi (_) ile ayrılır ve genellikle küçük harf kullanılır. 
+
+Örneğin:
+
+hello_world
+,
+user_name
+,
+total_count
+
+
+### 5.8 Kebab Case
+
+Kebab case (aynı zamanda dash case olarak da bilinir), değişken isimlerinde kullanılan bir diğer stildir. Bu stilde, kelimeler tire (-) ile ayrılır ve genellikle küçük harf kullanılır. 
+
+Örneğin:
+
+hello-world
+,
+user-name
+,
+total-count
+
+Her iki stil de kodlama ve yazılım geliştirme sürecinde değişken isimleri, dosya isimleri ve diğer tanımlayıcılar için kullanılır.
+
+### 5.9 Fail Fast
+
+Fail fast, yazılım geliştirme ve tasarım prensiplerinden biridir. "Fail fast" yaklaşımı, bir sistem veya sürecin erken aşamalarında hataları veya sorunları tespit etmeye ve bunları hızlı bir şekilde çözmeye odaklanır.
+
+Fail fast'ın temel fikirleri:
+
+Hataları erken tespit etmek: Sistem veya sürecin erken aşamalarında hataları veya sorunları tespit etmek, daha sonra büyük sorunlara dönüşmeden önce bunları çözmek daha kolaydır.
+Hızlı geri bildirim: Fail fast yaklaşımı, hızlı geri bildirim sağlar. Bu, geliştiricilerin ve tasarımcıların hataları veya sorunları hızlı bir şekilde tespit etmelerine ve düzeltmelerine olanak verir.
+Düşük kalite: Fail fast yaklaşımı, yüksek kaliteli ürünler ve sistemler geliştirmeye yardımcı olur. Çünkü hataları erken tespit etmek ve çözmek, daha sonra büyük sorunlara dönüşmeden önce bunları düzeltmek daha kolaydır.
+Fail fast yaklaşımı, Agile yazılım geliştirme metodolojilerinde, Lean startup yaklaşımında ve diğer birçok yazılım geliştirme ve tasarım prensibinde kullanılır.
+
+### 5.10 DIP ve DI
+İki önemli yazılım geliştirme prensibi: Dependency Injection (DI) ve Dependency Inversion Principle (DIP).
+
+Dependency Injection (DI)
+
+Dependency Injection, bir nesnenin bağımlılıklarını (dependencies) dışarıdan alması ve bu bağımlılıkları kendisi oluşturmaması prensibidir. Yani, bir nesne, ihtiyaç duyduğu diğer nesneleri veya hizmetleri kendisi oluşturmak yerine, dışarıdan alır.
+
+Örneğin, bir
+Car
+nesnesi,
+Engine
+nesnesine ihtiyaç duyuyor. Dependency Injection olmadan,
+Car
+nesnesi kendisi
+Engine
+nesnesini oluşturabilir:
+
+public class Car {
+    private Engine engine;
+
+    public Car() {
+        engine = new Engine();
+    }
+}
+Ancak, bu yaklaşımın dezavantajları vardır. Örneğin,
+Engine
+nesnesini değiştirmek isterseniz,
+Car
+nesnesini de değiştirmek zorunda kalırsınız.
+
+Dependency Injection ile,
+Car
+nesnesi,
+Engine
+nesnesini dışarıdan alır:
+
+public class Car {
+    private Engine engine;
+
+    public Car(Engine engine) {
+        this.engine = engine;
+    }
+}
+Dependency Inversion Principle (DIP)
+
+Dependency Inversion Principle, yazılım geliştirme prensibidir. Bu prensibe göre:
+
+Yüksek seviyeli modüller, düşük seviyeli modüllere bağımlı olmamalıdır: Yüksek seviyeli modüller, düşük seviyeli modülleri kullanmamalıdır. Bunun yerine, her iki modül de aynı seviyede olmalıdır.
+Bağımlılıklar, soyutlamalara dayanmalıdır: Bağımlılıklar, soyutlamalara (interface, abstract class) dayanmalıdır, somut implementasyonlara değil.
+DIP, DI ile yakından ilişkilidir. Aslında, DI, DIP'nin bir sonucudur. DIP, bağımlılıkların soyutlamalara dayanmasını sağlar, bu da DI'nin mümkün olmasını sağlar.
+
+İlişkileri
+
+DI ve DIP birbirleriyle yakından ilişkilidir. DIP, bağımlılıkların soyutlamalara dayanmasını sağlar, bu da DI'nin mümkün olmasını sağlar. DI, bağımlılıkları dışarıdan alır ve bu bağımlılıkları kendisi oluşturmaz.
+
+DIP olmadan, DI mümkün olmaz. Çünkü DIP, bağımlılıkların soyutlamalara dayanmasını sağlar, bu da DI'nin bağımlılıkları dışarıdan almasını sağlar.
+
+Örneğin,
+Car
+nesnesi,
+Engine
+nesnesine ihtiyaç duyuyor. DIP'ye göre,
+Car
+nesnesi,
+Engine
+nesnesinin soyutlamasına (interface) bağımlı olmalıdır:
+
+public interface Engine {
+    void start();
+}
+
+public class Car {
+    private Engine engine;
+
+    public Car(Engine engine) {
+        this.engine = engine;
+    }
+}
+Bu şekilde,
+Car
+nesnesi,
+Engine
+nesnesinin soyutlamasına bağımlı olur ve DI mümkün olur.
+
