@@ -1,4 +1,4 @@
-﻿S# Java Creational (Yaratımsal) Design Pattern'ler
+﻿# Java Creational (Yaratımsal) Design Pattern'ler
 
 Bu doküman, Java'da en önemli üç yaratım (creational) tasarım desenini detaylı şekilde açıklar:
 
