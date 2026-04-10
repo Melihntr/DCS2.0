@@ -1,4 +1,4 @@
-public class AdvancedBuilderDemo {
+public class BuilderDemo {
 
     public static void main(String[] args) {
 
