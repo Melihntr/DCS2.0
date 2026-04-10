@@ -99,7 +99,7 @@ Singleton:
 * encapsulation sağlar
 * erişimi merkezi hale getirir
 
-#### 1.5 Lazy Initialization (Önemli Nokta)
+### 1.5 Lazy Initialization (Önemli Nokta)
 
 Global değişkenlerde:
 
