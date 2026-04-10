@@ -640,7 +640,7 @@ Küçük objelerde overkill
 
 ---
 
-## 3.11 Sonuç
+## 3.10 Sonuç
 
 Bu üç pattern birlikte kullanıldığında:
 
