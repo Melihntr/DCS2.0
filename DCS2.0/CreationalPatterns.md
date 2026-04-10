@@ -600,13 +600,8 @@ class User {
 }
 ```
 
-### 3.5 Best Practices
-Immutable object kullan (final fields)
-build() içinde validation yap
-Method chaining kullan
-Builder’ı static inner class yap
 
-### 3.6 Ne Zaman Kullanılmaz?
+### 3.5 Ne Zaman Kullanılmaz?
 2-3 field varsa → gereksiz
 Basit DTO → constructor yeterli
 ### Dezavantajlar
@@ -617,25 +612,25 @@ Küçük objelerde overkill
 
 ---
 
-### 3.7 Avantajlar
+### 3.6 Avantajlar
 
 * Okunabilirlik
 * Immutable object
 * Optional parametre yönetimi
 
-### 3.8 Best Practice'ler
+### 3.7 Best Practice'ler
 
 * build() içinde validation yap
 * Immutable class kullan
 * Method chaining uygula
 
-### 3.9 Pitfall'lar
+### 3.8 Pitfall'lar
 
 * Gereksiz kullanım (küçük objelerde)
 
 ---
 
-## 3.10 Genel Karşılaştırma
+## 3.9 Genel Karşılaştırma
 
 | Pattern   | Ne İşe Yarar             | Ne Zaman Kullanılır |
 | --------- | ------------------------ | ------------------- |
@@ -645,7 +640,7 @@ Küçük objelerde overkill
 
 ---
 
-## 3.11 Kritik Notlar
+## 3.10 Kritik Notlar
 
 * Singleton çoğu zaman DI ile replace edilir
 * Factory → polymorphism'i zorlar
@@ -653,7 +648,7 @@ Küçük objelerde overkill
 
 ---
 
-## 3.12  Sonuç
+## 3.11 Sonuç
 
 Bu üç pattern birlikte kullanıldığında:
 
