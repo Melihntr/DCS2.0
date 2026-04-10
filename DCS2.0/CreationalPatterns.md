@@ -640,14 +640,6 @@ Küçük objelerde overkill
 
 ---
 
-## 3.10 Kritik Notlar
-
-* Singleton çoğu zaman DI ile replace edilir
-* Factory → polymorphism'i zorlar
-* Builder → immutable design ile birlikte düşünülmeli
-
----
-
 ## 3.11 Sonuç
 
 Bu üç pattern birlikte kullanıldığında:
