@@ -136,7 +136,7 @@ Bu iki özellik birlikte sağlanmazsa doğru bir Singleton implementasyonu olmaz
 Bu yüzden:
 
 * Reflection'a karşı önlem alınmalı
-* Serialization dikkatli yönetilmeli
+
 
 ---
 
@@ -293,7 +293,7 @@ public enum SingletonEnum {
 
 Avantaj:
 
-* Serialization safe
+
 * Reflection'a karşı korumalı
 
 ---
@@ -302,7 +302,7 @@ Avantaj:
 
 * Production'da genelde **Enum veya Bill Pugh** tercih edilir
 * Constructor içinde reflection kontrolü yapılabilir
-* Serialization için `readResolve()` override edilebilir
+
 
 ### 1.13 Pitfall'lar
 
