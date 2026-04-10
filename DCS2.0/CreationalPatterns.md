@@ -19,7 +19,7 @@ Her pattern için:
 
 ## 1. Singleton Pattern
 
-### Amaç (Detaylı Açıklama)
+### Amaç
 
 Singleton Design Pattern, Creational Design Pattern (yaratımsal tasarım desenleri) grubunda yer alır ve temel amacı bir sınıftan çalışma zamanı boyunca yalnızca **tek bir nesne (instance)** oluşturulmasını garanti etmektir.
 
@@ -36,7 +36,7 @@ Bu pattern aslında çok kritik bir problemi çözer:
 
 ---
 
-### Kullanım Amacı (Detaylı)
+### 1.1 Kullanım Amacı
 
 Singleton pattern aşağıdaki durumlarda tercih edilir:
 
@@ -52,7 +52,7 @@ Singleton pattern aşağıdaki durumlarda tercih edilir:
 
 ---
 
-### Temel Mantık (Adım Adım)
+### 1.2 Temel Mantık
 
 Singleton pattern uygulanırken şu kurallar uygulanır:
 
@@ -70,7 +70,7 @@ Bu yapı sayesinde:
 
 ---
 
-### Yapısal Mantık (Behavior Açıklaması)
+### 1.3 Yapısal Mantık (Behavior Açıklaması)
 
 * `createSingleton()` → sadece sınıfın kendi içinde çalışır
 * `getInstance()` → dış dünyaya erişim sağlar
@@ -81,7 +81,7 @@ Yani:
 
 ---
 
-### Neden Singleton Kullanırız?
+### 1.4 Neden Singleton Kullanırız?
 
 #### 1. Kontrollü Erişim
 
@@ -99,7 +99,7 @@ Singleton:
 * encapsulation sağlar
 * erişimi merkezi hale getirir
 
-#### 3. Lazy Initialization (Önemli Nokta)
+#### 1.5 Lazy Initialization (Önemli Nokta)
 
 Global değişkenlerde:
 
@@ -150,7 +150,7 @@ Her ne kadar güçlü olsa da bazı önemli dezavantajları vardır:
 
 ---
 
-### 1.1 Eager Initialization
+### 1.6 Eager Initialization
 
 Instance class yüklenirken oluşturulur.
 
@@ -176,7 +176,7 @@ public class SingletonEager {
 
 ---
 
-### 1.2 Lazy Initialization
+### 1.7 Lazy Initialization
 
 Instance sadece ihtiyaç olduğunda oluşturulur.
 
@@ -205,7 +205,7 @@ public class SingletonLazy {
 
 ---
 
-### 1.3 Thread-Safe (Synchronized)
+### 1.8 Thread-Safe (Synchronized)
 
 ```java
 public class SingletonSynchronized {
@@ -228,7 +228,7 @@ Dezavantaj:
 
 ---
 
-### 1.4 Double Checked Locking (DCL)
+### 1.9 Double Checked Locking (DCL)
 
 ```java
 public class SingletonDCL {
@@ -255,7 +255,7 @@ Avantaj:
 
 ---
 
-### 1.5 Bill Pugh (En Önerilen)
+### 1.10 Bill Pugh (En Önerilen)
 
 ```java
 public class SingletonBillPugh {
@@ -279,7 +279,7 @@ Avantaj:
 
 ---
 
-### 1.6 Enum Singleton (En Güvenlisi)
+### 1.11 Enum Singleton (En Güvenlisi)
 
 ```java
 public enum SingletonEnum {
@@ -298,252 +298,223 @@ Avantaj:
 
 ---
 
-### Best Practice'ler
+### 1.12 Best Practice'ler
 
 * Production'da genelde **Enum veya Bill Pugh** tercih edilir
 * Constructor içinde reflection kontrolü yapılabilir
 * Serialization için `readResolve()` override edilebilir
 
-### Pitfall'lar
+### 1.13 Pitfall'lar
 
 * Global state → test yazmayı zorlaştırır
 * Distributed sistemlerde tek instance garanti değildir
 
 ---
 
-## 2. Factory Pattern
+## 2. Factory Design Pattern
+### Amaç
 
-### Amaç (Detaylı Açıklama)
-
-Factory Design Pattern, nesne oluşturma (object creation) sürecini client (kullanan sınıf) kodundan ayırmak için kullanılır.
+Factory Design Pattern, nesne oluşturma (object creation) sürecini merkezi bir yapıya taşıyarak, client kodun hangi class’tan nesne üretileceğini bilmeden çalışmasını sağlar.
 
 Temel problem şudur:
 
-> "Kod içinde sürekli new kullanarak farklı tipte nesneler oluşturmak sistemi nasıl etkiler?"
+Uygulama içinde sürekli new keyword’ü ile nesne üretmek, kodu zamanla katı (tight coupled) hale getirir.
 
-Eğer her yerde `new` ile nesne oluşturursak:
+Örneğin:
 
-* Kod sıkı bağlı (tight coupling) hale gelir
-* Değişiklik yapmak zorlaşır
-* Yeni tip eklemek tüm sistemi etkiler
+Shape shape = new Circle();
 
-Factory pattern bu problemi çözerek şunu sağlar:
+Bu kullanımda:
 
-> "Nesnenin nasıl oluşturulacağını değil, sadece ne istediğimizi söyleriz"
+Client doğrudan Circle class’ına bağımlıdır
+Yarın Circle yerine Triangle kullanmak istersek → kod değişir
+Bu da Open/Closed Principle ihlalidir
 
----
+Factory pattern bu problemi çözer ve şunu sağlar:
 
-### Temel Mantık
+“Nesneyi nasıl oluşturduğum önemli değil, bana gerekli olan nesneyi ver.”
+
+Temel Mantık
 
 Factory pattern'de:
 
-* Nesne oluşturma sorumluluğu ayrı bir sınıfa verilir
-* Client sadece factory'yi çağırır
-* Hangi class'ın üretileceğini factory belirler
+Nesne oluşturma logic’i ayrı bir sınıfa taşınır
+Client sadece factory çağırır
+Factory hangi nesnenin üretileceğine karar verir
 
 Yani:
 
-> Object creation logic merkezi hale getirilir
+Object creation logic merkezi hale getirilir ve soyutlanır
 
----
+### Factory Pattern Türleri
+### 2.1 Simple Factory (Static Factory)
 
-### Neden Factory Kullanırız?
+En basit hali.
 
-#### 1. Loose Coupling (Gevşek Bağlılık)
+```
+interface Payment {
+    void pay();
+}
 
-Client kod, concrete class'lara bağımlı olmaz.
+class CreditCardPayment implements Payment {
+    public void pay() {
+        System.out.println("Paid with Credit Card");
+    }
+}
 
-Örnek:
+class PayPalPayment implements Payment {
+    public void pay() {
+        System.out.println("Paid with PayPal");
+    }
+}
 
-```java
-Shape shape = ShapeFactory.createShape("CIRCLE");
+class PaymentFactory {
+
+    public static Payment createPayment(String type) {
+        switch (type) {
+            case "CREDIT":
+                return new CreditCardPayment();
+            case "PAYPAL":
+                return new PayPalPayment();
+            default:
+                throw new IllegalArgumentException("Unknown payment type");
+        }
+    }
+}
 ```
 
-Client artık `Circle` class'ını bilmek zorunda değil.
+Kullanım:
+```
+Payment payment = PaymentFactory.createPayment("CREDIT");
+payment.pay();
+```
 
----
+### 2.2 Factory Method Pattern
 
-#### 2. Open/Closed Principle
+Burada creation logic subclass’lara bırakılır.
 
-Yeni bir class eklemek istediğimizde:
+```
+abstract class PaymentCreator {
+    public abstract Payment createPayment();
 
-* Mevcut kodu değiştirmeyiz
-* Sadece factory'yi genişletiriz
+    public void processPayment() {
+        Payment payment = createPayment();
+        payment.pay();
+    }
+}
 
----
+class CreditCardCreator extends PaymentCreator {
+    public Payment createPayment() {
+        return new CreditCardPayment();
+    }
+}
+Kullanım:
+PaymentCreator creator = new CreditCardCreator();
+creator.processPayment();
+```
 
-#### 3. Merkezi Kontrol
+### 2.3 Abstract Factory Pattern
 
-Tüm object creation tek bir yerden yönetilir.
 
-Bu sayede:
+Birbiriyle ilişkili nesne gruplarını üretmek için kullanılır.
 
-* Logging eklenebilir
-* Caching yapılabilir
-* Object pool uygulanabilir
+```
+interface Button {
+    void render();
+}
 
----
+interface Checkbox {
+    void render();
+}
 
-### Gerçek Hayat Mantığı
+class WindowsButton implements Button {
+    public void render() {
+        System.out.println("Windows Button");
+    }
+}
 
-Factory'yi şu şekilde düşünebilirsin:
+class WindowsCheckbox implements Checkbox {
+    public void render() {
+        System.out.println("Windows Checkbox");
+    }
+}
 
-> Bir restoranda yemek sipariş ediyorsun.
+interface GUIFactory {
+    Button createButton();
+    Checkbox createCheckbox();
+}
 
-* Sen "pizza" diyorsun
-* Nasıl yapıldığı seni ilgilendirmez
-* Mutfak (factory) üretimi yapar
+class WindowsFactory implements GUIFactory {
+    public Button createButton() {
+        return new WindowsButton();
+    }
 
----
+    public Checkbox createCheckbox() {
+        return new WindowsCheckbox();
+    }
+}
+```
 
-### Kullanım Senaryoları
+### Initialization Yaklaşımları
 
-* Payment sistemleri (CreditCard, PayPal vs.)
-* Notification sistemleri (Email, SMS)
-* Database driver seçimi
-* UI component üretimi
+Factory pattern'de farklı initialize yöntemleri vardır:
 
----
+Static Factory Method
+PaymentFactory.createPayment("CREDIT");
 
-### Dezavantajlar
+Instance Factory
+PaymentFactory factory = new PaymentFactory();
+factory.createPayment("CREDIT");
 
-* Fazladan abstraction
-* Küçük projelerde gereksiz karmaşıklık
+Dependency Injection ile Factory
 
----
+(Spring tarzı)
 
-## 3. Builder Pattern
+```
+@Component
+class PaymentFactory {
+    public Payment createPayment(String type) { ... }
+}
+```
 
-### Amaç (Detaylı Açıklama)
+### Best Practices:
+Interface üzerinden dön → concrete class dönme
+Factory logic’i büyürse → Factory Method’a geç
 
-Builder pattern, çok sayıda parametreye sahip karmaşık nesneleri daha okunabilir ve kontrollü bir şekilde oluşturmak için kullanılır.
+### Dezavantajlar:
+Fazladan abstraction
+Küçük projelerde over-engineering
+Çok fazla class oluşabilir
+
+## 3. Builder Design Pattern
+## Amaç
+
+Builder pattern, çok sayıda parametreye sahip nesneleri daha okunabilir, esnek ve hatasız şekilde oluşturmak için kullanılır.
 
 Temel problem:
 
-> "Çok parametreli constructor'lar nasıl yönetilir?"
+Çok parametreli constructor’lar okunamaz ve hata yapmaya çok açıktır.
 
----
-
-### Problem: Telescoping Constructor
-
-```java
+Problem: Telescoping Constructor
 User(String name)
 User(String name, int age)
 User(String name, int age, String email)
 User(String name, int age, String email, String phone)
+
+Bu yapı:
+
+Anlaşılmaz
+Parametre sırası karışabilir
+Maintenance kabusudur
+## 3.1 Builder Pattern Mantığı
+
+Builder ile:
+
+Nesne adım adım oluşturulur
+Her field ayrı method ile set edilir
+build() ile finalize edilir
+## 3.2 Temel Builder Implementasyonu
 ```
-
-Bu yaklaşım:
-
-* Okunamaz
-* Hata yapmaya açık
-* Sürdürülemez
-
----
-
-### Builder Mantığı
-
-Builder pattern bu problemi şu şekilde çözer:
-
-* Nesne adım adım oluşturulur
-* Her parametre ayrı method ile set edilir
-* Sonunda build() çağrılır
-
-Yani:
-
-> "Nesne creation süreci parçalara bölünür"
-
----
-
-### Neden Builder Kullanırız?
-
-#### 1. Okunabilirlik
-
-```java
-User user = new User.Builder()
-    .setName("Melih")
-    .setAge(22)
-    .setEmail("melih@example.com")
-    .build();
-```
-
-Bu yapı constructor'a göre çok daha anlaşılırdır.
-
----
-
-#### 2. Optional Parametre Yönetimi
-
-Her alan zorunlu değildir.
-
----
-
-#### 3. Immutable Object
-
-Builder ile oluşturulan objeler immutable yapılabilir:
-
-* Thread-safe olur
-* Yanlışlıkla değiştirilemez
-
----
-
-#### 4. Validation Kontrolü
-
-build() içinde:
-
-* zorunlu alanlar kontrol edilir
-* invalid state engellenir
-
----
-
-### Gerçek Hayat Mantığı
-
-Builder pattern şu duruma benzer:
-
-> Burger siparişi veriyorsun
-
-* Ekstra peynir
-* Soğan yok
-* Çift köfte
-
-Her şeyi adım adım seçiyorsun → en sonunda oluşturuluyor
-
----
-
-### Kullanım Senaryoları
-
-* DTO / Entity oluşturma
-* API request objeleri
-* Config objeleri
-* Complex domain model'ler
-
----
-
-### Dezavantajlar
-
-* Küçük objelerde gereksizdir
-* Fazladan class yazımı
-
----
-
-### Amaç
-
-Karmaşık nesneleri adım adım oluşturmak.
-
-### Problem (Telescoping Constructor)
-
-```java
-User(String name)
-User(String name, int age)
-User(String name, int age, String email)
-```
-
-Bu yapı sürdürülemez.
-
----
-
-### Çözüm: Builder
-
-```java
 class User {
     private final String name;
     private final int age;
@@ -560,17 +531,17 @@ class User {
         private int age;
         private String email;
 
-        public Builder setName(String name) {
+        public Builder name(String name) {
             this.name = name;
             return this;
         }
 
-        public Builder setAge(int age) {
+        public Builder age(int age) {
             this.age = age;
             return this;
         }
 
-        public Builder setEmail(String email) {
+        public Builder email(String email) {
             this.email = email;
             return this;
         }
@@ -581,38 +552,90 @@ class User {
     }
 }
 ```
-
-Kullanım:
-
-```java
-User user = new User.Builder()
-    .setName("Melih")
-    .setAge(22)
-    .setEmail("melih@example.com")
-    .build();
+### 3.3 Kullanım
 ```
+User user = new User.Builder()
+        .name("Melih")
+        .age(22)
+        .email("melih@example.com")
+        .build();
+Advanced Builder (Validation + Required Fields)
+public User build() {
+    if (name == null) {
+        throw new IllegalStateException("Name is required");
+    }
+    return new User(this);
+}
+```
+
+### 3.4 Initialization Yaklaşımları
+### Classic Builder
+```
+new User.Builder().name("A").build();
+Step Builder (Advanced – enforce order)
+interface NameStep {
+    AgeStep name(String name);
+}
+
+interface AgeStep {
+    BuildStep age(int age);
+}
+
+interface BuildStep {
+    User build();
+}
+```
+
+Bu yöntem ile:
+
+Zorunlu alanlar enforce edilir
+Compile-time güvenlik sağlanır
+
+### Lombok Builder (Real-world)
+```
+@Builder
+class User {
+    private String name;
+    private int age;
+}
+```
+
+### 3.5 Best Practices
+Immutable object kullan (final fields)
+build() içinde validation yap
+Method chaining kullan
+Builder’ı static inner class yap
+
+### 3.6 Ne Zaman Kullanılmaz?
+2-3 field varsa → gereksiz
+Basit DTO → constructor yeterli
+### Dezavantajlar
+Fazladan class / kod
+Küçük objelerde overkill
+
+
 
 ---
 
-### Avantajlar
+### 3.7 Avantajlar
 
 * Okunabilirlik
 * Immutable object
 * Optional parametre yönetimi
 
-### Best Practice'ler
+### 3.8 Best Practice'ler
 
 * build() içinde validation yap
 * Immutable class kullan
 * Method chaining uygula
 
-### Pitfall'lar
+### 3.9 Pitfall'lar
 
 * Gereksiz kullanım (küçük objelerde)
 
 ---
 
-## Genel Karşılaştırma
+## 3.10 Genel Karşılaştırma
 
 | Pattern   | Ne İşe Yarar             | Ne Zaman Kullanılır |
 | --------- | ------------------------ | ------------------- |
@@ -622,7 +645,7 @@ User user = new User.Builder()
 
 ---
 
-## Kritik Notlar (Interview Seviyesi)
+## 3.11 Kritik Notlar
 
 * Singleton çoğu zaman DI ile replace edilir
 * Factory → polymorphism'i zorlar
@@ -630,7 +653,7 @@ User user = new User.Builder()
 
 ---
 
-## Sonuç
+## 3.12  Sonuç
 
 Bu üç pattern birlikte kullanıldığında:
 
