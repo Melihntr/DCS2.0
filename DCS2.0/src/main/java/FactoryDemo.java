@@ -2,10 +2,10 @@ public class FactoryDemo {
 
     public static void main(String[] args) {
 
-        Payment payment1 = PaymentFactory.createPayment("CREDIT");
+        Payment payment1 = PaymentFactory2.createPayment("CREDIT");
         payment1.pay();
 
-        Payment payment2 = PaymentFactory.createPayment("PAYPAL");
+        Payment payment2 = PaymentFactory2.createPayment("PAYPAL");
         payment2.pay();
     }
 }
@@ -29,7 +29,7 @@ class PayPalPayment implements Payment {
 }
 
 // Factory
-class PaymentFactory {
+class PaymentFactory2 {
 
     public static Payment createPayment(String type) {
 
