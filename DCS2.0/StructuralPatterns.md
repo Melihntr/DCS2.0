@@ -1,4 +1,5 @@
 # Structural Patterns
+
 ## 1. ADAPTER PATTERN
 
 ### 1.1 Amaç
@@ -72,6 +73,7 @@ Exception ve hata durumlarını açıkça yönet
 Aşırı adapter katmanı (over-engineering)
 Yanlış/eksik dönüşümler (silent data loss)
 Performans maliyeti (özellikle ağır dönüşümlerde)
+
 
 ## 2. FACADE PATTERN
 
@@ -151,6 +153,7 @@ Transaction, hata yönetimi ve logging’i merkezileştirebilirsin
 God class’a dönüşme (aşırı büyüme)
 Alt sistemleri tamamen gizleyip esnekliği azaltma
 Çok genel tek bir facade yerine, use-case odaklı tasarlamamak
+
 
 ## 3. DECORATOR PATTERN
 
@@ -245,7 +248,9 @@ Debug zorluğu (çok katman)
 Yanlış sıralama (ör. security, logging sırası)
 Gereksiz sarma (overuse)
 
+
 ## 4. BRIDGE PATTERN
+
 ### 4.1 Amaç
 
 Abstraction (yüksek seviye kavram) ile Implementation (detay) katmanlarını ayırarak bağımsız geliştirme ve genişletme sağlamak.
