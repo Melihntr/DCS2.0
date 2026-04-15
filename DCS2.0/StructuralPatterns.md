@@ -267,7 +267,8 @@ Inheritance ile:
 ```
 RedCircle, BlueCircle, RedSquare, BlueSquare …
 Kombinasyon sayısı katlanır.
-4.3 Çözüm ve Yapı
+
+### 4.3 Çözüm ve Yapı
 
 Abstraction, Implementation’a referans tutar (composition). İki eksen ayrılır.
 
