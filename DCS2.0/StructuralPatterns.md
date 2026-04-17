@@ -254,7 +254,6 @@ Cross-cutting concerns (logging, security, metrics)
 
 Dinamik özellik ekleme
 
-AOP benzeri davranışlar
 
 ### 3.6 Ne Zaman Kullanılmaz
 Basit ve sabit davranışlar için
@@ -354,8 +353,6 @@ Her iki eksen ayrı ayrı genişletilebilir
 
 Çapraz kombinasyonlar artıyorsa
 
-Framework/SDK tasarımlarında
-
 
 ### 4.6 Ne Zaman Kullanılmaz
 Tek eksen değişiyorsa
@@ -368,7 +365,6 @@ Abstraction ve Implementation sınırlarını net çiz
 
 Gereksiz soyutlama ekleme
 
-Bağımlılıkları constructor ile enjekte et
 
 ### 4.8 Pitfall’lar
 Over-engineering (gereksiz soyutlama)
