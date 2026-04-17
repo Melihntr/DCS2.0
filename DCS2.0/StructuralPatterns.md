@@ -59,20 +59,28 @@ Object Adapter (composition ile; pratikte yaygın olan)
 
 ### 1.6 Ne Zaman Kullanılır
 3rd-party/legacy entegrasyon
+
 Farklı servislerin tek bir kontrat altında toplanması
+
 Mikroservis/SDK entegrasyonları
 
 ### 1.7 Ne Zaman Kullanılmaz
 Zaten ortak bir arayüz varsa
+
 Adaptasyon çok karmaşık dönüşümler gerektiriyorsa (mapping katmanı ayrı tasarlanmalı)
 
 ### 1.8 Best Practices
 Adapter’ı ince ve tek sorumluluklu tut
+
 Gerekirse mapping’i ayrı sınıflara böl
+
 Exception ve hata durumlarını açıkça yönet
+
 ### 1.9 Pitfall’lar
 Aşırı adapter katmanı (over-engineering)
+
 Yanlış/eksik dönüşümler (silent data loss)
+
 Performans maliyeti (özellikle ağır dönüşümlerde)
 
 
@@ -133,26 +141,35 @@ orderFacade.placeOrder();
 ### 2.4 Çalışma Mantığı
 
 Client yalnızca Facade’i bilir.
+
 Facade, alt sistemlerin orkestrasyonunu yapar.
+
 Alt sistemler birbirinden bağımsız kalır.
 
 ### 2.5 Ne Zaman Kullanılır
 Service layer/API gateway
+
 Mikroservis orkestrasyonu
+
 Karmaşık iş akışlarının sadeleştirilmesi
 
 ### 2.6 Ne Zaman Kullanılmaz
 Basit sistemlerde gereksiz katman oluşturur
+
 Her alt sistem çağrısının client tarafından bilinmesi isteniyorsa
 
 ### 2.7 Best Practices
 Facade’i ince tut; iş kuralını şişirme
+
 Birden fazla facade (use-case bazlı) tasarlayabilirsin
+
 Transaction, hata yönetimi ve logging’i merkezileştirebilirsin
 
 ### 2.8 Pitfall’lar
 God class’a dönüşme (aşırı büyüme)
+
 Alt sistemleri tamamen gizleyip esnekliği azaltma
+
 Çok genel tek bir facade yerine, use-case odaklı tasarlamamak
 
 
@@ -227,26 +244,35 @@ p.pay();
 
 ### 3.4 Çalışma Mantığı
 Her decorator aynı arayüzü uygular
+
 Çağrıyı önce/sonra zenginleştirir
+
 Birden fazla decorator zincirlenebilir
 
 ### 3.5 Ne Zaman Kullanılır
 Cross-cutting concerns (logging, security, metrics)
+
 Dinamik özellik ekleme
+
 AOP benzeri davranışlar
 
 ### 3.6 Ne Zaman Kullanılmaz
 Basit ve sabit davranışlar için
+
 Derin decorator zincirleri gerekecekse (okunabilirlik düşer)
 
 ### 3.7 Best Practices
 Küçük ve tek sorumluluklu decorator’lar
+
 Sıralamanın etkisini dokümante et
+
 Immutable veya side-effect kontrollü davranışlar tercih et
 
 ### 3.8 Pitfall’lar
 Debug zorluğu (çok katman)
+
 Yanlış sıralama (ör. security, logging sırası)
+
 Gereksiz sarma (overuse)
 
 
@@ -317,24 +343,36 @@ s.draw();
 
 ### 4.4 Çalışma Mantığı
 Shape (abstraction) ve Color (implementation) bağımsız hiyerarşiler
+
 Composition ile bağlanır
+
 Her iki eksen ayrı ayrı genişletilebilir
+
 
 ### 4.5 Ne Zaman Kullanılır
 İki veya daha fazla bağımsız değişim ekseni varsa
+
 Çapraz kombinasyonlar artıyorsa
+
 Framework/SDK tasarımlarında
+
 
 ### 4.6 Ne Zaman Kullanılmaz
 Tek eksen değişiyorsa
+
 Küçük ve sabit kombinasyonlar varsa
+
 
 ### 4.7 Best Practices
 Abstraction ve Implementation sınırlarını net çiz
+
 Gereksiz soyutlama ekleme
+
 Bağımlılıkları constructor ile enjekte et
 
 ### 4.8 Pitfall’lar
 Over-engineering (gereksiz soyutlama)
+
 Yanlış ayrım (gerçekte bağımsız olmayan eksenleri ayırmak)
+
 Okunabilirliği düşüren fazla katman
