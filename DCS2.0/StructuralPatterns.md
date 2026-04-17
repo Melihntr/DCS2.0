@@ -54,6 +54,7 @@ Adaptee değiştirilmez; adaptasyon dışarıda yapılır.
 
 ### 1.5 Türler
 Class Adapter (inheritance ile, Java’da genelde tercih edilmez)
+
 Object Adapter (composition ile; pratikte yaygın olan)
 
 ### 1.6 Ne Zaman Kullanılır
