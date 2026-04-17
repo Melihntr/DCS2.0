@@ -264,7 +264,7 @@ Color (Red, Blue)
 
 Inheritance ile:
 
-```
+
 RedCircle, BlueCircle, RedSquare, BlueSquare …
 Kombinasyon sayısı katlanır.
 
@@ -272,6 +272,7 @@ Kombinasyon sayısı katlanır.
 
 Abstraction, Implementation’a referans tutar (composition). İki eksen ayrılır.
 
+```
 interface Color {
     void applyColor();
 }
@@ -336,16 +337,3 @@ Bağımlılıkları constructor ile enjekte et
 Over-engineering (gereksiz soyutlama)
 Yanlış ayrım (gerçekte bağımsız olmayan eksenleri ayırmak)
 Okunabilirliği düşüren fazla katman
-
-#### GENEL KARŞILAŞTIRMA
-Pattern	Temel Amaç	Çözdüğü Problem
-Adapter	Uyum sağlama	Interface uyumsuzluğu
-Facade	Basitleştirme	Karmaşık alt sistem
-Decorator	Davranış ekleme (runtime)	Esnek genişletme
-Bridge	Ayırma (abstraction/implementation)	Kombinasyon patlaması
-
-#### KISA ZİHİN HARİTASI
-Adapter: Var olanı sisteme uydur
-Facade: Karmaşıklığı gizle
-Decorator: Sarmala ve özellik ekle
-Bridge: Değişim eksenlerini ayır
