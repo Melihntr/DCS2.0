@@ -12,6 +12,7 @@ Bir sistemde aynı işlevi gerçekleştiren ancak farklı yöntemler kullanan bi
 
 Strategy pattern, algoritmaları ortak bir arayüz altında toplar ve her algoritmayı bu arayüzü implemente eden ayrı sınıflar olarak tanımlar. Bu sayede istemci kodu yalnızca arayüzle etkileşime girer.
 
+```
 interface PaymentStrategy {
     void pay();
 }
@@ -27,7 +28,8 @@ class PayPalPayment implements PaymentStrategy {
         System.out.println("Paid with PayPal");
     }
 }
-
+```
+```
 class PaymentContext {
     private PaymentStrategy strategy;
 
@@ -39,7 +41,7 @@ class PaymentContext {
         strategy.pay();
     }
 }
-
+```
 #### 1.4 Çalışma Mantığı
 
 Context sınıfı, algoritmanın nasıl çalıştığını bilmez; yalnızca ilgili arayüzü kullanır. Hangi algoritmanın çalışacağı çalışma zamanında belirlenir. Bu durum davranışın dinamik olarak değiştirilebilmesini sağlar.
@@ -78,6 +80,7 @@ Bir nesnenin durum değişikliği birden fazla bileşeni etkiliyorsa, bu bileşe
 
 Observer pattern, Subject (gözlemlenen) ve Observer (gözlemleyen) olmak üzere iki temel bileşen içerir. Subject, observer listesi tutar ve değişiklik olduğunda tüm observer’lara bildirim gönderir.
 
+```
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +93,8 @@ class UserObserver implements Observer {
         System.out.println("Received: " + message);
     }
 }
-
+```
+```
 class Subject {
     private List<Observer> observers = new ArrayList<>();
 
@@ -104,6 +108,7 @@ class Subject {
         }
     }
 }
+```
 
 #### 2.4 Çalışma Mantığı
 
@@ -144,6 +149,7 @@ Birden fazla sınıfta benzer işlem adımları bulunmakta, ancak bu adımların
 
 Abstract bir sınıf içinde algoritmanın genel akışı tanımlanır. Değişken adımlar abstract metotlar olarak bırakılır ve alt sınıflar tarafından implemente edilir.
 
+```
 abstract class DataProcessor {
 
     public final void process() {
@@ -156,7 +162,9 @@ abstract class DataProcessor {
     protected abstract void processData();
     protected abstract void writeData();
 }
+```
 
+```
 class CSVProcessor extends DataProcessor {
 
     protected void readData() {
@@ -171,6 +179,8 @@ class CSVProcessor extends DataProcessor {
         System.out.println("Writing CSV data");
     }
 }
+```
+
 #### 3.4 Çalışma Mantığı
 
 Template method (process) algoritmanın sırasını belirler ve bu metod genellikle final olarak tanımlanır. Alt sınıflar yalnızca belirli adımları override eder, algoritmanın genel yapısı değişmez.
