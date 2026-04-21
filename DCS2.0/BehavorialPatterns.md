@@ -207,7 +207,7 @@ Alt sınıflar arasında karmaşıklık oluşabilir
 
 Template Method pattern, algoritmanın genel yapısını sabit tutarken belirli adımların özelleştirilmesine izin vererek kontrollü bir esneklik sağlar.
 
-Genel Değerlendirme
+#### Genel Değerlendirme
 
 Strategy pattern davranışı composition yoluyla değiştirilebilir hale getirir
 Observer pattern değişikliklerin yayılmasını sağlar
