@@ -211,10 +211,4 @@ Alt sınıflar arasında karmaşıklık oluşabilir
 
 Template Method pattern, algoritmanın genel yapısını sabit tutarken belirli adımların özelleştirilmesine izin vererek kontrollü bir esneklik sağlar.
 
-#### Genel Değerlendirme
 
-Strategy pattern davranışı composition yoluyla değiştirilebilir hale getirir
-Observer pattern değişikliklerin yayılmasını sağlar
-Template Method pattern algoritma iskeletini koruyarak varyasyonlara izin verir
-
-Bu üç pattern, behavioral kategoride farklı problem türlerini çözer ve birlikte kullanıldıklarında oldukça güçlü ve esnek yazılım mimarileri oluşturulabilir.
