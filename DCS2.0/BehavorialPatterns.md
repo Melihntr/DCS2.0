@@ -42,6 +42,10 @@ class PaymentContext {
     }
 }
 ```
+```
+PaymentContext context = new PaymentContext(new CreditCardPayment());
+context.execute();
+```
 #### 1.4 Çalışma Mantığı
 
 Context sınıfı, algoritmanın nasıl çalıştığını bilmez; yalnızca ilgili arayüzü kullanır. Hangi algoritmanın çalışacağı çalışma zamanında belirlenir. Bu durum davranışın dinamik olarak değiştirilebilmesini sağlar.
