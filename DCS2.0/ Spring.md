@@ -477,7 +477,7 @@ B prototype olsa bile tek instance olur
 
 @Autowired
 
-private ObjectProvider<B> provider;
+private ObjectProvider <B> provider;
 
  
 
