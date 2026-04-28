@@ -461,6 +461,7 @@ Problem:
 
 Singleton içine prototype inject edersen:
 
+```
 @Component
 
 public class A {
@@ -470,11 +471,13 @@ public class A {
     private B b;
 
 }
+```
 
 B prototype olsa bile tek instance olur
 
 Çözüm 1: ObjectProvider
 
+```
 @Autowired
 
 private ObjectProvider <B> provider;
@@ -486,9 +489,11 @@ public void use() {
     B b = provider.getObject();
 
 }
+```
 
 Çözüm 2: @Lookup
 
+```
 @Lookup
 
 public B getB() {
@@ -496,6 +501,7 @@ public B getB() {
     return null;
 
 }
+```
 
 #### 2.18 Lifecycle + Scope Özet
 
