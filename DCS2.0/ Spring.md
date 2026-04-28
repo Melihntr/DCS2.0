@@ -127,7 +127,7 @@ XML ile aynı yapı:
 ```
 Constructor ve setter tabanlı injection aynı bean içinde birlikte kullanılabilir. Spring dokümantasyonu, zorunlu bağımlılıklar için constructor tabanlı injection, opsiyonel bağımlılıklar için setter tabanlı injection kullanmayı önerir.
 
-##### 1.6 Field-tabanlı DI
+#### 1.6 Field-tabanlı DI
 Field tabanlı DI için alanları @Autowired ile işaretleyebiliriz:
 
 ```java
