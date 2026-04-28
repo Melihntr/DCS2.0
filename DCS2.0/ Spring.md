@@ -748,93 +748,261 @@ Gizli bilgileri environment variable veya secrets manager ile sağlayın.
 Feature toggle: @ConditionalOnProperty kullanarak aç/kapat yapın.
 Dökümantasyon: Hangi property’lerin zorunlu olduğuna dair README veya schema sağlayın; CI’de eksik property’leri kontrol edin.
 Profile sayısını sınırlı tutun (genelde dev/test/prod yeterlidir); karmaşıklığı artırmaktan kaçının.
-5. Spring Web (REST + Validation)
-5.1 REST Controller
-@RestController
-@RequestMapping("/users")
-class UserController {
+## 5.Spring Web REST ve Validation API (Detaylı Doküman)
+Using validation :
 
-    @GetMapping
-    public List<User> getUsers() {
-        return List.of();
+```java
+
+@RestController
+@RequestMapping("/api")
+@Validated
+public class UserController {
+
+    @Autowired
+    UserRepository userrepo;
+    
+    @PostMapping(value="/users")
+    ResponseEntity<?> create( @Valid @RequestBody User user) {
+        
+        User addeduser = userrepo.save(user);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                            .path("/{id}")
+                            .buildAndExpand(addeduser.getId())
+                            .toUri();
+        
+        return ResponseEntity.created(location).build();
     }
 }
-5.2 Request Handling
-@PostMapping
-public User create(@RequestBody User user) {
-    return user;
+```
+This demonstrates request body validation (@Valid) and building a 201 Created response with Location header.
+
+
+Bu örnek, REST controller içinde DTO validasyonu için tipik kullanım: @Valid ile gelen body doğrulanır; başarısız olursa Spring bir doğrulama istisnası (örn. MethodArgumentNotValidException) fırlatır. Aşağıda bu davranışı yönetmek ve temiz API sözleşmesi sağlamak için pratik örnekler var.
+
+#### 5.1 DTO ve validation anotasyonları
+Kullan: jakarta.validation (JSR-380) anotasyonları: @NotNull, @NotBlank, @Size, @Email, @Min, @Max, vb.
+DTO örneği:
+
+```java
+
+// src/main/java/com/example/web/dto/CreateUserRequest.java
+package com.example.web.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public class CreateUserRequest {
+
+    @NotBlank(message = "Kullanıcı adı boş olamaz")
+    private String username;
+
+    @Email(message = "Geçerli bir e-posta olmalı")
+    private String email;
+
+    @Size(min = 8, message = "Şifre en az 8 karakter olmalı")
+    private String password;
+
+    // getters/setters
 }
-5.3 Validation
-class User {
-    @NotNull
-    private String name;
+```
+#### 5.2 Controller kullanımı
+@Valid + @RequestBody, @Validated (controller sınıfına isteğe bağlı) kullanın:
+
+```java
+
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    @PostMapping
+    public ResponseEntity<Void> createUser(@Valid @RequestBody CreateUserRequest req) {
+        // servis katmanına delegasyon
+        Long id = userService.create(req);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(id)
+            .toUri();
+        return ResponseEntity.created(location).build();
+    }
 }
-@PostMapping
-public User create(@Valid @RequestBody User user) {
-    return user;
+```
+#### 5.3 Hataları merkezi şekilde yakalama (bakınız E6)
+Validation hataları özel JSON formatında dönülmelidir (field -> message map).
+Örnek küresel handler aşağıda.
+#### 5.4 İyi uygulamalar
+Controller içinde iş mantığını tutmayın — controller sadece doğrulama ve request/response mapping yapmalı; iş mantığı servis katmanında olmalı.
+@ConfigurationProperties ile tip güvenli config; @Value yerine mümkün olduğunca @ConfigurationProperties kullanın.
+Validation mesajlarını messages.properties içinde tutun, i18n için hazır olun.
+## 6. Exception Handling (Global / Merkezi Hata Yönetimi)
+There are three ways in which you can handle the exception using Spring Framework,
+
+```
+@ExceptionHandler - Controller Based
+@ControllerAdvice - Global Exception Handler
+HandlerExceptionResolver
+```
+```java
+
+@ControllerAdvice(basePackages = "{com.exampe.controller}")
+public class RestApiExceptionHandlerAdvice {
+
+    @ExceptionHandler(value = BadRequestException.class)
+    public ErrorMessage handleBadRequest(BadRequestException exception) {
+        //code...
+        return errMsg;
+    }
+
+    @ExceptionHandler(value = GatewayTimeoutException.class)
+    public ErrorMessage handleGatewayTimeout(GatewayTimeoutException exception) {
+        //code...
+        return errMsg;
+    }
 }
-6. Exception Handling
-6.1 Global Exception Handling
-@RestControllerAdvice
-class GlobalExceptionHandler {
+```
+
+Bu alıntı global hata yönetimi seçeneklerini özetliyor. Aşağıda REST API'ler için önerilen merkezi hata işleyici (JSON API hata formatı) ve örnek uygulama yer alır.
+
+#### 6.1 Global Exception Handler — Örnek (ControllerAdvice)
+```java
+
+// src/main/java/com/example/web/RestExceptionHandler.java
+package com.example.web;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
+
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+
+@ControllerAdvice
+@RestController
+public class RestExceptionHandler {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleValidation(MethodArgumentNotValidException ex, WebRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors()
+          .forEach(fe -> errors.put(fe.getField(), fe.getDefaultMessage()));
+
+        Map<String, Object> body = Map.of(
+            "timestamp", Instant.now(),
+            "status", HttpStatus.BAD_REQUEST.value(),
+            "errors", errors,
+            "path", request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Object> handleNotFound(ResourceNotFoundException ex, WebRequest request) {
+        Map<String, Object> body = Map.of(
+            "timestamp", Instant.now(),
+            "status", HttpStatus.NOT_FOUND.value(),
+            "error", "Not Found",
+            "message", ex.getMessage(),
+            "path", request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(Exception.class)
-    public String handle(Exception e) {
-        return e.getMessage();
+    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+        Map<String, Object> body = Map.of(
+            "timestamp", Instant.now(),
+            "status", HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            "error", "Internal Server Error",
+            "message", ex.getMessage(),
+            "path", request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
-6.2 Custom Exception
-class UserNotFoundException extends RuntimeException {}
-7. Spring AOP (Aspect Oriented Programming)
-7.1 Amaç
+```
+#### 6.2 Detay notları ve tavsiyeler
+Validation hatalarını MethodArgumentNotValidException olarak yakalayın ve field->message map döndürün.
+Business hata sınıfları (örn. ResourceNotFoundException, BadRequestException) oluşturun; bunları servis katmanında fırlatıp ControllerAdvice’da çevirin.
+Hata gövdesinde: timestamp, status, error, message, path ve opsiyonel errorCode/properties verin — tüketiciler için stabil bir sözleşme sağlayın.
+@ControllerAdvice(basePackages = "...") ile kapsamı sınırlandırabilirsiniz.
+Global handler içinde stack trace veya içsel hata detaylarını PROD ortamında dökmeyin; loglayın ama response minimal tutun.
+#### 6.3 Validation + ControllerAdvice örneği
+DTO validasyon başarısız ise yukarıdaki handleValidation 400 döner; body içindeki errors istemciye hangi alanların neden hatalı olduğunu bildirir.
+#### 6.4 Testing
+Unit test: MockMvc ile valid/invalid istekler gönderin ve beklenen status + hata yapısını assert edin.
+Integration test: @SpringBootTest ile gerçek context altında handler davranışını doğrulayın.
+## 7. — Spring Core AOP (Aspect Oriented Programming) — Merkezi Yönetim
+@ControllerAdvice is a specialization of the @Component annotation which allows to handle exceptions across the whole application in one global handling component. It can be viewed as an interceptor of exceptions thrown by methods annotated with @RequestMapping and similar.
 
-Cross-cutting concern’leri ayırmak:
 
-logging
-security
-transaction
-7.2 Örnek
+(AOP ile ilgili alıntı sonuçlardan dolaylı gösterildi; aşağıda AOP için doğrudan pratik açıklama ve örnekler yer almaktadır.)
+
+#### 7.1 AOP nedir ve ne için kullanılır?
+AOP, loglama, metrik, transaction management, security, caching gibi cross-cutting concern’ları merkezi olarak uygulamanızı sağlar.
+Aspect: kesişen sorumlulukları tanımlar. Advice: ne yapılacağı (before/after/around). Pointcut: hangi join point’lerde çalışılacağı (örn. belirli paketlerdeki servis metodları).
+#### 7.2 Kurulum
+Maven/Gradle: spring-boot-starter-aop ekleyin.
+Aspect örneği:
+```java
+
+// src/main/java/com/example/aop/LoggingAspect.java
+package com.example.aop;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
+import org.springframework.stereotype.Component;
+
 @Aspect
 @Component
-class LoggingAspect {
+public class LoggingAspect {
 
-    @Before("execution(* com.app.service.*.*(..))")
-    public void log() {
-        System.out.println("Method called");
+    @Around("execution(* com.example..service.*.*(..))")
+    public Object logAround(ProceedingJoinPoint pjp) throws Throwable {
+        String sig = pjp.getSignature().toShortString();
+        long start = System.currentTimeMillis();
+        try {
+            System.out.println("[START] " + sig);
+            Object result = pjp.proceed();
+            long elapsed = System.currentTimeMillis() - start;
+            System.out.println("[END] " + sig + " executed in " + elapsed + "ms");
+            return result;
+        } catch (Throwable t) {
+            System.out.println("[ERROR] " + sig + " -> " + t.getMessage());
+            throw t;
+        }
     }
 }
-8. Spring Data JPA
-8.1 Repository
-public interface UserRepository extends JpaRepository<User, Long> {}
-8.2 Query Methods
-List<User> findByName(String name);
-8.3 Custom Query
-@Query("SELECT u FROM User u WHERE u.name = :name")
-List<User> getUsers(@Param("name") String name);
-9. Katmanlı Mimari (Layered Architecture)
-9.1 Katmanlar
-Controller → API
-Service → Business logic
-Repository → Data access
-9.2 Akış
-Controller → Service → Repository → DB
-10. Best Practices
-Constructor Injection kullan
-Business logic’i Controller’da yazma
-Exception handling merkezi olsun
-DTO kullan (Entity expose etme)
-Immutable object tercih et
-11. Real-World Notlar
-Spring aslında büyük ölçüde Proxy + AOP + DI üzerine kurulu
-Transaction management → proxy ile çalışır
-Security → filter chain + proxy
-12. Pitfall’lar
-Field injection kullanmak
-God service oluşturmak
-Exception swallow etmek
-Entity’yi direkt API’da döndürmek
-Over-engineering
-13. Özet
+```
+#### 7.3 Yaygın kullanım örnekleri
+Execution time metrics: method çalışma süresini ölçüp metrik sistemine gönderme.
+Centralized logging: giriş/çıkış parametrelerini loglama (dikkat: hassas verileri maskelen).
+Retry / Circuit Breaker / Rate Limiting: belirli davranışları sarmak.
+Security checks: metod çağrılarında yetkilendirme doğrulamaları (ancak çoğu durumda Spring Security tercih edilir).
+#### 7.4 AOP dikkat edilmesi gerekenler
+Self-invocation: aynı bean içerisinden bir metodun başka bir metodunu çağırması proxy’yi atlatır; advice uygulanmaz. Bu yüzden kritik kodu ayrı bean’e taşıyın veya proxy tabanlı yaklaşımları bilin.
+Proxy türü: arayüz tabanlı (JDK) veya sınıf tabanlı (CGLIB). Final sınıflar/final metodlar proxy ile sarılamaz.
+Performans: Advice tüm çağrılara müdahale edebileceği için kapsamı dar tutun.
+Hassas veri: loglama yaparken gizli alanları maskalayın veya loglamayı sınırlayın.
+#### 7.5 Örnek: AOP + Exception logging + Metrics
+Aşağıdaki aspect örneği, servis metodlarında oluşan istisnaları global loglayıp yeniden fırlatır:
+```java
+
+@Aspect
+@Component
+public class ExceptionLoggingAspect {
+
+    @AfterThrowing(pointcut = "execution(* com.example..service.*.*(..))", throwing = "ex")
+    public void logServiceException(JoinPoint jp, Throwable ex) {
+        String method = jp.getSignature().toShortString();
+        // örn: central logger veya meter kullan
+        System.err.println("[SERVICE ERROR] " + method + " -> " + ex.getClass().getSimpleName() + ": " + ex.getMessage());
+    }
+}
+```
 
 Spring:
 
