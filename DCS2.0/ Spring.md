@@ -1,60 +1,172 @@
 # SPRING & SPRING BOOT DETAYLI DOKÜMANTASYON
 ## 1. Spring Core: IoC ve Dependency Injection
-#### 1.1 Inversion of Control (IoC)
+#### 1.1 Inversion of Control nedir?
+Inversion of Control, nesnelerin ya da program parçalarının kontrolünü bir container'a veya framework'e devreden yazılım mühendisliği ilkesidir. Genellikle nesne yönelimli programlama bağlamında kullanılır.
 
-IoC, bir uygulamada nesnelerin oluşturulması ve yönetilmesi sorumluluğunun geliştiriciden framework’e devredilmesidir.
+Geleneksel programlamanın aksine — bizim yazdığımız özel kodun bir kütüphaneyi çağırdığı model — IoC, framework'ün program akışının kontrolünü ele almasını ve bizim özel kodumuzu çağırmasını sağlar. Bunu mümkün kılmak için framework'ler ek davranışlarla birlikte soyutlamalar sunar. Kendi davranışımızı eklemek istersek framework sınıflarını genişletmemiz veya kendi sınıflarımızı plug-in yapmamız gerekir.
 
-Klasik yaklaşım:
+#### Bu mimarinin avantajları:
 
-```
+Bir görevin yürütülmesini uygulamasından ayırma (decoupling)
+Farklı implementasyonlar arasında geçişi kolaylaştırma
+Programın daha modüler olması
+Bir bileşeni izole ederek test etmeyi, bağımlılıkları mock etmeyi ve bileşenlerin sözleşmeler (contracts) üzerinden iletişim kurmasını kolaylaştırma
+IoC’yi farklı mekanizmalarla elde edebiliriz: Strategy pattern, Service Locator, Factory pattern ve Dependency Injection (DI).
 
-UserService service = new UserService();
+#### 1.2 Dependency Injection nedir?
+Dependency injection, IoC’yi uygulamak için kullandığımız bir desendir; burada kontrolün tersine çevrilmesi, bir nesnenin bağımlılıklarının atanmasıdır.
 
-Spring yaklaşımı:
+Nesneleri diğer nesnelerle bağlama ya da nesneleri başka nesnelere "inject" etme işi, nesnelerin kendileri yerine bir assembler (bağlayıcı) tarafından yapılır.
 
-@Autowired
-UserService service;
-```
+Geleneksel programlamada bir nesne bağımlılığı şöyle oluşturulurdu:
 
+java
 
-Burada:
-
-Nesneyi sen yaratmıyorsun
-Spring Container yaratıyor
-
-#### 1.2 Dependency Injection (DI)
-
-DI, bir nesnenin bağımlılıklarının dışarıdan verilmesidir.
-
-Türleri:
-
-#### Constructor Injection (Best Practice)
-
-```
-@Service
-public class UserService {
-    private final UserRepository repo;
-
-    public UserService(UserRepository repo) {
-        this.repo = repo;
+public class Store {
+    private Item item;
+ 
+    public Store() {
+        item = new ItemImpl1();    
     }
 }
-```
+Yukarıdaki örnekte Store sınıfı içinde Item interface'inin bir implementasyonu örneklenmektedir.
 
-#### Field Injection (Önerilmez)
+DI kullanarak aynı örneği implementasyonu belirtmeden şöyle yazabiliriz:
 
-```
-@Autowired
-private UserRepository repo;
-```
+java
 
-#### Setter Injection
-```
-@Autowired
-public void setRepo(UserRepository repo) {
-    this.repo = repo;
+public class Store {
+    private Item item;
+    public Store(Item item) {
+        this.item = item;
+    }
 }
-```
+Sonraki bölümlerde Item implementasyonunu metadata aracılığıyla nasıl sağlayabileceğimizi göreceğiz.
+
+IoC ve DI basit kavramlardır ancak sistemlerimizi yapılandırma biçiminde derin etkileri vardır; bu yüzden tam olarak anlamaya değerdir.
+
+#### 1.3 Spring IoC Container nedir?
+IoC container, IoC'yi uygulayan frameworklerin ortak bir özelliğidir.
+
+Spring framework'te ApplicationContext arayüzü IoC container'ı temsil eder. Spring container, bean olarak bilinen nesnelerin örneklenmesinden, yapılandırılmasından, birbirine bağlanmasından ve yaşam döngülerinin yönetilmesinden sorumludur.
+
+Spring, ApplicationContext'in birkaç implementasyonunu sağlar: standalone uygulamalar için AnnotationConfigApplicationContext, ClassPathXmlApplicationContext, FileSystemXmlApplicationContext; web uygulamaları için WebApplicationContext.
+
+Bean'leri assemble etmek için container yapılandırma metadata'sını okur — bu XML konfigürasyon veya annotation tabanlı olabilir.
+
+Manuel container örneği (XML tabanlı):
+
+java
+
+ApplicationContext context
+  = new ClassPathXmlApplicationContext("applicationContext.xml");
+Annotation tabanlı bir container örneği:
+
+java
+
+AnnotationConfigApplicationContext annotationContext = new AnnotationConfigApplicationContext();
+AnnotationConfigApplicationContext örneği yaratıp ona bir veya daha fazla konfigürasyon sınıfı verdiğinizde, @Bean ve ilgili annotasyonları tarar; tanımlı bean'leri başlatır ve yaşam döngülerini yönetir. Orijinal örnekte olduğu gibi, metadata kullanılarak item bağımlılığı ayarlanabilir ve container çalışma zamanında bean'leri assemble eder.
+
+Spring'de Dependency Injection constructor, setter veya field aracılığıyla yapılabilir.
+
+#### 1.4 Constructor-tabanlı DI
+Constructor tabanlı DI durumunda, container bağımlılıkları temsil eden argümanlarla bir constructor'ı çağırır.
+
+Spring her argümanı öncelikle tipe göre, sonra attribute adlarına, sonra gerektiğinde indeks ile çözer. Annotation örneği:
+
+java
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public Item item1() {
+        return new ItemImpl1();
+    }
+
+    @Bean
+    public Store store() {
+        return new Store(item1());
+    }
+}
+@Configuration sınıfın bean tanımlarının kaynağı olduğunu belirtir. @Bean metodları bean tanımlarını oluşturur; isim verilmezse metod adı bean adı olur.
+
+Varsayılan singleton scope için Spring önce önbellekte bir örnek olup olmadığını kontrol eder; yoksa yeni bir örnek oluşturur. prototype scope kullanılıyorsa her çağrıda yeni örnek döner.
+
+XML ile aynı konfigürasyon şu şekilde ifade edilir:
+
+xml
+
+<bean id="item1" class="org.baeldung.store.ItemImpl1" /> 
+<bean id="store" class="org.baeldung.store.Store"> 
+    <constructor-arg type="ItemImpl1" index="0" name="item" ref="item1" /> 
+</bean>
+#### 1.5 Setter-tabanlı DI
+Setter tabanlı DI'de container, bean'i no-arg constructor ile örnekledikten sonra setter metodlarını çağırır. Annotation ile örnek:
+
+java
+
+@Bean
+public Store store() {
+    Store store = new Store();
+    store.setItem(item1());
+    return store;
+}
+XML ile aynı yapı:
+
+xml
+
+<bean id="store" class="org.baeldung.store.Store">
+    <property name="item" ref="item1" />
+</bean>
+Constructor ve setter tabanlı injection aynı bean içinde birlikte kullanılabilir. Spring dokümantasyonu, zorunlu bağımlılıklar için constructor tabanlı injection, opsiyonel bağımlılıklar için setter tabanlı injection kullanmayı önerir.
+
+##### 1.6 Field-tabanlı DI
+Field tabanlı DI için alanları @Autowired ile işaretleyebiliriz:
+
+java
+
+public class Store {
+    @Autowired
+    private Item item; 
+}
+Container, Store nesnesini oluştururken eğer constructor veya setter ile inject yoksa, reflection kullanarak Item'ı inject eder.
+
+Bazı dezavantajları:
+
+Reflection kullandığı için constructor/setter'a kıyasla daha maliyetli olabilir.
+Sınıfa çok sayıda bağımlılık eklemek kolaylaşır; constructor kullanılsaydı birden fazla argüman olması sınıfın tek bir sorumluluktan sapmasını akla getirebilir (SRP ihlali).
+Spring ayrıca @Autowired ile tip bazlı autowiring sağlar; aynı tipe sahip birden fazla bean varsa @Qualifier ile isim belirtebilirsiniz.
+
+#### 1.7 Autowiring
+Autowiring, Spring container'ın tanımlanmış bean'ler arasındaki bağımlılıkları otomatik çözmesini sağlar.
+
+XML konfigürasyonda dört autowiring modu vardı: no, byName, byType, constructor. Ancak autowire özelliği Spring 5.1 itibariyle eskimiştir; güncel projelerde annotation tabanlı @Autowired ve @Qualifier tercih edilir.
+
+Örnek @Qualifier kullanımı:
+
+java
+
+public class Store {
+    
+    @Autowired
+    @Qualifier("item1")
+    private Item item;
+}
+XML ile byType örneği (eski stil):
+
+xml
+
+<bean id="store" class="org.baeldung.store.Store" autowire="byType"> </bean>
+Autowiring'leri açıkça constructor argümanları veya setter'larla override edebilirsiniz.
+
+##### 1.8 Lazy başlatılan bean'ler
+Varsayılan olarak container tüm singleton bean'leri başlatma sırasında oluşturur. Bunu önlemek için bean'i lazy-init ile işaretleyebilirsiniz:
+
+xml
+
+<bean id="item1" class="org.baeldung.store.ItemImpl1" lazy-init="true" />
+Böylece item1 bean'i yalnızca ilk çağrıldığında oluşturulur; başlangıç süresi kısalır fakat konfigürasyon hatalarını yalnızca bean ilk talep edildiğinde keşfedersiniz.
 ## 2. Bean Lifecycle ve Scopes
 #### 2.1 Bean Lifecycle
 
