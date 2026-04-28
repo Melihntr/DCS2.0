@@ -1,10 +1,12 @@
-SPRING & SPRING BOOT DETAYLI DOKÜMANTASYON
-1. Spring Core: IoC ve Dependency Injection
-1.1 Inversion of Control (IoC)
+# SPRING & SPRING BOOT DETAYLI DOKÜMANTASYON
+## 1. Spring Core: IoC ve Dependency Injection
+#### 1.1 Inversion of Control (IoC)
 
 IoC, bir uygulamada nesnelerin oluşturulması ve yönetilmesi sorumluluğunun geliştiriciden framework’e devredilmesidir.
 
 Klasik yaklaşım:
+
+```
 
 UserService service = new UserService();
 
@@ -12,19 +14,23 @@ Spring yaklaşımı:
 
 @Autowired
 UserService service;
+```
+
 
 Burada:
 
 Nesneyi sen yaratmıyorsun
 Spring Container yaratıyor
-1.2 Dependency Injection (DI)
+
+#### 1.2 Dependency Injection (DI)
 
 DI, bir nesnenin bağımlılıklarının dışarıdan verilmesidir.
 
 Türleri:
 
-Constructor Injection (Best Practice)
+#### Constructor Injection (Best Practice)
 
+```
 @Service
 public class UserService {
     private final UserRepository repo;
@@ -33,20 +39,24 @@ public class UserService {
         this.repo = repo;
     }
 }
+```
 
-Field Injection (Önerilmez)
+#### Field Injection (Önerilmez)
 
+```
 @Autowired
 private UserRepository repo;
+```
 
-Setter Injection
-
+#### Setter Injection
+```
 @Autowired
 public void setRepo(UserRepository repo) {
     this.repo = repo;
 }
-2. Bean Lifecycle ve Scopes
-2.1 Bean Lifecycle
+```
+## 2. Bean Lifecycle ve Scopes
+#### 2.1 Bean Lifecycle
 
 Spring bean lifecycle:
 
@@ -60,15 +70,17 @@ public void init() {}
 
 @PreDestroy
 public void destroy() {}
-2.2 Bean Scopes
+
+#### 2.2 Bean Scopes
 Scope	Açıklama
 singleton	Default, tek instance
 prototype	Her çağrıda yeni object
 request	HTTP request başına
 session	HTTP session başına
 @Scope("prototype")
-3. Spring Boot Auto Configuration
-3.1 Auto Configuration Nedir?
+
+## 3. Spring Boot Auto Configuration
+#### 3.1 Auto Configuration Nedir?
 
 Spring Boot, dependency’lere bakarak otomatik config yapar.
 
@@ -84,7 +96,7 @@ DispatcherServlet otomatik kurulur
 
 Spring classpath’i tarar ve config yükler.
 
-4. Configuration, Profiles ve Properties
+## 4. Configuration, Profiles ve Properties
 4.1 application.properties
 server.port=8080
 spring.datasource.url=jdbc:mysql://localhost:3306/db
