@@ -20,7 +20,7 @@ Nesneleri diğer nesnelerle bağlama ya da nesneleri başka nesnelere "inject" e
 
 Geleneksel programlamada bir nesne bağımlılığı şöyle oluşturulurdu:
 
-java
+```
 
 public class Store {
     private Item item;
@@ -29,11 +29,12 @@ public class Store {
         item = new ItemImpl1();    
     }
 }
+```
 Yukarıdaki örnekte Store sınıfı içinde Item interface'inin bir implementasyonu örneklenmektedir.
 
 DI kullanarak aynı örneği implementasyonu belirtmeden şöyle yazabiliriz:
 
-java
+```
 
 public class Store {
     private Item item;
@@ -41,6 +42,7 @@ public class Store {
         this.item = item;
     }
 }
+```
 Sonraki bölümlerde Item implementasyonunu metadata aracılığıyla nasıl sağlayabileceğimizi göreceğiz.
 
 IoC ve DI basit kavramlardır ancak sistemlerimizi yapılandırma biçiminde derin etkileri vardır; bu yüzden tam olarak anlamaya değerdir.
@@ -56,13 +58,13 @@ Bean'leri assemble etmek için container yapılandırma metadata'sını okur —
 
 Manuel container örneği (XML tabanlı):
 
-java
+```
 
 ApplicationContext context
   = new ClassPathXmlApplicationContext("applicationContext.xml");
 Annotation tabanlı bir container örneği:
 
-java
+```
 
 AnnotationConfigApplicationContext annotationContext = new AnnotationConfigApplicationContext();
 AnnotationConfigApplicationContext örneği yaratıp ona bir veya daha fazla konfigürasyon sınıfı verdiğinizde, @Bean ve ilgili annotasyonları tarar; tanımlı bean'leri başlatır ve yaşam döngülerini yönetir. Orijinal örnekte olduğu gibi, metadata kullanılarak item bağımlılığı ayarlanabilir ve container çalışma zamanında bean'leri assemble eder.
@@ -74,7 +76,7 @@ Constructor tabanlı DI durumunda, container bağımlılıkları temsil eden arg
 
 Spring her argümanı öncelikle tipe göre, sonra attribute adlarına, sonra gerektiğinde indeks ile çözer. Annotation örneği:
 
-java
+```
 
 @Configuration
 public class AppConfig {
@@ -89,22 +91,24 @@ public class AppConfig {
         return new Store(item1());
     }
 }
+```
 @Configuration sınıfın bean tanımlarının kaynağı olduğunu belirtir. @Bean metodları bean tanımlarını oluşturur; isim verilmezse metod adı bean adı olur.
 
 Varsayılan singleton scope için Spring önce önbellekte bir örnek olup olmadığını kontrol eder; yoksa yeni bir örnek oluşturur. prototype scope kullanılıyorsa her çağrıda yeni örnek döner.
 
 XML ile aynı konfigürasyon şu şekilde ifade edilir:
 
-xml
+```xml
 
 <bean id="item1" class="org.baeldung.store.ItemImpl1" /> 
 <bean id="store" class="org.baeldung.store.Store"> 
     <constructor-arg type="ItemImpl1" index="0" name="item" ref="item1" /> 
 </bean>
+```
 #### 1.5 Setter-tabanlı DI
 Setter tabanlı DI'de container, bean'i no-arg constructor ile örnekledikten sonra setter metodlarını çağırır. Annotation ile örnek:
 
-java
+```java
 
 @Bean
 public Store store() {
@@ -112,24 +116,28 @@ public Store store() {
     store.setItem(item1());
     return store;
 }
+```
 XML ile aynı yapı:
 
-xml
+```xml
 
 <bean id="store" class="org.baeldung.store.Store">
     <property name="item" ref="item1" />
 </bean>
+```
 Constructor ve setter tabanlı injection aynı bean içinde birlikte kullanılabilir. Spring dokümantasyonu, zorunlu bağımlılıklar için constructor tabanlı injection, opsiyonel bağımlılıklar için setter tabanlı injection kullanmayı önerir.
 
 ##### 1.6 Field-tabanlı DI
 Field tabanlı DI için alanları @Autowired ile işaretleyebiliriz:
 
-java
+```java
 
 public class Store {
     @Autowired
     private Item item; 
 }
+```
+
 Container, Store nesnesini oluştururken eğer constructor veya setter ile inject yoksa, reflection kullanarak Item'ı inject eder.
 
 Bazı dezavantajları:
@@ -145,7 +153,7 @@ XML konfigürasyonda dört autowiring modu vardı: no, byName, byType, construct
 
 Örnek @Qualifier kullanımı:
 
-java
+```java
 
 public class Store {
     
@@ -153,20 +161,23 @@ public class Store {
     @Qualifier("item1")
     private Item item;
 }
+```
 XML ile byType örneği (eski stil):
 
-xml
+```xml
 
 <bean id="store" class="org.baeldung.store.Store" autowire="byType"> </bean>
+```
 Autowiring'leri açıkça constructor argümanları veya setter'larla override edebilirsiniz.
 
 ##### 1.8 Lazy başlatılan bean'ler
 Varsayılan olarak container tüm singleton bean'leri başlatma sırasında oluşturur. Bunu önlemek için bean'i lazy-init ile işaretleyebilirsiniz:
 
-xml
+```xml
 
 <bean id="item1" class="org.baeldung.store.ItemImpl1" lazy-init="true" />
 Böylece item1 bean'i yalnızca ilk çağrıldığında oluşturulur; başlangıç süresi kısalır fakat konfigürasyon hatalarını yalnızca bean ilk talep edildiğinde keşfedersiniz.
+```
 ## 2. Bean Lifecycle ve Scopes
 #### 2.1 Bean Lifecycle
 
