@@ -518,47 +518,236 @@ AOP & proxy → BeanPostProcessor mantığını iyi bil
 Lifecycle method’ları → resource yönetimi için kullan
 ⁠
 Constructor injection → default yaklaşım
-## 3. Spring Boot Auto Configuration
-#### 3.1 Auto Configuration Nedir?
 
-Spring Boot, dependency’lere bakarak otomatik config yapar.
+## 3. Spring Boot Auto-Configuration — Hızlı Geliştirme
+Spring Boot auto-configuration, uygulamayı hızlı başlatmak için sık kullanılan bean'leri ve konfigürasyonları otomatik olarak oluşturur. Amaç: boilerplate azaltmak ve geliştiricinin yalnızca özelleştirmek istediği noktaları override etmesine izin vermektir.
 
+Nasıl çalışır?
+
+Boot, classpath'teki spring-boot-autoconfigure ve diğer jar'lardaki auto-configuration sınıflarını yükler.
+Her auto-config sınıfı @ConditionalOn... anotasyonlarıyla (ör. @ConditionalOnClass, @ConditionalOnMissingBean, @ConditionalOnProperty) çalışır; koşullar sağlanıyorsa bean'leri tanımlar.
+Eğer uygulamanızda aynı tipte bir bean zaten tanımlıysa (@ConditionalOnMissingBean) otomatik konfigürasyon geri çekilir (back off).
+Avantajlar
+
+Hızlı prototipleme ve geliştirme.
+Sık kullanılan yapıların (DataSource, JPA, Jackson, MVC vb.) hazır olması.
+İyi tanımlanmış varsayılanlar: çoğu uygulamada hiç ekstra konfigürasyon gerekmez.
+Dezavantaj / dikkat
+
+Otomatik yapılandırmayı anlamadan değiştirmek hatalara yol açabilir.
+Özelleştirme gerektiğinde, hangi bean’in oluşturulduğunu bilmek önemlidir.
+
+#### 3.1 Örnek: DataSource otomatik konfigürasyonunu override etme
+Varsayılan: JDBC sürücüsü classpath'te ve spring.datasource.* property'leri varsa Boot otomatik DataSource oluşturur. Kendi DataSource bean'inizi sağlarsanız auto-config devre dışı kalır.
+
+```java
+
+// src/main/java/com/example/config/CustomDataSourceConfig.java
+package com.example.config;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.sql.DataSource;
+
+@Configuration
+public class CustomDataSourceConfig {
+
+    @Bean
+    public DataSource dataSource() {
+        HikariConfig cfg = new HikariConfig();
+        cfg.setJdbcUrl("jdbc:postgresql://localhost:5432/mydb");
+        cfg.setUsername("user");
+        cfg.setPassword("pass");
+        return new HikariDataSource(cfg);
+    }
+}
+```
+
+Bu bean sayesinde DataSourceAutoConfiguration @ConditionalOnMissingBean(DataSource.class) koşulunu sağlamadığı için Boot otomatik DataSource oluşturmaz.
+
+#### 3.2 Kendi Auto-Configuration sınıfınızı oluşturma (library için)
+
+```java
+
+// src/main/java/com/example/autoconfig/HelloAutoConfiguration.java
+package com.example.autoconfig;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class HelloAutoConfiguration {
+
+    @Bean
+    @ConditionalOnMissingBean(name = "helloBean")
+    public String helloBean() {
+        return "hello";
+    }
+}
+```
+Kütüphane olarak paketliyorsanız META-INF/spring.factories (veya daha yeni Boot sürümlerinde spring-autoconfigure mekanizması) ile kaydetmeniz gerekir.
+Auto-config sınıfları koşullu, küçük ve test edilebilir olmalı; varsayılanları belgelerle açıklayın.
+#### 3.3 Önemli anotasyonlar ve nerede kullanılır
+@ConditionalOnClass — belirli bir sınıf classpath'te varsa.
+@ConditionalOnMissingBean — belirli bir bean yoksa.
+@ConditionalOnProperty — belirli bir property aktifse.
+@ConditionalOnBean — belirli bir bean varsa.
+@AutoConfigureAfter / @AutoConfigureBefore — sıra kontrolü.
+##### 3.4 Best practices (özet)
+Boot’un sağladığı auto-config’e güvenin; sadece gerektiğinde override edin.
+Kendi auto-config yazıyorsanız: @Conditional... kullanın, isimlendirmeyi ve dokümantasyonu net yapın.
+Testlerde auto-config davranışını doğrulayın (@SpringBootTest veya @ImportAutoConfiguration).
+Auto-config’i spring.autoconfigure.exclude ile uygulama bazında kapatabilirsiniz.
+## 4. Configuration, Profiles, Properties — Ortam Yönetimi
+Spring Boot’ta konfigürasyon dış kaynaklardan okunur ve belirli bir öncelik sırasına göre uygulanır. Profil (profile) mekanizması farklı ortamlara göre (dev/test/prod) farklı property set’leri kullanmayı sağlar.
+
+#### 4.1 Yapı ve öncelik (kısaca)
+Öncelik (yüksekten düşüğe):
+
+Command line args (--spring.profiles.active=prod, --server.port=8081)
+SPRING_APPLICATION_JSON (env)
+OS environment variables
+application-{profile}.properties / application-{profile}.yml
+application.properties / application.yml
+@PropertySource, @ConfigurationProperties sınıfları
+(Ayrıntılar için Boot Externalized Configuration dokümanına bakın.)
+#### 4.2 Profile kullanımı
+Profile dosya isimlendirmesi: application-dev.yml, application-prod.yml vb.
+Profili aktifleştirme:
+Environment variable: export SPRING_PROFILES_ACTIVE=dev
+JVM argümanı: -Dspring.profiles.active=dev
+Komut satırı: java -jar app.jar --spring.profiles.active=dev
+Programatik: new SpringApplicationBuilder(App.class).profiles("dev").run(args);
+Örnek application.yml ile profile kullanımı:
+
+```yaml
+
+spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  profiles: dev
+app:
+  datasource:
+    url: jdbc:h2:mem:devdb
+    username: sa
+    password: ""
+
+---
+spring:
+  profiles: prod
+app:
+  datasource:
+    url: jdbc:postgresql://prod-host/proddb
+    username: prod
+    password: ${DB_PASSWORD}
+```
+#### 4.3 Tip güvenli konfigürasyon: @ConfigurationProperties
+Tercih edilen yöntem: Çok sayıda property’yi @ConfigurationProperties ile POJO’ya bağlamak.
+Avantaj: tip güvenli, IDE desteği, kolay validasyon.
 Örnek:
 
-spring-boot-starter-web ekledin
-DispatcherServlet otomatik kurulur
-3.2 Nasıl çalışır?
+```java
 
-@SpringBootApplication içinde:
+// src/main/java/com/example/config/AppProperties.java
+package com.example.config;
 
-@EnableAutoConfiguration
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-Spring classpath’i tarar ve config yükler.
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
-## 4. Configuration, Profiles ve Properties
-4.1 application.properties
-server.port=8080
-spring.datasource.url=jdbc:mysql://localhost:3306/db
-4.2 Profiles
-
-Farklı environment’lar için:
-
-spring.profiles.active=dev
-
-Dosyalar:
-
-application-dev.properties
-application-prod.properties
-4.3 @Value ve @ConfigurationProperties
-@Value("${server.port}")
-private int port;
-
-Daha clean:
-
+@Component
 @ConfigurationProperties(prefix = "app")
-class AppConfig {
+public class AppProperties {
+
+    @NotBlank
     private String name;
+
+    @Min(1)
+    private int timeout;
+
+    // getters & setters
 }
+```
+application.yml:
+
+```yaml
+
+app:
+  name: demo-app
+  timeout: 30
+```
+Eğer validasyon isterseniz @Validated ekleyin ve JSR-380 annotasyonlarını kullanın.
+#### 4.4 Gizli (sensitive) değerler ve dışsal kaynaklar
+Hassas verileri asla VCS’e koymayın. Kullanılabilecek yollar:
+Environment variables (12-factor uygulama yaklaşımı)
+External config files (örn. mounted volume) via --spring.config.location
+Secrets manager (HashiCorp Vault, AWS Secrets Manager vb.)
+Kubernetes Secrets (k8s ortamında)
+Örnek placeholder:
+
+```yaml
+
+spring:
+  datasource:
+    url: jdbc:postgresql://host/db
+    username: ${DB_USER:default}
+    password: ${DB_PASSWORD}
+```
+#### 4.5 ConditionalOnProperty ile feature toggle
+Property bazlı conditional bean:
+
+```java
+
+@Configuration
+@ConditionalOnProperty(name = "feature.x.enabled", havingValue = "true", matchIfMissing = false)
+public class FeatureXConfig {
+    @Bean
+    public FeatureXService featureXService() {
+        return new FeatureXService();
+    }
+}
+```
+feature.x.enabled=true olduğunda bean yüklenir. Bu şekilde özellik aç/kapat (feature toggle) mekanizması oluşturabilirsiniz.
+#### 4.6 Profil + Bean örneği
+```java
+
+@Configuration
+@Profile("dev")
+public class DevConfig {
+
+    @Bean
+    public DataSource dataSource() {
+        // dev datasource (H2, embedded)
+    }
+}
+```
+```
+@Configuration
+@Profile("prod")
+public class ProdConfig {
+
+    @Bean
+    public DataSource dataSource() {
+        // production datasource
+    }
+}
+```
+#### 4.7 Best practices (özet)
+Varsayılan ortak konfigürasyon: application.yml içine koyun; profile-specific değerleri application-{profile}.yml içine alın.
+Tip güvenli config: @ConfigurationProperties kullanın ve validate edin.
+Gizli bilgileri environment variable veya secrets manager ile sağlayın.
+Feature toggle: @ConditionalOnProperty kullanarak aç/kapat yapın.
+Dökümantasyon: Hangi property’lerin zorunlu olduğuna dair README veya schema sağlayın; CI’de eksik property’leri kontrol edin.
+Profile sayısını sınırlı tutun (genelde dev/test/prod yeterlidir); karmaşıklığı artırmaktan kaçının.
 5. Spring Web (REST + Validation)
 5.1 REST Controller
 @RestController
