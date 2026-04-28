@@ -371,9 +371,9 @@ Tercih: basitliği ve framework agnostikliği için @PostConstruct.
 #### 2.9 Destroy Phase
 Context kapanırken çalışır — sadece container tarafından yönetilen bean’lerde garanti edilir (örn. singleton).
 
-```
+
 @PreDestroy
-java
+```java
 
 @PreDestroy
 public void destroy() {
