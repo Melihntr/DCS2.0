@@ -190,7 +190,9 @@ Spring’in olayı şu:
 
 #### 2.2 Bean Lifecycle (Yaşam Döngüsü)
 
-Spring Container
+Bean Lifecycle, bir bean’in oluşturulma, yapılandırma, başlatma, kullanım ve yok edilme aşamalarını ifade eder. Bir bean, Spring Container tarafından yönetildiğinde, belirli bir yaşam döngüsünü takip eder ve bu döngü boyunca farklı aşamalardan geçer. Bir spring bean oluşturulması için aşağıdaki aşamalardan geçmektedir.
+
+#### 2.3 Spring Container
 Spring in kalbidir. Uygulamadaki bean lerin oluşturulması, yapılandırılması, yaşam döngüsü vb. görevleri yönetir. Inversion of Control yaklaşımına sahiptir. IoC yaklaşımında kod akışında nesne oluşturulmaz. Container nesne oluşturulacağı zaman kontrolü alır, nesneyi oluşturur, yapılandırır kullanıma uyguna getirir ve daha kontrolü tekrar kod akışına devreder. Böyle sizin kodda nesne yönetimine karışmazken container bunu sizin yerinize yönetir.
 
 
@@ -220,7 +222,7 @@ Bean kullanıma hazır hale gelir
 ⁠
 Context kapanırken destroy phase çalışır
 
-#### 2.3 Instantiation (Nesne Oluşturma)
+#### 2.4 Instantiation (Nesne Oluşturma)
 
 Spring bean’i instantiate eder:
 
@@ -236,7 +238,7 @@ public class UserService {
     }
 
 }
-```
+
 
 Alternatifler:
 
@@ -245,11 +247,12 @@ Constructor injection
 ```
 Factory method (
 @Bean)
-⁠
-Static factory
-#### 2.4 Dependency Injection
-Spring bağımlılıkları enjekte eder:
+⁠```
 
+Static factory
+#### 2.5 Dependency Injection
+Spring bağımlılıkları enjekte eder:
+```
 @Component
 
 public class OrderService {
@@ -271,7 +274,7 @@ public class OrderService {
 
 Best practice: constructor injection
 
-#### 2.5 Aware Interface’ler
+#### 2.6 Aware Interface’ler
 
 Spring container hakkında bilgi verir.
 
@@ -292,7 +295,7 @@ public class MyBean implements BeanNameAware {
 }
 ```
 
-#### 2.6 BeanPostProcessor (KRİTİK NOKTA)
+#### 2.7 BeanPostProcessor (KRİTİK NOKTA)
 
 Spring’in “magic” yaptığı yer burası.
 
@@ -336,7 +339,7 @@ Logging wrap
 ⁠
 Security intercept
 
-#### 2.7 Initialization Phase
+#### 2.8 Initialization Phase
 Bean hazır hale gelmeden önce çalışır.
 
 1. @PostConstruct (EN ÇOK KULLANILAN)
@@ -365,7 +368,7 @@ public void afterPropertiesSet() {
 @Bean(initMethod = "init")
 ```
 
-##### 2.8 Destroy Phase
+##### 2.9 Destroy Phase
 
 Context kapanırken çalışır.
 
@@ -403,11 +406,11 @@ Spring sadece oluşturur
 
 Destroy lifecycle’ı yönetmez
 
-#### 2.9 Bean Scope’ları
+#### 2.10 Bean Scope’ları
 
 Scope = Bean’in yaşam süresi + kaç instance olacağı
 
-#### 2.10 Singleton (Default)
+#### 2.11 Singleton (Default)
 
 Container başına tek instance
 ⁠
@@ -424,7 +427,7 @@ Thread-safe olmak
 senin sorumluluğun
 ⁠
 Stateless olması önerilir
-#### 2.11 Prototype
+#### 2.12 Prototype
 Her injection’da yeni instance @Component
 @Scope("prototype")
 
@@ -437,7 +440,7 @@ Stateful işler için uygun
 Destroy method çağrılmaz
 ⁠
 Lifecycle yarım yönetilir
-#### 2.12 Request Scope (Web)
+#### 2.13 Request Scope (Web)
 Her HTTP request için yeni bean @Component
 @Scope("request")
 
@@ -446,13 +449,13 @@ public class RequestBean {}
 Kullanım:
 
 Request bazlı data 
-##### 2.13 Session Scope
+##### 2.14 Session Scope
 Her kullanıcı session’ı için 1 bean @Scope("session")
-#### 2.14 Application Scope
+#### 2.15 Application Scope
 ServletContext boyunca 1 instance @Scope("application")
-#### 2.15 WebSocket Scope
+#### 2.16 WebSocket Scope
 WebSocket session bazlı @Scope("websocket")
-##### 2.16 Scope + Injection Problemi (IMPORTANT)
+##### 2.17 Scope + Injection Problemi (IMPORTANT)
 
 Problem:
 
@@ -494,11 +497,11 @@ public B getB() {
 
 }
 
-#### 2.17 Lifecycle + Scope Özet
+#### 2.18 Lifecycle + Scope Özet
 
 ScopeInstance SayısıLifecycleSingleton1FullPrototypeÇokPartialRequestRequest başınaFullSessionSession başınaFull
 
-#### 2.18 Production Best Practices
+#### 2.19 Production Best Practices
 
 Singleton → stateless yaz
 ⁠
