@@ -182,7 +182,7 @@ Böylece item1 bean'i yalnızca ilk çağrıldığında oluşturulur; başlangı
 
 #### 2.1 Bean Nedir?
 
-Spring’de bean, IoC container (genelde ApplicationContext) tarafından oluşturulan, yönetilen ve yaşam döngüsü kontrol edilen Java objesidir.
+Spring Boot’ta bean, uygulamanın temel yapı taşlarını oluşturan Java nesneleridir. Normalde new anahtar kelimesi kullanarak bir sınıftan nesne üretirebilirsin. Spring’te ise bu nesneler Spring Container tarafından üretilir. Ayrıca bu nesnelerin tüm yaşam döngüsü de container tarafından yönetilir. Bu şekilde nesnelerin proje içerisindeki yönetimi Dependncy Injection ile otomatikleşir. Şimdi buradaki terimleri biraz detaylandıralım.
 
 Spring’in olayı şu:
 
@@ -190,7 +190,15 @@ Spring’in olayı şu:
 
 #### 2.2 Bean Lifecycle (Yaşam Döngüsü)
 
-Bir bean Spring container’a girip çıkana kadar belirli aşamalardan geçer.
+Spring Container
+Spring in kalbidir. Uygulamadaki bean lerin oluşturulması, yapılandırılması, yaşam döngüsü vb. görevleri yönetir. Inversion of Control yaklaşımına sahiptir. IoC yaklaşımında kod akışında nesne oluşturulmaz. Container nesne oluşturulacağı zaman kontrolü alır, nesneyi oluşturur, yapılandırır kullanıma uyguna getirir ve daha kontrolü tekrar kod akışına devreder. Böyle sizin kodda nesne yönetimine karışmazken container bunu sizin yerinize yönetir.
+
+
+#### 1- BeanFactory: 
+Temel IoC container, bean leri lazy loading (gerektiğinde yükleme) ile yönetir. Daha az özellik, daha hafif.
+
+#### 2- ApplicationContext:
+BeanFactory’nin gelişmiş versiyonu. Eager loading (başlangıçta yükleme) yapar, ayrıca event yayınlama, AOP, uluslararasılaştırma (i18n) gibi ek özellikler sağlar. Spring Boot projelerinde genelde budur.
 
 #### Tam Lifecycle Akışı
 
