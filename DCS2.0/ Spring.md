@@ -178,30 +178,329 @@ Varsayılan olarak container tüm singleton bean'leri başlatma sırasında olu�
 <bean id="item1" class="org.baeldung.store.ItemImpl1" lazy-init="true" />
 Böylece item1 bean'i yalnızca ilk çağrıldığında oluşturulur; başlangıç süresi kısalır fakat konfigürasyon hatalarını yalnızca bean ilk talep edildiğinde keşfedersiniz.
 ```
-## 2. Bean Lifecycle ve Scopes
-#### 2.1 Bean Lifecycle
+## 2. Spring Bean Lifecycle & Scope’lar
 
-Spring bean lifecycle:
+#### 2.1 Bean Nedir?
 
-Instantiate edilir
-Dependency inject edilir
-@PostConstruct çalışır
-Kullanılır
-@PreDestroy çalışır
+Spring’de bean, IoC container (genelde ApplicationContext) tarafından oluşturulan, yönetilen ve yaşam döngüsü kontrol edilen Java objesidir.
+
+Spring’in olayı şu:
+
+“Objeyi sen yaratma, ben yaratayım ve yöneteyim.”
+
+#### 2.2 Bean Lifecycle (Yaşam Döngüsü)
+
+Bir bean Spring container’a girip çıkana kadar belirli aşamalardan geçer.
+
+#### Tam Lifecycle Akışı
+
+Bean tanımı okunur (annotation / XML / config)
+
+Bean instance oluşturulur (constructor)
+⁠
+Dependency Injection yapılır
+⁠
+Aware interface’ler çağrılır
+⁠
+BeanPostProcessor → before init
+⁠
+Init method çalışır
+⁠
+BeanPostProcessor → after init
+⁠
+Bean kullanıma hazır hale gelir
+⁠
+Context kapanırken destroy phase çalışır
+
+#### 2.3 Instantiation (Nesne Oluşturma)
+
+Spring bean’i instantiate eder:
+
+```
+@Component
+
+public class UserService {
+
+    public UserService() {
+
+        System.out.println("Constructor çalıştı");
+
+    }
+
+}
+```
+
+Alternatifler:
+
+Constructor injection
+⁠
+```
+Factory method (
+@Bean)
+⁠
+Static factory
+#### 2.4 Dependency Injection
+Spring bağımlılıkları enjekte eder:
+
+@Component
+
+public class OrderService {
+
+ 
+
+    private final PaymentService paymentService;
+
+ 
+
+    public OrderService(PaymentService paymentService) {
+
+        this.paymentService = paymentService;
+
+    }
+
+}
+```
+
+Best practice: constructor injection
+
+#### 2.5 Aware Interface’ler
+
+Spring container hakkında bilgi verir.
+
+Interface AçıklamaBeanNameAwareBean adını verir BeanFactoryAwareBeanFactory erişimi ApplicationContextAwareContext erişimi
+```
+@Component
+
+public class MyBean implements BeanNameAware {
+
+    @Override
+
+    public void setBeanName(String name) {
+
+        System.out.println("Bean name: " + name);
+
+    }
+
+}
+```
+
+#### 2.6 BeanPostProcessor (KRİTİK NOKTA)
+
+Spring’in “magic” yaptığı yer burası.
+
+Before Initialization
+
+```
+@Component
+
+public class MyProcessor implements BeanPostProcessor {
+
+ 
+
+    @Override
+
+    public Object postProcessBeforeInitialization(Object bean, String name) {
+
+        return bean;
+
+    }
+
+}
+```
+
+After Initialization
+
+```
+@Override
+
+public Object postProcessAfterInitialization(Object bean, String name) {
+
+    return bean;
+
+}
+```
+
+Burada yapılanlar:
+
+Proxy oluşturma (AOP)
+⁠
+Logging wrap
+⁠
+Security intercept
+
+#### 2.7 Initialization Phase
+Bean hazır hale gelmeden önce çalışır.
+
+1. @PostConstruct (EN ÇOK KULLANILAN)
+
+```
 @PostConstruct
-public void init() {}
 
+public void init() {
+
+    System.out.println("Init çalıştı");
+
+}
+```
+
+2. InitializingBean
+
+```
+@Override
+
+public void afterPropertiesSet() {
+
+}
+```
+3. Custom Init
+```
+@Bean(initMethod = "init")
+```
+
+##### 2.8 Destroy Phase
+
+Context kapanırken çalışır.
+
+1. @PreDestroy
+
+```
 @PreDestroy
-public void destroy() {}
 
-#### 2.2 Bean Scopes
-Scope	Açıklama
-singleton	Default, tek instance
-prototype	Her çağrıda yeni object
-request	HTTP request başına
-session	HTTP session başına
+public void destroy() {
+
+}
+```
+
+2. DisposableBean
+
+```
+@Override
+
+public void destroy() {
+
+}
+```
+
+3. Custom destroy
+
+```
+@Bean(destroyMethod = "cleanup")
+```
+
+ÖNEMLİ NOT
+
+prototype scope:
+
+Spring sadece oluşturur
+
+Destroy lifecycle’ı yönetmez
+
+#### 2.9 Bean Scope’ları
+
+Scope = Bean’in yaşam süresi + kaç instance olacağı
+
+#### 2.10 Singleton (Default)
+
+Container başına tek instance
+⁠
+Tüm uygulama boyunca yaşar @Component
+@Scope("singleton")
+
+public class UserService {}
+
+Özellikler:
+
+Default scope
+⁠
+Thread-safe olmak
+senin sorumluluğun
+⁠
+Stateless olması önerilir
+#### 2.11 Prototype
+Her injection’da yeni instance @Component
 @Scope("prototype")
 
+public class TempBean {}
+
+Özellikler:
+
+Stateful işler için uygun
+⁠
+Destroy method çağrılmaz
+⁠
+Lifecycle yarım yönetilir
+#### 2.12 Request Scope (Web)
+Her HTTP request için yeni bean @Component
+@Scope("request")
+
+public class RequestBean {}
+
+Kullanım:
+
+Request bazlı data 
+##### 2.13 Session Scope
+Her kullanıcı session’ı için 1 bean @Scope("session")
+#### 2.14 Application Scope
+ServletContext boyunca 1 instance @Scope("application")
+#### 2.15 WebSocket Scope
+WebSocket session bazlı @Scope("websocket")
+##### 2.16 Scope + Injection Problemi (IMPORTANT)
+
+Problem:
+
+Singleton içine prototype inject edersen:
+
+@Component
+
+public class A {
+
+    @Autowired
+
+    private B b;
+
+}
+
+B prototype olsa bile tek instance olur
+
+Çözüm 1: ObjectProvider
+
+@Autowired
+
+private ObjectProvider<B> provider;
+
+ 
+
+public void use() {
+
+    B b = provider.getObject();
+
+}
+
+Çözüm 2: @Lookup
+
+@Lookup
+
+public B getB() {
+
+    return null;
+
+}
+
+#### 2.17 Lifecycle + Scope Özet
+
+ScopeInstance SayısıLifecycleSingleton1FullPrototypeÇokPartialRequestRequest başınaFullSessionSession başınaFull
+
+#### 2.18 Production Best Practices
+
+Singleton → stateless yaz
+⁠
+Prototype → dikkatli kullan (GC load)
+⁠
+AOP & proxy → BeanPostProcessor mantığını iyi bil
+⁠
+Lifecycle method’ları → resource yönetimi için kullan
+⁠
+Constructor injection → default yaklaşım
 ## 3. Spring Boot Auto Configuration
 #### 3.1 Auto Configuration Nedir?
 
