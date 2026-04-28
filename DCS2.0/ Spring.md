@@ -223,188 +223,188 @@ Bean kullanıma hazır hale gelir
 Context kapanırken destroy phase çalışır
 
 #### 2.4 Instantiation (Nesne Oluşturma)
+Spring, bean tanımını gördüğünde önce bean örneğini oluşturur (instantiate).
 
-Spring bean’i instantiate eder:
+Örnek:
 
-```
+```java
+
+package com.example.demo;
+
+import org.springframework.stereotype.Component;
+
 @Component
-
 public class UserService {
 
-    public UserService() {
-
-        System.out.println("Constructor çalıştı");
-
-    }
-
+    public UserService() {
+        System.out.println("Constructor çalıştı");
+    }
 }
+```
 
+Alternatif oluşturma yolları:
+
+Constructor (normal new) — en yaygın.
+Factory method (ör. @Bean metodu) — özel oluşturma mantığı için.
+Static factory — MyFactory.create() gibi statik factory metodları.
+Örnek factory:
+
+```java
+
+@Configuration
+public class AppConfig {
+    @Bean
+    public UserService userService() {
+        return UserServiceFactory.create();
+    }
+}
+```
+
+#### 2.5 Dependency Injection (Bağımlılık Enjeksiyonu)
+Spring bağımlılıkları inject eder. En iyi uygulama: constructor injection — immutable, test edilebilir ve zorunlu bağımlılıkları açıkça ifade eder.
+
+Örnek (constructor injection):
+
+```java
+
+package com.example.demo.service;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class OrderService {
+
+    private final PaymentService paymentService;
+
+    public OrderService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+}
+```
 
 Alternatifler:
 
-Constructor injection
-⁠
-```
-Factory method (
-@Bean)
-⁠```
-
-Static factory
-#### 2.5 Dependency Injection
-Spring bağımlılıkları enjekte eder:
-```
-@Component
-
-public class OrderService {
-
- 
-
-    private final PaymentService paymentService;
-
- 
-
-    public OrderService(PaymentService paymentService) {
-
-        this.paymentService = paymentService;
-
-    }
-
-}
-```
-
-Best practice: constructor injection
+Setter injection: opsiyonel bağımlılıklar için.
+Field injection: kolay görünür ama tavsiye edilmez (test ve tasarım zayıflatır).
 
 #### 2.6 Aware Interface’ler
+Bean’lerin Spring container hakkında bilgi almasını sağlar. Yaygın olanlar:
 
-Spring container hakkında bilgi verir.
+BeanNameAware — bean adını alır.
+BeanFactoryAware — BeanFactory erişimi.
+ApplicationContextAware — ApplicationContext erişimi.
+Örnek:
 
-Interface AçıklamaBeanNameAwareBean adını verir BeanFactoryAwareBeanFactory erişimi ApplicationContextAwareContext erişimi
-```
+```java
+
+package com.example.demo;
+
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.stereotype.Component;
+
 @Component
-
 public class MyBean implements BeanNameAware {
 
-    @Override
-
-    public void setBeanName(String name) {
-
-        System.out.println("Bean name: " + name);
-
-    }
-
+    @Override
+    public void setBeanName(String name) {
+        System.out.println("Bean name: " + name);
+    }
 }
 ```
+Kullanım uyarısı: Aware ara yüzlerini aşırı kullanmak kodun container bağımlılığını artırır — sadece gerektiğinde kullanın.
 
 #### 2.7 BeanPostProcessor (KRİTİK NOKTA)
+BeanPostProcessor, Spring’in “magic” yaptığı yerlerden biridir. Tüm bean’ler initialize edilmeden önce ve sonra müdahale edebilirsiniz — burada AOP proxy oluşturma, log wrap, security intercept gibi işlemler yapılır.
 
-Spring’in “magic” yaptığı yer burası.
+Basit örnek:
 
-Before Initialization
+```java
 
-```
+package com.example.demo;
+
+import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.stereotype.Component;
+
 @Component
-
 public class MyProcessor implements BeanPostProcessor {
 
- 
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String name) {
+        // init öncesi değişiklik/izleme
+        return bean;
+    }
 
-    @Override
-
-    public Object postProcessBeforeInitialization(Object bean, String name) {
-
-        return bean;
-
-    }
-
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String name) {
+        // proxy oluşturma veya wrap (AOP burada devreye girebilir)
+        return bean;
+    }
 }
 ```
 
-After Initialization
-
-```
-@Override
-
-public Object postProcessAfterInitialization(Object bean, String name) {
-
-    return bean;
-
-}
-```
-
-Burada yapılanlar:
-
-Proxy oluşturma (AOP)
-⁠
-Logging wrap
-⁠
-Security intercept
+Not: Bu sınıfa dikkatlice davranın; tüm bean'leri etkiler ve performans/yan etkiler yaratabilir.
 
 #### 2.8 Initialization Phase
-Bean hazır hale gelmeden önce çalışır.
-
-1. @PostConstruct (EN ÇOK KULLANILAN)
+Bean hazır hale gelmeden önceki callback noktaları:
 
 ```
+@PostConstruct (en yaygın)
+java
+
 @PostConstruct
-
 public void init() {
-
-    System.out.println("Init çalıştı");
-
+    System.out.println("Init çalıştı");
 }
 ```
+InitializingBean (afterPropertiesSet)
 
-2. InitializingBean
+```java
 
-```
 @Override
-
 public void afterPropertiesSet() {
-
+    // init logic
 }
 ```
-3. Custom Init
-```
-@Bean(initMethod = "init")
-```
+Custom init method (@Bean(initMethod = "init"))
+Tercih: basitliği ve framework agnostikliği için @PostConstruct.
 
-##### 2.9 Destroy Phase
-
-Context kapanırken çalışır.
-
-1. @PreDestroy
+#### 2.9 Destroy Phase
+Context kapanırken çalışır — sadece container tarafından yönetilen bean’lerde garanti edilir (örn. singleton).
 
 ```
 @PreDestroy
+java
 
+@PreDestroy
 public void destroy() {
-
+    // cleanup
 }
-```
+DisposableBean
+java
 
-2. DisposableBean
-
-```
 @Override
-
 public void destroy() {
-
+    // cleanup
 }
 ```
 
-3. Custom destroy
+Custom destroy (@Bean(destroyMethod = "cleanup"))
+ÖNEMLİ: prototype scope için Spring, destroy callback’lerini çağırmaz — cleanup sorumluluğu uygulayıcıdadır (bkz alıntı). Eğer prototip bean kaynak açıyor ise:
 
+Manuel cleanup yapın (bean kullanan taraf close()/cleanup() çağırsın), veya
+BeanPostProcessor ile takip edip temizleyin, veya
+@Scope(proxyMode = ...) + lifecycle wrapper kullanın.
+Örnek manuel cleanup:
+
+```java
+
+TransientResource r = context.getBean(TransientResource.class);
+try {
+    // kullan
+} finally {
+    r.cleanup(); // manuel çağrı
+}
 ```
-@Bean(destroyMethod = "cleanup")
-```
-
-ÖNEMLİ NOT
-
-prototype scope:
-
-Spring sadece oluşturur
-
-Destroy lifecycle’ı yönetmez
 
 #### 2.10 Bean Scope’ları
 
