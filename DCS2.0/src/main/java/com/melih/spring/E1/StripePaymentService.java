@@ -1,4 +1,4 @@
-package com.melih.spring.service;
+package com.melih.spring.E1;
 
 import org.springframework.stereotype.Service;
 
