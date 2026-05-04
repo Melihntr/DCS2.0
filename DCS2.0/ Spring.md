@@ -839,8 +839,8 @@ public class RestApiExceptionHandlerAdvice {
     }
 }
 ```
+<img width="4000" height="2250" alt="image" src="https://github.com/user-attachments/assets/14720f43-1f23-4812-8690-254d864212ad" />
 
-Bu alıntı global hata yönetimi seçeneklerini özetliyor. Aşağıda REST API'ler için önerilen merkezi hata işleyici (JSON API hata formatı) ve örnek uygulama yer alır.
 
 #### 6.1 Global Exception Handler — Örnek (ControllerAdvice)
 ```java
