@@ -727,92 +727,194 @@ public class ProdConfig {
     }
 }
 ```
-## 5.Spring Web REST ve Validation API (Detaylı Doküman)
-Using validation :
+## 5. Spring Web REST Temelleri ve İstek Yaşam Döngüsü
+REST (Representational State Transfer), web servisleri tasarlamak için kullanılan standart mimari stildir. Spring Framework, spring-webmvc modülü ile bu mimariyi en üst düzeyde destekler.
 
-```java
+#### 5.1 İstek Yaşam Döngüsü (Request Lifecycle)
+Bir istemciden gelen HTTP isteğinin sunucu içindeki yolculuğu şu adımlardan oluşur:
 
-@RestController
-@RequestMapping("/api")
-@Validated
-public class UserController {
+İstemci İsteği: İstemci, belirli bir HTTP metodu ve URL ile sunucuya istek atar (Örn: GET /api/v1/users).
 
-    @Autowired
-    UserRepository userrepo;
-    
-    @PostMapping(value="/users")
-    ResponseEntity<?> create( @Valid @RequestBody User user) {
-        
-        User addeduser = userrepo.save(user);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                            .path("/{id}")
-                            .buildAndExpand(addeduser.getId())
-                            .toUri();
-        
-        return ResponseEntity.created(location).build();
+DispatcherServlet: Spring Boot'un "Front Controller" mekanizmasıdır. Gelen tüm HTTP isteklerini ilk karşılayan ana yönlendiricidir.
+
+Handler Mapping: DispatcherServlet, gelen isteğin URL'sine ve HTTP metoduna bakarak uygun Controller metodunu bulur.
+
+Controller & İş Mantığı: İlgili metot çalışır, parametreleri alır ve Service (iş mantığı) katmanını tetikler.
+
+Message Converters (Jackson): İşlem sonucunda Controller bir Java objesi döndürdüğünde, HttpMessageConverter araya girer ve bu objeyi istemcinin anlayacağı JSON veya XML formatına dönüştürür (Serialization).
+
+HTTP Yanıtı: Oluşturulan JSON verisi ve uygun HTTP statü kodu istemciye geri gönderilir.
+
+#### 5.2 Temel REST Anotasyonları
+Spring uç noktalarını (endpoints) tanımlamak için deklaratif anotasyonlar kullanılır.
+
+@RestController: Sınıfın bir Controller olduğunu ve metot dönüş değerlerinin doğrudan HTTP yanıt gövdesine yazılacağını belirtir (@Controller + @ResponseBody).
+
+@RequestMapping: Sınıf bazında temel URL'i tanımlar. (Örn: @RequestMapping("/api/v1/products")).
+
+HTTP Metot Eşleştirmeleri:
+
+@GetMapping: Veri okuma (Read).
+
+@PostMapping: Yeni kaynak oluşturma (Create).
+
+@PutMapping: Mevcut kaynağı tamamen güncelleme (Update).
+
+@PatchMapping: Mevcut kaynağı kısmen güncelleme (Partial Update).
+
+@DeleteMapping: Kaynak silme (Delete).
+
+#### 5.3 Veri Bağlama (Data Binding) Yöntemleri
+İstemciden gelen veriyi Java nesnelerine dönüştürmek için 4 temel yöntem kullanılır:
+
+@PathVariable: URL yolu içindeki dinamik değişkenleri okur (/users/{id}).
+
+@RequestParam: URL sonundaki sorgu parametrelerini okur (/users?role=admin&sort=asc).
+
+@RequestBody: POST/PUT isteklerinde gelen JSON gövdesini (Body) Java DTO sınıflarına eşler.
+
+@RequestHeader: HTTP başlıklarındaki (Authorization, Accept-Language vb.) verileri okur.
+
+#### 5.4 HTTP Yanıt Yönetimi (ResponseEntity)
+Esnek ve standart bir API tasarımı için, yanıtların statü kodları ve başlıklarıyla birlikte dönülmesi gerekir.
+
+Java
+@GetMapping("/{id}")
+public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
+    UserDTO user = userService.findById(id);
+    return ResponseEntity.ok(user); // HTTP 200
+}
+
+@PostMapping
+public ResponseEntity<UserDTO> createUser(@RequestBody UserCreateDTO dto) {
+    UserDTO created = userService.save(dto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(created); // HTTP 201
+}
+#### 5.5 Katmanlı Mimari ve Veri Taşıma (DTO)
+Spring Boot projeleri "Separation of Concerns" (Sorumlulukların Ayrılığı) prensibiyle 3 ana katmana bölünür.
+
+#### 5.6 Katmanlar ve Görevleri
+Web Katmanı (@RestController): HTTP isteklerini karşılar, veriyi doğrular (Validation), iş katmanına iletir ve HTTP yanıtı döner.
+
+İş Katmanı (@Service): Uygulamanın beynidir. Algoritmalar, hesaplamalar ve iş kuralları burada çalışır. Veritabanı ile Controller arasında köprü görevi görür.
+
+Veri Erişim Katmanı (@Repository): Veritabanı işlemlerini (CRUD) yapar. Spring Data JPA kullanılarak SQL yazmadan veritabanı ile iletişim kurulur.
+
+#### 5.7 Entity ve DTO Ayrımı
+Entity: Veritabanındaki tabloyu temsil eden sınıftır. İçerisinde şifreler, kritik tarih bilgileri ve ilişkiler barındırabilir. Dış dünyaya açılması güvenlik açığı yaratır.
+
+DTO (Data Transfer Object): Sadece katmanlar arası (veya istemci-sunucu arası) veri taşımak için tasarlanmış basit Java nesneleridir. İstemci veriyi DTO olarak gönderir, Controller bunu Service'e iletir, Service Entity'ye çevirip kaydeder.
+
+Örnek Mimari Akışı:
+
+Java
+// 1. DTO (Sadece taşınacak veriler)
+public class UserCreateDTO {
+    private String username;
+    private String email;
+    // Getter & Setter
+}
+
+// 2. Entity (Veritabanı tablosu)
+@Entity
+public class User {
+    @Id @GeneratedValue
+    private Long id;
+    private String username;
+    private String email;
+    private String role; // İstemcinin bilmesine gerek olmayan alan
+}
+
+// 3. Service (İş Mantığı ve Dönüşüm)
+@Service
+public class UserService {
+    public UserCreateDTO createUser(UserCreateDTO dto) {
+        User entity = new User();
+        entity.setUsername(dto.getUsername());
+        entity.setEmail(dto.getEmail());
+        entity.setRole("USER");
+        userRepository.save(entity);
+        return dto; // Başarılıysa DTO dön
     }
 }
-```
-This demonstrates request body validation (@Valid) and building a 201 Created response with Location header.
+#### 5.8 İleri Düzey API Standartları
+Profesyonel bir API'nin performans, güvenlik ve sürdürülebilirlik gereksinimlerini karşılaması için bazı ileri düzey teknikler uygulanır.
 
+#### 5.9 Sayfalama ve Sıralama (Pagination & Sorting)
+Büyük veri setlerini tek seferde dönmek yerine parçalar halinde sunmak için Pageable kullanılır.
 
-Bu örnek, REST controller içinde DTO validasyonu için tipik kullanım: @Valid ile gelen body doğrulanır; başarısız olursa Spring bir doğrulama istisnası (örn. MethodArgumentNotValidException) fırlatır. Aşağıda bu davranışı yönetmek ve temiz API sözleşmesi sağlamak için pratik örnekler var.
+Java
+@GetMapping
+public ResponseEntity<Page<ProductDTO>> getProducts(Pageable pageable) {
+    return ResponseEntity.ok(productService.findAll(pageable));
+}
+// İstek: /api/products?page=0&size=20&sort=price,desc
+#### 5.10 Versiyonlama (API Versioning)
+Geriye dönük uyumluluğu korumak için API'ler versiyonlanır. En yaygın yöntem URI versiyonlamadır.
 
-#### 5.1 DTO ve validation anotasyonları
-Kullan: jakarta.validation (JSR-380) anotasyonları: @NotNull, @NotBlank, @Size, @Email, @Min, @Max, vb.
-DTO örneği:
+@RequestMapping("/api/v1/users") (Eski Sürüm)
 
-```java
+@RequestMapping("/api/v2/users") (Yeni Sürüm)
 
-// src/main/java/com/example/web/dto/CreateUserRequest.java
-package com.example.web.dto;
+#### 5.11 İçerik Pazarlığı (Content Negotiation)
+Endpoint'in hangi formatı kabul edip hangi formatı döneceğini kesin çizgilerle belirlemek için consumes ve produces parametreleri kullanılır.
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+Java
+@PostMapping(consumes = "application/json", produces = "application/xml")
+#### 5.12 CORS (Cross-Origin Resource Sharing)
+Farklı domain veya portlardan (Örn: React uygulamasından) gelen isteklere izin vermek için @CrossOrigin anotasyonu veya global olarak WebMvcConfigurer ayarı kullanılır.
 
-public class CreateUserRequest {
+#### 5.13 HATEOAS (Hypermedia)
+REST olgunluk modelinin en üst seviyesidir. API sadece veri dönmez, istemciye bir sonraki adımda yapabileceği eylemlerin URL linklerini de (_links) sağlar.
 
-    @NotBlank(message = "Kullanıcı adı boş olamaz")
+#### 5.14 Validation API (Gelen Verinin Doğrulanması)
+API'ye gelen hiçbir veriye güvenilmemelidir. Verilerin Service katmanına inmeden önce Controller seviyesinde deklaratif olarak denetlenmesini sağlayan yapı Jakarta Bean Validation (JSR 380) API'dir.
+
+Gereksinim: spring-boot-starter-validation bağımlılığı pom.xml dosyasına eklenmelidir.
+
+#### 5.15 Temel Validasyon Anotasyonları
+Kurallar DTO sınıflarındaki alanlar üzerinde tanımlanır:
+
+Metin/Boşluk: @NotNull (Boş olamaz), @NotEmpty (Uzunluk > 0), @NotBlank (Sadece boşluk karakteri olamaz).
+
+Boyut/Sınır: @Size(min, max) (Uzunluk/Eleman sayısı kısıtı), @Min, @Max, @Positive, @Negative.
+
+Tarih: @Past (Geçmiş tarih), @Future (Gelecek tarih).
+
+Format: @Email (E-posta formatı), @Pattern(regexp=) (Düzenli ifade kuralı).
+
+#### 5.16 DTO ve Validasyon Entegrasyonu
+Kuralların tanımlandığı örnek bir DTO:
+
+Java
+public class UserRegistrationDTO {
+
+    @NotBlank(message = "Kullanıcı adı boş bırakılamaz.")
+    @Size(min = 4, max = 20, message = "Kullanıcı adı 4-20 karakter arası olmalıdır.")
     private String username;
 
-    @Email(message = "Geçerli bir e-posta olmalı")
+    @Email(message = "Geçerli bir e-posta adresi giriniz.")
     private String email;
 
-    @Size(min = 8, message = "Şifre en az 8 karakter olmalı")
-    private String password;
-
-    // getters/setters
+    @Min(value = 18, message = "Kayıt için 18 yaşından büyük olmalısınız.")
+    private Integer age;
 }
-```
-#### 5.2 Controller kullanımı
-@Valid + @RequestBody, @Validated (controller sınıfına isteğe bağlı) kullanın:
+#### 5.17 Doğrulamanın Tetiklenmesi (@Valid)
+Bu kuralların çalışması için Controller tarafında ilgili metodun parametresine @Valid veya @Validated eklenmelidir.
 
-```java
-
-@RestController
-@RequestMapping("/api/users")
-public class UserController {
-
-    @PostMapping
-    public ResponseEntity<Void> createUser(@Valid @RequestBody CreateUserRequest req) {
-        // servis katmanına delegasyon
-        Long id = userService.create(req);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-            .path("/{id}")
-            .buildAndExpand(id)
-            .toUri();
-        return ResponseEntity.created(location).build();
-    }
+Java
+@PostMapping("/register")
+public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistrationDTO dto) {
+    // Kurallara uyulmazsa kod buraya girmez, MethodArgumentNotValidException fırlatılır.
+    userService.register(dto);
+    return ResponseEntity.ok("Kayıt başarılı");
 }
-```
-#### 5.3 Hataları merkezi şekilde yakalama (bakınız E6)
-Validation hataları özel JSON formatında dönülmelidir (field -> message map).
-Örnek küresel handler aşağıda.
-#### 5.4 İyi uygulamalar
-Controller içinde iş mantığını tutmayın — controller sadece doğrulama ve request/response mapping yapmalı; iş mantığı servis katmanında olmalı.
-@ConfigurationProperties ile tip güvenli config; @Value yerine mümkün olduğunca @ConfigurationProperties kullanın.
-Validation mesajlarını messages.properties içinde tutun, i18n için hazır olun.
+#### 5.18  İleri Düzey Validasyon (Custom Validator Yazmak)
+Standart anotasyonların yetmediği durumlarda (Örn: TC Kimlik No Algoritması) kendi anotasyonunuzu ve işleyicinizi (Validator) yazabilirsiniz.
+
+Anotasyon Tanımı: @Constraint(validatedBy = CustomValidator.class) ile anotasyon oluşturulur.
+
+Validator Sınıfı: ConstraintValidator<Anotasyon, Tip> arayüzü implemente edilerek isValid() metodu ezilir (override edilir). İçerisine ilgili kompleks iş mantığı (modüler aritmetik vs.) yazılır.
 ## 6. Exception Handling (Global / Merkezi Hata Yönetimi)
 There are three ways in which you can handle the exception using Spring Framework,
 
