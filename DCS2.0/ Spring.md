@@ -591,19 +591,22 @@ Spring Boot’ta konfigürasyon dış kaynaklardan okunur ve belirli bir önceli
 Öncelik (yüksekten düşüğe):
 
 Command line args (--spring.profiles.active=prod, --server.port=8081)
+
 SPRING_APPLICATION_JSON (env)
+
 OS environment variables
+
 application-{profile}.properties / application-{profile}.yml
+
 application.properties / application.yml
+
 @PropertySource, @ConfigurationProperties sınıfları
+
 (Ayrıntılar için Boot Externalized Configuration dokümanına bakın.)
+
 #### 4.2 Profile kullanımı
 Profile dosya isimlendirmesi: application-dev.yml, application-prod.yml vb.
 Profili aktifleştirme:
-Environment variable: export SPRING_PROFILES_ACTIVE=dev
-JVM argümanı: -Dspring.profiles.active=dev
-Komut satırı: java -jar app.jar --spring.profiles.active=dev
-Programatik: new SpringApplicationBuilder(App.class).profiles("dev").run(args);
 Örnek application.yml ile profile kullanımı:
 
 ```yaml
@@ -668,6 +671,7 @@ app:
   timeout: 30
 ```
 Eğer validasyon isterseniz @Validated ekleyin ve JSR-380 annotasyonlarını kullanın.
+
 #### 4.4 Gizli (sensitive) değerler ve dışsal kaynaklar
 Hassas verileri asla VCS’e koymayın. Kullanılabilecek yollar:
 Environment variables (12-factor uygulama yaklaşımı)
@@ -985,10 +989,3 @@ public class ExceptionLoggingAspect {
     }
 }
 ```
-
-Spring:
-
-Dependency Injection ile loose coupling sağlar
-AOP ile cross-cutting concern’leri ayırır
-Boot ile config yükünü azaltır
-Enterprise uygulamalar için güçlü bir temel sunar
