@@ -942,107 +942,184 @@ Anotasyon Tanımı: @Constraint(validatedBy = CustomValidator.class) ile anotasy
 
 Validator Sınıfı: ConstraintValidator<Anotasyon, Tip> arayüzü implemente edilerek isValid() metodu ezilir (override edilir). İçerisine ilgili kompleks iş mantığı (modüler aritmetik vs.) yazılır.
 
-## 6. Exception Handling (Global / Merkezi Hata Yönetimi)
-There are three ways in which you can handle the exception using Spring Framework,
+Harika. Önceki bölümlerde API'mizin temellerini attık, katmanlı mimariyi kurduk ve kapıya Validation API ile sıkı bir güvenlik duvarı ördük.
 
-```
-@ExceptionHandler - Controller Based
-@ControllerAdvice - Global Exception Handler
-HandlerExceptionResolver
-```
-```java
+Ancak bir sorunumuz var: İstemci hatalı bir veri gönderdiğinde (örneğin e-posta formatı yanlış olduğunda) veya aradığı bir veriyi bulamadığında, Spring Boot varsayılan olarak istemciye karmaşık, anlaşılması zor ve bazen sunucu detaylarını (stack trace) sızdıran standart bir hata sayfası veya JSON döner.
 
-@ControllerAdvice(basePackages = "{com.exampe.controller}")
-public class RestApiExceptionHandlerAdvice {
+İşte bu noktada devreye, profesyonel bir API'nin olmazsa olmazı E6: Merkezi Hata Yönetimi (Global Exception Handling) girer. Aşağıda bu konunun akademik ve sektörel standartlardaki detaylı dokümantasyonunu bulabilirsiniz.
 
-    @ExceptionHandler(value = BadRequestException.class)
-    public ErrorMessage handleBadRequest(BadRequestException exception) {
-        //code...
-        return errMsg;
+BÖLÜM 5: Merkezi Hata Yönetimi (Global Exception Handling)
+RESTful mimaride hatalar, sistemin çökmesi anlamına gelmez; aksine, istemciye neyin yanlış gittiğini anlatan standart bir iletişim yöntemidir. Hataların Controller metotları içinde tek tek try-catch bloklarıyla yakalanması kodu kirletir (Spaghetti Code) ve DRY (Don't Repeat Yourself) prensibine aykırıdır.
+
+Spring Framework, bu sorunu çözmek için AOP (Aspect-Oriented Programming - Cephe Yönelimli Programlama) mantığıyla çalışan @RestControllerAdvice anotasyonunu sunar.
+
+5.1. Neden Merkezi Hata Yönetimine İhtiyacımız Var?
+Standart Yanıt Formatı: İster 404 (Bulunamadı), ister 400 (Doğrulama Hatası), ister 500 (Sunucu Hatası) olsun; mobil veya frontend geliştiricisi her zaman aynı JSON yapısında (timestamp, status, message vb.) bir hata nesnesi bekler.
+
+Güvenlik (Information Disclosure): Sunucuda oluşan bir NullPointerException'ın veya SQL hatasının detayları istemciye sızmamalıdır. Kötü niyetli kişiler bu detayları kullanarak sistemin zafiyetlerini bulabilir. Merkezi yönetim bunu engeller.
+
+Temiz Kod (Clean Code): İş mantığı (Service) veya Controller kodları sadece "başarılı" (Happy Path) senaryolara odaklanır. İstisnalar (Exceptions) fırlatılır ve merkezi bir sınıf bu istisnaları havada yakalar.
+
+5.2. Adım 1: Standart Hata Modelinin (DTO) Oluşturulması
+Tüm hatalarımızı sarmalayacağımız ve istemciye döneceğimiz ortak bir şablon sınıfı oluşturmalıyız.
+
+Java
+import com.fasterxml.jackson.annotation.JsonInclude;
+import java.time.LocalDateTime;
+import java.util.Map;
+
+// Eğery fields null ise JSON'a dahil etme (Temiz bir çıktı için)
+@JsonInclude(JsonInclude.Include.NON_NULL) 
+public class ApiError {
+    private LocalDateTime timestamp; // Hatanın oluştuğu an
+    private Integer status;          // HTTP Statü Kodu (Örn: 400, 404, 500)
+    private String error;            // Hata Başlığı (Örn: "Bad Request")
+    private String message;          // Kullanıcıya/Geliştiriciye gösterilecek anlaşılır mesaj
+    private String path;             // Hatanın oluştuğu uç nokta (Endpoint)
+    
+    // Sadece Validation (Doğrulama) hatalarında dolacak olan, alan bazlı hata listesi
+    private Map<String, String> validationErrors; 
+
+    // Constructor (Zaman damgasını otomatik atar)
+    public ApiError(Integer status, String error, String message, String path) {
+        this.timestamp = LocalDateTime.now();
+        this.status = status;
+        this.error = error;
+        this.message = message;
+        this.path = path;
     }
 
-    @ExceptionHandler(value = GatewayTimeoutException.class)
-    public ErrorMessage handleGatewayTimeout(GatewayTimeoutException exception) {
-        //code...
-        return errMsg;
+    // Getter ve Setter metotları...
+}
+5.3. Adım 2: Özel (Custom) İstisna Sınıflarının Yazılması
+İş mantığınızda belirli durumlara özgü hatalar fırlatmak en iyi pratiktir. Örneğin veritabanında id'si 5 olan kullanıcı bulunamadığında genel bir hata yerine spesifik bir hata fırlatmalıyız.
+
+Java
+// RuntimeException'dan türetilir, böylece checked exception zorunluluğu olmaz.
+public class ResourceNotFoundException extends RuntimeException {
+    
+    public ResourceNotFoundException(String message) {
+        super(message);
     }
 }
-```
-<img width="4000" height="2250" alt="image" src="https://github.com/user-attachments/assets/14720f43-1f23-4812-8690-254d864212ad" />
+5.4. Adım 3: @RestControllerAdvice ile Merkezi Sınıfın İnşası
+Bütün büyünün gerçekleştiği yer burasıdır. Bu sınıf, tüm Controller'ları dışarıdan dinleyen bir "gözetmen" (Interceptor) gibi çalışır.
 
-
-#### 6.1 Global Exception Handler — Örnek (ControllerAdvice)
-```java
-
-// src/main/java/com/example/web/RestExceptionHandler.java
-package com.example.web;
-
-import org.springframework.http.HttpHeaders;
+Java
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice
-@RestController
-public class RestExceptionHandler {
+// Tüm uygulama genelinde fırlatılan Exception'ları dinler ve JSON olarak döner
+@RestControllerAdvice 
+public class GlobalExceptionHandler {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidation(MethodArgumentNotValidException ex, WebRequest request) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors()
-          .forEach(fe -> errors.put(fe.getField(), fe.getDefaultMessage()));
-
-        Map<String, Object> body = Map.of(
-            "timestamp", Instant.now(),
-            "status", HttpStatus.BAD_REQUEST.value(),
-            "errors", errors,
-            "path", request.getDescription(false).replace("uri=", "")
-        );
-        return new ResponseEntity<>(body, new HttpHeaders(), HttpStatus.BAD_REQUEST);
-    }
-
+    /**
+     * 1. DURUM: Özel "Bulunamadı" Hatası (Business Exception)
+     * Service katmanında "throw new ResourceNotFoundException('Kullanıcı bulunamadı')" 
+     * dendiğinde bu metot devreye girer.
+     */
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Object> handleNotFound(ResourceNotFoundException ex, WebRequest request) {
-        Map<String, Object> body = Map.of(
-            "timestamp", Instant.now(),
-            "status", HttpStatus.NOT_FOUND.value(),
-            "error", "Not Found",
-            "message", ex.getMessage(),
-            "path", request.getDescription(false).replace("uri=", "")
+    public ResponseEntity<ApiError> handleResourceNotFoundException(
+            ResourceNotFoundException ex, 
+            HttpServletRequest request) {
+            
+        ApiError apiError = new ApiError(
+                HttpStatus.NOT_FOUND.value(), // 404
+                "Not Found",
+                ex.getMessage(),
+                request.getRequestURI()
         );
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
-        Map<String, Object> body = Map.of(
-            "timestamp", Instant.now(),
-            "status", HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            "error", "Internal Server Error",
-            "message", ex.getMessage(),
-            "path", request.getDescription(false).replace("uri=", "")
+    /**
+     * 2. DURUM: BÖLÜM 4'teki Validation (Doğrulama) Hataları
+     * Controller'da @Valid anotasyonu başarısız olduğunda Spring bu hatayı fırlatır.
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiError> handleValidationExceptions(
+            MethodArgumentNotValidException ex, 
+            HttpServletRequest request) {
+            
+        ApiError apiError = new ApiError(
+                HttpStatus.BAD_REQUEST.value(), // 400
+                "Validation Error",
+                "İstek doğrulama kurallarından geçemedi.",
+                request.getRequestURI()
         );
-        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        // İç içe geçmiş doğrulama hatalarını ayıkla ve Map içine koy
+        Map<String, String> validationErrors = new HashMap<>();
+        for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
+            // Örn: Anahtar: "email", Değer: "Geçerli bir e-posta giriniz."
+            validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+        
+        apiError.setValidationErrors(validationErrors);
+
+        return ResponseEntity.badRequest().body(apiError);
+    }
+
+    /**
+     * 3. DURUM: Öngörülemeyen Sistem Hataları (Catch-All)
+     * Uygulamada yakalanmayan bir NullPointerException, veritabanı çökmesi vb.
+     * olursa, sistemin kapanmasını gizler ve güvenli bir 500 döner.
+     */
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiError> handleAllUncaughtException(
+            Exception ex, 
+            HttpServletRequest request) {
+            
+        // Loglama işlemi kesinlikle buraya eklenmelidir (örn: log.error(ex.getMessage(), ex))
+        
+        ApiError apiError = new ApiError(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(), // 500
+                "Internal Server Error",
+                "Sunucu tarafında beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.", 
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
-```
-#### 6.2 Detay notları ve tavsiyeler
-Validation hatalarını MethodArgumentNotValidException olarak yakalayın ve field->message map döndürün.
-Business hata sınıfları (örn. ResourceNotFoundException, BadRequestException) oluşturun; bunları servis katmanında fırlatıp ControllerAdvice’da çevirin.
-Hata gövdesinde: timestamp, status, error, message, path ve opsiyonel errorCode/properties verin — tüketiciler için stabil bir sözleşme sağlayın.
-@ControllerAdvice(basePackages = "...") ile kapsamı sınırlandırabilirsiniz.
-Global handler içinde stack trace veya içsel hata detaylarını PROD ortamında dökmeyin; loglayın ama response minimal tutun.
-#### 6.3 Validation + ControllerAdvice örneği
-DTO validasyon başarısız ise yukarıdaki handleValidation 400 döner; body içindeki errors istemciye hangi alanların neden hatalı olduğunu bildirir.
-#### 6.4 Testing
-Unit test: MockMvc ile valid/invalid istekler gönderin ve beklenen status + hata yapısını assert edin.
-Integration test: @SpringBootTest ile gerçek context altında handler davranışını doğrulayın.
+5.5. Sistemin Bütünleşik Çalışma Çıktısı (Örnek Senaryo)
+Diyelim ki bir istemci, Bölüm 4'te yazdığımız sisteme kayıt olmak için bir POST isteği attı, ancak yaşını 15 (kural: min 18) ve e-postasını boş gönderdi.
+
+İstek Controller'a gelir. @Valid devreye girer.
+
+Doğrulama başarısız olur ve Controller metoduna hiç girilmeden Spring MethodArgumentNotValidException fırlatır.
+
+@RestControllerAdvice bu istisnayı havada yakalar.
+
+handleValidationExceptions metodu çalışır ve istemciye aşağıdaki mükemmel yapılandırılmış JSON yanıtını HTTP 400 durumu ile döner:
+
+JSON
+{
+  "timestamp": "2026-05-04T22:15:30.456",
+  "status": 400,
+  "error": "Validation Error",
+  "message": "İstek doğrulama kurallarından geçemedi.",
+  "path": "/api/v1/users/register",
+  "validationErrors": {
+    "email": "E-posta adresi boş geçilemez.",
+    "age": "Kayıt için 18 yaşından büyük olmalısınız."
+  }
+}
+5.6. Spring Boot 3 & RFC 7807 (Modern Standart: Problem Details)
+Ekstra Akademik Detay: Eğer projede Spring Boot 3 (Spring Framework 6) kullanıyorsanız, yukarıdaki özel ApiError sınıfını yazmak yerine, global bir endüstri standardı olan RFC 7807 (Problem Details for HTTP APIs) yapısını kullanabilirsiniz.
+
+Spring Boot 3 bunu yerleşik olarak destekler. application.properties dosyasına şu satırı eklediğinizde:
+
+Properties
+spring.mvc.problem-details.enabled=true
+Spring, standart hataları otomatik olarak RFC 7807'nin ProblemDetail yapısına (type, title, status, detail, instance alanları içeren standart bir formata) dönüştürecektir. Profesyonel ve yeni nesil projelerde bu standarda geçiş giderek artmaktadır.
 ## 7. — Spring Core AOP (Aspect Oriented Programming) — Merkezi Yönetim
 @ControllerAdvice is a specialization of the @Component annotation which allows to handle exceptions across the whole application in one global handling component. It can be viewed as an interceptor of exceptions thrown by methods annotated with @RequestMapping and similar.
 
