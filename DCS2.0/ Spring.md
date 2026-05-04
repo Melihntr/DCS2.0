@@ -513,11 +513,13 @@ Her auto-config sınıfı @ConditionalOn... anotasyonlarıyla (ör. @Conditional
 Eğer uygulamanızda aynı tipte bir bean zaten tanımlıysa (@ConditionalOnMissingBean) otomatik konfigürasyon geri çekilir (back off).
 
 Avantajlar
+
 Hızlı prototipleme ve geliştirme.
 Sık kullanılan yapıların (DataSource, JPA, Jackson, MVC vb.) hazır olması.
 İyi tanımlanmış varsayılanlar: çoğu uygulamada hiç ekstra konfigürasyon gerekmez.
 
 Dezavantaj
+
 Otomatik yapılandırmayı anlamadan değiştirmek hatalara yol açabilir.
 Özelleştirme gerektiğinde, hangi bean’in oluşturulduğunu bilmek önemlidir.
 
