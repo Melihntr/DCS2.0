@@ -583,11 +583,7 @@ Auto-config sınıfları koşullu, küçük ve test edilebilir olmalı; varsayı
 @ConditionalOnProperty — belirli bir property aktifse.
 @ConditionalOnBean — belirli bir bean varsa.
 @AutoConfigureAfter / @AutoConfigureBefore — sıra kontrolü.
-##### 3.4 Best practices (özet)
-Boot’un sağladığı auto-config’e güvenin; sadece gerektiğinde override edin.
-Kendi auto-config yazıyorsanız: @Conditional... kullanın, isimlendirmeyi ve dokümantasyonu net yapın.
-Testlerde auto-config davranışını doğrulayın (@SpringBootTest veya @ImportAutoConfiguration).
-Auto-config’i spring.autoconfigure.exclude ile uygulama bazında kapatabilirsiniz.
+
 ## 4. Configuration, Profiles, Properties — Ortam Yönetimi
 Spring Boot’ta konfigürasyon dış kaynaklardan okunur ve belirli bir öncelik sırasına göre uygulanır. Profil (profile) mekanizması farklı ortamlara göre (dev/test/prod) farklı property set’leri kullanmayı sağlar.
 
