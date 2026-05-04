@@ -1132,71 +1132,185 @@ spring.mvc.problem-details.enabled=true
 ```
 Spring, standart hataları otomatik olarak RFC 7807'nin ProblemDetail yapısına (type, title, status, detail, instance alanları içeren standart bir formata) dönüştürecektir. Profesyonel ve yeni nesil projelerde bu standarda geçiş giderek artmaktadır.
 
-## 7. — Spring Core AOP (Aspect Oriented Programming) — Merkezi Yönetim
-@ControllerAdvice is a specialization of the @Component annotation which allows to handle exceptions across the whole application in one global handling component. It can be viewed as an interceptor of exceptions thrown by methods annotated with @RequestMapping and similar.
+## 7. Spring Core - Aspect Oriented Programming (AOP) ve Merkezi Yönetim
+Nesne Yönelimli Programlama (OOP), kodları sınıflar ve nesneler aracılığıyla yukarıdan aşağıya (hiyerarşik) organize etmede mükemmeldir. Ancak OOP, farklı sınıfların yatayda ortak olarak ihtiyaç duyduğu bazı işlevleri yönetmekte yetersiz kalır. AOP, OOP'nin bu eksiğini kapatan tamamlayıcı bir paradigmadır.
+
+#### 7.1 Cross-Cutting Concerns (Kesişen İlgiler) Nedir?
+Bir e-ticaret sistemindeki "Sipariş Verme" metodunu düşünün:
+
+Loglama: İşlem başladı logu yaz.
+
+Güvenlik: Kullanıcının yetkisi var mı kontrol et.
+
+İşlem (Transaction): Veritabanı bağlantısını aç.
+
+ASIL İŞ (Core Concern): Siparişi oluştur, stoktan düş, sepeti boşalt.
+
+Performans: İşlem ne kadar sürdü hesapla.
+
+İşlem (Transaction): Sorun yoksa Commit et, hata varsa Rollback yap.
+
+Yukarıdaki 6 adımın sadece 1 tanesi (4. Adım) asıl iş mantığıdır. Diğer 5 adım, sistemdeki hemen hemen her serviste tekrar eden Cross-Cutting Concerns (Kesişen İlgiler) olarak adlandırılır. Eğer bu kodları her metoda kopyala-yapıştır yaparsanız (Boilerplate Code), kod okunamaz hale gelir ve bakımı imkansızlaşır.
+
+Çözüm (AOP): AOP, bu kesişen ilgileri (loglama, güvenlik vb.) ayrı sınıflar (Aspect) içine çeker ve asıl iş mantığı koduna hiç dokunmadan, bu özellikleri dışarıdan (çalışma zamanında) metoda "enjekte" eder.
 
 
-(AOP ile ilgili alıntı sonuçlardan dolaylı gösterildi; aşağıda AOP için doğrudan pratik açıklama ve örnekler yer almaktadır.)
+#### 7.2 AOP Temel Terminolojisi
+AOP mimarisini kurabilmek için Spring'in kullandığı akademik terimleri bilmek şarttır:
 
-#### 7.1 AOP nedir ve ne için kullanılır?
-AOP, loglama, metrik, transaction management, security, caching gibi cross-cutting concern’ları merkezi olarak uygulamanızı sağlar.
-Aspect: kesişen sorumlulukları tanımlar. Advice: ne yapılacağı (before/after/around). Pointcut: hangi join point’lerde çalışılacağı (örn. belirli paketlerdeki servis metodları).
-#### 7.2 Kurulum
-Maven/Gradle: spring-boot-starter-aop ekleyin.
-Aspect örneği:
-```java
+Aspect (Cephe): Kesişen ilginin (örneğin Loglama) kodlandığı modüler sınıftır.
 
-// src/main/java/com/example/aop/LoggingAspect.java
-package com.example.aop;
+Join Point (Katılım Noktası): Uygulamanın çalışma anında (runtime), araya girilebilecek olası her bir noktadır. Spring AOP özelinde bu sadece metotların çalıştırılma anıdır.
 
+Advice (Tavsiye/Müdahale): Belirli bir Join Point'te çalıştırılacak olan eylemdir (Örn: "Metot çalışmadan hemen önce şu logu yaz").
+
+Pointcut (Kesim Noktası): Hangi Join Point'lerde araya girileceğini belirten filtreleme kurallarıdır (Regex veya Anotasyon tabanlı kurallar dizisi).
+
+Target Object (Hedef Nesne): Tavsiyenin (Advice) uygulanacağı asıl iş mantığını barındıran nesnedir.
+
+Weaving (Dokuma): Aspect ile Target Object'in birleştirilme sürecidir. Spring bunu Proxy (Vekil) nesneler oluşturarak çalışma zamanında (Runtime) yapar.
+
+
+#### 7.3 Advice (Tavsiye) Türleri
+Spring AOP, hedefe 5 farklı zamanlamada müdahale edebilir:
+
+@Before: Hedef metot çalışmaya başlamadan hemen önce çalışır.
+
+@AfterReturning: Hedef metot hiçbir hata fırlatmadan başarıyla tamamlandıktan sonra çalışır.
+
+@AfterThrowing: Hedef metot bir Exception fırlattığında (çöktüğünde) çalışır.
+
+@After (Finally): Metot başarılı da olsa, hata da fırlatsa, metot bittiği an çalışır.
+
+@Around: En güçlü türdür. Hedef metodu tamamen sarar. Metodun öncesinde bir şeyler yapabilir, metodun çalışmasını tetikleyebilir (proceed()), sonrasında başka şeyler yapabilir veya metodun hiç çalışmamasını sağlayabilir.
+
+
+#### 7.4 Uygulama Entegrasyonu ve Mimarisi
+Bir "Merkezi Loglama ve Performans Ölçüm" sistemi kurarak AOP'yi projemize entegre edelim.
+
+Adım 1: Bağımlılıkların Eklenmesi
+Spring Boot projelerinde AOP kullanmak için pom.xml içerisine şu kütüphane eklenir:
+
+```XML
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+```
+
+Adım 2: Özel Anotasyon Oluşturma (Modern Yaklaşım)
+Pointcut kurallarını "şu paketteki şu isimli metotlar" diye belirlemek yerine, genellikle özel bir anotasyon oluşturulur ve bu anotasyonu koyduğumuz metotların AOP tarafından algılanması sağlanır.
+
+```Java
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+// Çalışma zamanında okunabilsin
+@Retention(RetentionPolicy.RUNTIME) 
+// Sadece metotların üzerine yazılabilsin
+@Target(ElementType.METHOD) 
+public @interface TrackExecutionTime {
+    // Sadece bir etiket görevi görecek.
+}
+```
+
+Adım 3: Aspect Sınıfının (Merkezi Yönetim) İnşası
+İşte projedeki tüm loglama ve performans metriklerini tek bir merkezden yöneteceğimiz Aspect sınıfımız:
+
+```Java
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
-@Aspect
-@Component
-public class LoggingAspect {
+@Aspect // Bu sınıfın bir Aspect olduğunu belirtir.
+@Component // Spring IOC Container tarafından yönetilmesi için.
+@Slf4j // Loglama için Lombok anotasyonu
+public class LoggingAndPerformanceAspect {
 
-    @Around("execution(* com.example..service.*.*(..))")
-    public Object logAround(ProceedingJoinPoint pjp) throws Throwable {
-        String sig = pjp.getSignature().toShortString();
-        long start = System.currentTimeMillis();
-        try {
-            System.out.println("[START] " + sig);
-            Object result = pjp.proceed();
-            long elapsed = System.currentTimeMillis() - start;
-            System.out.println("[END] " + sig + " executed in " + elapsed + "ms");
-            return result;
-        } catch (Throwable t) {
-            System.out.println("[ERROR] " + sig + " -> " + t.getMessage());
-            throw t;
-        }
+    /**
+     * POINTCUT TANIMI
+     * com.example.service paketi altındaki ve sonu 'Service' ile biten 
+     * tüm sınıflardaki metotları hedef al.
+     */
+    @Pointcut("execution(* com.example.service.*Service.*(..))")
+    public void serviceMethods() {}
+
+    /**
+     * @Before ADVICE
+     * Yukarıda tanımlanan 'serviceMethods' kuralına uyan bir metot çalışmadan önce bu blok tetiklenir.
+     */
+    @Before("serviceMethods()")
+    public void logBeforeMethodExecution(JoinPoint joinPoint) {
+        String methodName = joinPoint.getSignature().getName();
+        String className = joinPoint.getTarget().getClass().getSimpleName();
+        log.info("[BİLGİ] {}.{} metodu çalıştırılmaya başlandı.", className, methodName);
+    }
+
+    /**
+     * @AfterThrowing ADVICE
+     * Service metotlarından herhangi biri hata fırlattığında devreye girer.
+     * Bölüm 5'teki ExceptionHandler'dan farkı: Bu istek dönecek JSON'u hazırlamaz, 
+     * sadece sistem tarafında iz bırakmak (Log yazmak/Bildirim atmak) için kullanılır.
+     */
+    @AfterThrowing(pointcut = "serviceMethods()", throwing = "ex")
+    public void logAfterThrowing(JoinPoint joinPoint, Exception ex) {
+        String methodName = joinPoint.getSignature().getName();
+        log.error("[HATA] {} metodunda istisna oluştu: {}", methodName, ex.getMessage());
+    }
+
+    /**
+     * @Around ADVICE ve CUSTOM ANNOTATION KULLANIMI
+     * Adım 2'de oluşturduğumuz @TrackExecutionTime anotasyonunu nerede görürse orayı sarar.
+     * Metodun ne kadar sürede çalıştığını milisaniye cinsinden hesaplar.
+     */
+    @Around("@annotation(com.example.annotation.TrackExecutionTime)")
+    public Object measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+        long startTime = System.currentTimeMillis();
+
+        // Asıl metodu ÇALIŞTIR! (Bu satırı yazmazsanız asıl metot asla çalışmaz)
+        Object result = joinPoint.proceed(); 
+
+        long endTime = System.currentTimeMillis();
+        long executionTime = endTime - startTime;
+
+        String methodName = joinPoint.getSignature().getName();
+        log.info("[PERFORMANS] {} metodu {} ms sürede tamamlandı.", methodName, executionTime);
+
+        // Asıl metodun sonucunu çağıran yere geri döndür.
+        return result; 
     }
 }
 ```
-#### 7.3 Yaygın kullanım örnekleri
-Execution time metrics: method çalışma süresini ölçüp metrik sistemine gönderme.
-Centralized logging: giriş/çıkış parametrelerini loglama (dikkat: hassas verileri maskelen).
-Retry / Circuit Breaker / Rate Limiting: belirli davranışları sarmak.
-Security checks: metod çağrılarında yetkilendirme doğrulamaları (ancak çoğu durumda Spring Security tercih edilir).
-#### 7.4 AOP dikkat edilmesi gerekenler
-Self-invocation: aynı bean içerisinden bir metodun başka bir metodunu çağırması proxy’yi atlatır; advice uygulanmaz. Bu yüzden kritik kodu ayrı bean’e taşıyın veya proxy tabanlı yaklaşımları bilin.
-Proxy türü: arayüz tabanlı (JDK) veya sınıf tabanlı (CGLIB). Final sınıflar/final metodlar proxy ile sarılamaz.
-Performans: Advice tüm çağrılara müdahale edebileceği için kapsamı dar tutun.
-Hassas veri: loglama yaparken gizli alanları maskalayın veya loglamayı sınırlayın.
-#### 7.5 Örnek: AOP + Exception logging + Metrics
-Aşağıdaki aspect örneği, servis metodlarında oluşan istisnaları global loglayıp yeniden fırlatır:
-```java
 
-@Aspect
-@Component
-public class ExceptionLoggingAspect {
+Adım 4: İş Mantığı Katmanında (Service) Kullanımı
+Artık Service katmanımız tertemizdir. Loglama veya zaman hesaplama kodları Service sınıflarını kirletmez.
 
-    @AfterThrowing(pointcut = "execution(* com.example..service.*.*(..))", throwing = "ex")
-    public void logServiceException(JoinPoint jp, Throwable ex) {
-        String method = jp.getSignature().toShortString();
-        // örn: central logger veya meter kullan
-        System.err.println("[SERVICE ERROR] " + method + " -> " + ex.getClass().getSimpleName() + ": " + ex.getMessage());
+```Java
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderService {
+
+    // @Before sayesinde bu metot tetiklenmeden önce log yazılacak.
+    public void createOrder(OrderDTO order) {
+        // ... Sadece sipariş oluşturma kodları (Business Logic) ...
+    }
+
+    // @Around (TrackExecutionTime) sayesinde bu metodun süresi ölçülecek.
+    @TrackExecutionTime
+    public void generateMonthlyReport() {
+        // ... Çok uzun süren raporlama kodları ...
     }
 }
 ```
+
+#### 7.5 Spring AOP'nin Mimari Sınırları ve Proxy Mantığı
+Spring AOP arka planda Dynamic Proxies kullanır. Spring uygulamanız ayağa kalkarken, eğer OrderService sınıfınızda AOP kullanılmışsa, Spring bu sınıfı doğrudan Controller'a enjekte etmez. Bunun yerine OrderService sınıfını miras alan sahte bir kopya (Proxy) oluşturur.
+Controller, createOrder() metodunu çağırdığında aslında Proxy'nin metodunu çağırır. Proxy araya girer (Log yazar), sonra gerçek createOrder() metodunu tetikler.
+
+Kritik Kural (Self-Invocation Sorunu):
+Bu Proxy mimarisinden dolayı, AOP sadece sınıflar arası çağrılarda (Örn: Controller -> Service) çalışır. Eğer OrderService içindeki createOrder() metodu, yine aynı sınıf içindeki @TrackExecutionTime anotasyonlu generateMonthlyReport() metodunu this.generateMonthlyReport() şeklinde çağırırsa, AOP devreye girmez! Çünkü çağrı doğrudan asıl nesnenin kendi içindedir, Proxy nesnesine dışarıdan bir giriş yapılmamıştır. Bu, Spring mülakatlarında sıkça sorulan teknik bir detaydır.
