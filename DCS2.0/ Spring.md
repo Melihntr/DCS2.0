@@ -1,4 +1,4 @@
-# SPRING & SPRING BOOT DETAYLI DOKÜMANTASYON
+# SPRING & SPRING BOOT DOKÜMANTASYONU
 ## 1. Spring Core: IoC ve Dependency Injection
 #### 1.1 Inversion of Control nedir?
 Inversion of Control, nesnelerin ya da program parçalarının kontrolünü bir container'a veya framework'e devreden yazılım mühendisliği ilkesidir. Genellikle nesne yönelimli programlama bağlamında kullanılır.
@@ -449,13 +449,13 @@ public class RequestBean {}
 Kullanım:
 
 Request bazlı data 
-##### 2.14 Session Scope
+#### 2.14 Session Scope
 Her kullanıcı session’ı için 1 bean @Scope("session")
 #### 2.15 Application Scope
 ServletContext boyunca 1 instance @Scope("application")
 #### 2.16 WebSocket Scope
 WebSocket session bazlı @Scope("websocket")
-##### 2.17 Scope + Injection Problemi (IMPORTANT)
+#### 2.17 Scope + Injection Problemi (IMPORTANT)
 
 Problem:
 
@@ -502,22 +502,6 @@ public B getB() {
 
 }
 ```
-
-#### 2.18 Lifecycle + Scope Özet
-
-ScopeInstance SayısıLifecycleSingleton1FullPrototypeÇokPartialRequestRequest başınaFullSessionSession başınaFull
-
-#### 2.19 Production Best Practices
-
-Singleton → stateless yaz
-⁠
-Prototype → dikkatli kullan (GC load)
-⁠
-AOP & proxy → BeanPostProcessor mantığını iyi bil
-⁠
-Lifecycle method’ları → resource yönetimi için kullan
-⁠
-Constructor injection → default yaklaşım
 
 ## 3. Spring Boot Auto-Configuration — Hızlı Geliştirme
 Spring Boot auto-configuration, uygulamayı hızlı başlatmak için sık kullanılan bean'leri ve konfigürasyonları otomatik olarak oluşturur. Amaç: boilerplate azaltmak ve geliştiricinin yalnızca özelleştirmek istediği noktaları override etmesine izin vermektir.
