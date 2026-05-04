@@ -727,13 +727,6 @@ public class ProdConfig {
     }
 }
 ```
-#### 4.7 Best practices (özet)
-Varsayılan ortak konfigürasyon: application.yml içine koyun; profile-specific değerleri application-{profile}.yml içine alın.
-Tip güvenli config: @ConfigurationProperties kullanın ve validate edin.
-Gizli bilgileri environment variable veya secrets manager ile sağlayın.
-Feature toggle: @ConditionalOnProperty kullanarak aç/kapat yapın.
-Dökümantasyon: Hangi property’lerin zorunlu olduğuna dair README veya schema sağlayın; CI’de eksik property’leri kontrol edin.
-Profile sayısını sınırlı tutun (genelde dev/test/prod yeterlidir); karmaşıklığı artırmaktan kaçının.
 ## 5.Spring Web REST ve Validation API (Detaylı Doküman)
 Using validation :
 
