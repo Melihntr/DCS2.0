@@ -948,22 +948,23 @@ Ancak bir sorunumuz var: İstemci hatalı bir veri gönderdiğinde (örneğin e-
 
 İşte bu noktada devreye, profesyonel bir API'nin olmazsa olmazı E6: Merkezi Hata Yönetimi (Global Exception Handling) girer. Aşağıda bu konunun akademik ve sektörel standartlardaki detaylı dokümantasyonunu bulabilirsiniz.
 
-BÖLÜM 5: Merkezi Hata Yönetimi (Global Exception Handling)
+## 6. Merkezi Hata Yönetimi (Global Exception Handling)
 RESTful mimaride hatalar, sistemin çökmesi anlamına gelmez; aksine, istemciye neyin yanlış gittiğini anlatan standart bir iletişim yöntemidir. Hataların Controller metotları içinde tek tek try-catch bloklarıyla yakalanması kodu kirletir (Spaghetti Code) ve DRY (Don't Repeat Yourself) prensibine aykırıdır.
 
 Spring Framework, bu sorunu çözmek için AOP (Aspect-Oriented Programming - Cephe Yönelimli Programlama) mantığıyla çalışan @RestControllerAdvice anotasyonunu sunar.
 
-5.1. Neden Merkezi Hata Yönetimine İhtiyacımız Var?
+#### 6.1 Neden Merkezi Hata Yönetimine İhtiyacımız Var?
 Standart Yanıt Formatı: İster 404 (Bulunamadı), ister 400 (Doğrulama Hatası), ister 500 (Sunucu Hatası) olsun; mobil veya frontend geliştiricisi her zaman aynı JSON yapısında (timestamp, status, message vb.) bir hata nesnesi bekler.
 
 Güvenlik (Information Disclosure): Sunucuda oluşan bir NullPointerException'ın veya SQL hatasının detayları istemciye sızmamalıdır. Kötü niyetli kişiler bu detayları kullanarak sistemin zafiyetlerini bulabilir. Merkezi yönetim bunu engeller.
 
 Temiz Kod (Clean Code): İş mantığı (Service) veya Controller kodları sadece "başarılı" (Happy Path) senaryolara odaklanır. İstisnalar (Exceptions) fırlatılır ve merkezi bir sınıf bu istisnaları havada yakalar.
 
-5.2. Adım 1: Standart Hata Modelinin (DTO) Oluşturulması
+
+#### 6.2 Adım 1: Standart Hata Modelinin (DTO) Oluşturulması
 Tüm hatalarımızı sarmalayacağımız ve istemciye döneceğimiz ortak bir şablon sınıfı oluşturmalıyız.
 
-Java
+```Java
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -991,10 +992,12 @@ public class ApiError {
 
     // Getter ve Setter metotları...
 }
-5.3. Adım 2: Özel (Custom) İstisna Sınıflarının Yazılması
+```
+
+#### 6.3 Adım 2: Özel (Custom) İstisna Sınıflarının Yazılması
 İş mantığınızda belirli durumlara özgü hatalar fırlatmak en iyi pratiktir. Örneğin veritabanında id'si 5 olan kullanıcı bulunamadığında genel bir hata yerine spesifik bir hata fırlatmalıyız.
 
-Java
+```Java
 // RuntimeException'dan türetilir, böylece checked exception zorunluluğu olmaz.
 public class ResourceNotFoundException extends RuntimeException {
     
@@ -1002,10 +1005,12 @@ public class ResourceNotFoundException extends RuntimeException {
         super(message);
     }
 }
-5.4. Adım 3: @RestControllerAdvice ile Merkezi Sınıfın İnşası
+```
+
+#### 6.4 Adım 3: @RestControllerAdvice ile Merkezi Sınıfın İnşası
 Bütün büyünün gerçekleştiği yer burasıdır. Bu sınıf, tüm Controller'ları dışarıdan dinleyen bir "gözetmen" (Interceptor) gibi çalışır.
 
-Java
+```Java
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -1089,7 +1094,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
-5.5. Sistemin Bütünleşik Çalışma Çıktısı (Örnek Senaryo)
+```
+
+#### 6.5 Sistemin Bütünleşik Çalışma Çıktısı (Örnek Senaryo)
 Diyelim ki bir istemci, Bölüm 4'te yazdığımız sisteme kayıt olmak için bir POST isteği attı, ancak yaşını 15 (kural: min 18) ve e-postasını boş gönderdi.
 
 İstek Controller'a gelir. @Valid devreye girer.
@@ -1100,7 +1107,8 @@ Doğrulama başarısız olur ve Controller metoduna hiç girilmeden Spring Metho
 
 handleValidationExceptions metodu çalışır ve istemciye aşağıdaki mükemmel yapılandırılmış JSON yanıtını HTTP 400 durumu ile döner:
 
-JSON
+
+```JSON
 {
   "timestamp": "2026-05-04T22:15:30.456",
   "status": 400,
@@ -1112,14 +1120,18 @@ JSON
     "age": "Kayıt için 18 yaşından büyük olmalısınız."
   }
 }
-5.6. Spring Boot 3 & RFC 7807 (Modern Standart: Problem Details)
+```
+
+#### 6.6 Spring Boot 3 & RFC 7807 (Modern Standart: Problem Details)
 Ekstra Akademik Detay: Eğer projede Spring Boot 3 (Spring Framework 6) kullanıyorsanız, yukarıdaki özel ApiError sınıfını yazmak yerine, global bir endüstri standardı olan RFC 7807 (Problem Details for HTTP APIs) yapısını kullanabilirsiniz.
 
 Spring Boot 3 bunu yerleşik olarak destekler. application.properties dosyasına şu satırı eklediğinizde:
 
-Properties
+```Properties
 spring.mvc.problem-details.enabled=true
+```
 Spring, standart hataları otomatik olarak RFC 7807'nin ProblemDetail yapısına (type, title, status, detail, instance alanları içeren standart bir formata) dönüştürecektir. Profesyonel ve yeni nesil projelerde bu standarda geçiş giderek artmaktadır.
+
 ## 7. — Spring Core AOP (Aspect Oriented Programming) — Merkezi Yönetim
 @ControllerAdvice is a specialization of the @Component annotation which allows to handle exceptions across the whole application in one global handling component. It can be viewed as an interceptor of exceptions thrown by methods annotated with @RequestMapping and similar.
 
