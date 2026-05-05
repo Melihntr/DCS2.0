@@ -1151,7 +1151,7 @@ Yukarıdaki 6 adımın sadece 1 tanesi (4. Adım) asıl iş mantığıdır. Diğ
 
 
 #### 7.2 AOP Temel Terminolojisi
-AOP mimarisini kurabilmek için Spring'in kullandığı akademik terimleri bilmek şarttır:
+AOP mimarisini kurabilmek için Spring'in kullandığı terimleri bilmek önemlidir:
 
 Aspect (Cephe): Kesişen ilginin (örneğin Loglama) kodlandığı modüler sınıftır.
 
