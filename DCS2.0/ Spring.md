@@ -1118,7 +1118,7 @@ handleValidationExceptions metodu çalışır ve istemciye aşağıdaki mükemme
 ```
 
 #### 6.6 Spring Boot 3 & RFC 7807 (Modern Standart: Problem Details)
-Ekstra Akademik Detay: Eğer projede Spring Boot 3 (Spring Framework 6) kullanıyorsanız, yukarıdaki özel ApiError sınıfını yazmak yerine, global bir endüstri standardı olan RFC 7807 (Problem Details for HTTP APIs) yapısını kullanabilirsiniz.
+Eğer projede Spring Boot 3 (Spring Framework 6) kullanıyorsanız, yukarıdaki özel ApiError sınıfını yazmak yerine, global bir endüstri standardı olan RFC 7807 (Problem Details for HTTP APIs) yapısını kullanabilirsiniz.
 
 Spring Boot 3 bunu yerleşik olarak destekler. application.properties dosyasına şu satırı eklediğinizde:
 
