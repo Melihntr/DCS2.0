@@ -942,11 +942,6 @@ Anotasyon Tanımı: @Constraint(validatedBy = CustomValidator.class) ile anotasy
 
 Validator Sınıfı: ConstraintValidator<Anotasyon, Tip> arayüzü implemente edilerek isValid() metodu ezilir (override edilir). İçerisine ilgili kompleks iş mantığı (modüler aritmetik vs.) yazılır.
 
-Harika. Önceki bölümlerde API'mizin temellerini attık, katmanlı mimariyi kurduk ve kapıya Validation API ile sıkı bir güvenlik duvarı ördük.
-
-Ancak bir sorunumuz var: İstemci hatalı bir veri gönderdiğinde (örneğin e-posta formatı yanlış olduğunda) veya aradığı bir veriyi bulamadığında, Spring Boot varsayılan olarak istemciye karmaşık, anlaşılması zor ve bazen sunucu detaylarını (stack trace) sızdıran standart bir hata sayfası veya JSON döner.
-
-İşte bu noktada devreye, profesyonel bir API'nin olmazsa olmazı E6: Merkezi Hata Yönetimi (Global Exception Handling) girer. Aşağıda bu konunun akademik ve sektörel standartlardaki detaylı dokümantasyonunu bulabilirsiniz.
 
 ## 6. Merkezi Hata Yönetimi (Global Exception Handling)
 RESTful mimaride hatalar, sistemin çökmesi anlamına gelmez; aksine, istemciye neyin yanlış gittiğini anlatan standart bir iletişim yöntemidir. Hataların Controller metotları içinde tek tek try-catch bloklarıyla yakalanması kodu kirletir (Spaghetti Code) ve DRY (Don't Repeat Yourself) prensibine aykırıdır.
