@@ -1368,30 +1368,35 @@ Gelen her HTTP isteği önce DispatcherServlet'e düşer. O, hangi URL'in hangi 
 1. @RequestBody
 Gelen HTTP isteğinin gövdesindeki (body) JSON veya XML verisini, bir Java nesnesine dönüştürür. Genellikle POST veya PUT işlemlerinde veri yaratırken/güncellerken kullanılır.
 
-Java
+```Java
 @PostMapping("/api/users")
 public ResponseEntity<User> createUser(@Valid @RequestBody UserDto userDto) {
     // userDto içindeki veriler JSON'dan otomatik olarak eşlenmiştir.
     return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userDto));
 }
+```
+
 2. @PathVariable
 İsteğin yapıldığı URL yolunun (path) bir parçası olan değişkenleri almak için kullanılır. RESTful standartlarında belirli bir kaynağı (resource) hedef alırken (id bazlı aramalarda) çok kritiktir.
 
-Java
+```Java
 // İstek: GET /api/users/1453
 @GetMapping("/api/users/{id}")
 public ResponseEntity<User> getUserById(@PathVariable("id") Long userId) {
     return ResponseEntity.ok(userService.findById(userId));
 }
+```
+
 3. @RequestHeader
 HTTP isteğinin başlık (header) kısmındaki meta verileri okumak için kullanılır. Authorization token'ları, dil seçenekleri (Accept-Language) veya özel takip (trace) id'leri için kullanılır.
 
-Java
+```Java
 @GetMapping("/api/secure-data")
 public ResponseEntity<String> getSecureData(@RequestHeader("Authorization") String token) {
     // Token doğrulama işlemleri
     return ResponseEntity.ok("Secure content");
 }
+```
 #### 8.6 HTTP Durum Kodları (REST Standartları)
 Doğru kurumsal API'ler, istemciye ne olduğunu doğru HTTP kodlarıyla anlatmalıdır:
 
