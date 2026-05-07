@@ -1437,3 +1437,283 @@ Front Controller Pattern: Bahsettiğimiz DispatcherServlet, uygulamaya gelen tü
 
 Strategy Pattern: Spring Security'deki şifreleme yöntemleri (BCrypt, Argon2) veya MVC'deki HandlerMapping (isteğin kime gideceğini belirleme stratejisi) bu deseni kullanır. Interfaceler üzerinden bağımlılıkları çalışma anında değiştirebilmeyi sağlar.
 
+#### 8.8 HTTP Metotlarının İhlali: GET ile POST, POST ile PUT Yapılır mı?
+Kısa Cevap: Evet, teknik olarak yapılabilir.
+Uzun Cevap: Yapılır ama asla yapılmamalıdır. REST mimarisinin tüm doğasını, güvenlik standartlarını ve performans optimizasyonlarını çöpe atmış olursun.
+
+Farklar ve Neden Yapılmamalı?
+
+GET ile POST (Veri Kaydetmek) Neden Kötüdür?
+
+GET istekleri veri okumak içindir. Tarayıcılar, CDN'ler ve Proxy sunucuları GET isteklerini cache'ler (önbelleğe alır). Sen GET ile veritabanına kullanıcı kaydedersen, tarayıcı o URL'i cache'ler ve aynı isteği tekrar attığında sunucuya gitmeden "Başarılı" dönebilir ama arka planda veri kaydedilmez.
+
+GET isteklerinde gövde (body) yoktur, veriler URL'e yazılır (/kayit?isim=ali&sifre=123). URL'ler loglanır! Şifreler ve hassas veriler sunucu loglarında, tarayıcı geçmişinde kabak gibi görünür.
+
+URL uzunluk sınırları vardır (yaklaşık 2000 karakter). Büyük bir form verisini GET ile gönderemezsin.
+
+POST ile PUT (Veri Güncellemek) Neden Kötüdür?
+
+Buradaki anahtar kelime Idempotent (Etkisiz/Tekrarlanabilir) olmaktır.
+
+PUT idempotent'tir. Bir kaydı "Adını Ahmet yap" diye 10 kere PUT edersen, sonuç hep aynıdır (Adı Ahmet olur).
+
+POST idempotent DEĞİLDİR. Bir kaydı POST ile 10 kere gönderirsen, veritabanında 10 tane yeni kayıt oluşur. Sen POST metoduyla bir güncelleme işlemi tasarlarsan, ağda bir kopukluk olup istemci (client) isteği tekrar gönderdiğinde (retry mekanizması), sistemin ne tepki vereceği belirsizleşir. HTTP standartlarını ihlal ettiğin için diğer geliştiriciler ve entegrasyon yapan sistemler API'ni yanlış kullanır.
+
+
+#### 8.9 Spring'de CommandLineRunner Nedir?
+Uygulama tamamen ayağa kalktıktan, tüm bean'ler (nesneler) Spring Container'a yüklendikten hemen sonra, ama dışarıdan istek (HTTP request) almaya başlamadan hemen önce sadece bir kez çalışan bir arayüzdür (interface).
+
+Ne işe yarar?
+
+Veritabanına varsayılan değerleri (örneğin Admin kullanıcısı, roller, ülkeler listesi) eklemek (Data Seeding).
+
+Uygulama başlarken dış bir API'den (örneğin TCMB'den güncel kurlar) veri çekip Redis cache'e doldurmak.
+
+Başlangıçta yapılması gereken dosya sistemi kontrolleri (gerekli klasörler var mı diye bakmak).
+
+
+#### 8.10 Loglama, SLF4J ve Log Seviyeleri
+SLF4J (Simple Logging Facade for Java) Nedir?
+SLF4J, kendi başına bir loglama kütüphanesi değildir; bir arayüzdür (Facade Pattern). Spring projelerinde kodunu SLF4J standartlarında yazarsın (örneğin Lombok'taki @Slf4j anotasyonu ile). Arka planda işi yapan gerçek motoru (Logback, Log4j2 vb.) istediğin zaman sadece pom.xml'den değiştirerek projeye entegre edebilirsin ve kodunda tek bir satır bile değiştirmen gerekmez.
+
+Log Seviyeleri (Opsiyonlar ve Farkları)
+
+Log seviyeleri bir filtreleme sistemidir. Prod ortamında sadece INFO ve üzerini, Dev ortamında DEBUG ve üzerini görmek istersin.
+
+log.trace(): En ince detaydır. Döngülerin içine girip çıktığını, bayt seviyesindeki işlemleri yazarsın. Üretim ortamında (production) ASLA açılmaz, diski saniyeler içinde doldurur.
+
+log.debug(): Geliştiriciler içindir. Hangi if-else bloğuna girildi, metota hangi parametreler geldi. (Örn: log.debug("Kullanıcı id: {} için hesaplama başladı", id)).
+
+log.info(): Normal iş akışıdır. Uygulamanın sağlıklı çalıştığını gösterir. (Örn: "Uygulama 8080 portunda ayağa kalktı", "Ahmet adlı kullanıcı sisteme giriş yaptı").
+
+log.warn(): Bir şeyler ters gitti ama uygulama çökmadı, kendi kendini toparladı veya varsayılan bir değere geçti. (Örn: "Redis'e bağlanılamadı, veritabanından okunuyor").
+
+log.error(): Gerçek bir hata durumu. Bir Exception fırlatıldı, bir işlem yarıda kaldı, kullanıcıya 500 dönüldü. Mutlaka birinin incelemesi gerekir.
+
+log.fatal() (SLF4J'de error içine Exception objesi verilerek yönetilir): Uygulamanın çalışmasını durduracak düzeyde kritik hatalardır (Veritabanı tamamen çöktü).
+
+
+#### 8.11 Log İzleme Sistemleri (Graylog vb.) ve Dışarı Aktarım (Export)
+Sunucuya bağlanıp terminalden .txt log okumak 1990'larda kaldı. Modern sistemlerde loglar merkezi bir yere akar.
+
+Graylog / ELK Stack (Elasticsearch, Logstash, Kibana) Özellikleri:
+
+Yüzlerce mikroservisten gelen tüm logları tek bir ekranda birleştirir.
+
+Logları JSON olarak parse edip içinde SQL gibi sorgu atmanı sağlar (Örn: level:ERROR AND userId:1453).
+
+Alerting (Uyarı): "Son 5 dakikada 100'den fazla ERROR logu gelirse bana Slack'ten mesaj at ve mail gönder" diyebilirsin.
+
+Logları Uygulamadan Dışarı Çıkarma Yöntemleri:
+
+File Appender (TXT Dump): Loglar sunucuda bir .log dosyasına yazılır.
+
+Rolling File Appender (Zipleyerek Yedekleme): Konfigürasyon yaparsın; "Log dosyası 50 MB olunca veya gün bitince gece saat 00:00'da eski logu al, zip'le (arşivle), yeni ve boş bir .log dosyası aç" dersin.
+
+Ağ Üzerinden (Network Socket): Log dosyasını diske hiç yazmadan, doğrudan ağ üzerinden Graylog'a gönderirsin.
+
+
+Ağ Üzerinden Gönderimde TCP vs UDP Farkı:
+
+TCP ile Göndermek: Güvenilirdir. Logun Graylog'a ulaştığından emin olur (Three-way handshake). Dezavantajı: Yavaştır. Graylog sunucusu anlık yavaşlarsa, senin ana uygulaman da logu göndermeyi beklediği için yavaşlar (Backpressure).
+
+UDP ile Göndermek: "Ateşle ve Unut" (Fire and forget). Çok hızlıdır, uygulamanı asla yavaşlatmaz. Dezavantajı: Ağda bir yoğunluk varsa bazı log paketleri kaybolabilir ve senin ruhun duymaz.
+
+
+#### 8.12 Senaryo: Çok Yoğun Bir Sistemde Loglama (Asenkron Yaklaşım)
+Case: Saniyede 10.000 istek (TPS) alan bir uygulaman var. Hem hızlıca cevap dönmelisin hem de logları Graylog'a göndermelisin. Standart loglama yaparsan, diske/ağa yazma işlemi (I/O) yüzünden HTTP thread'leri bloke olur ve sistem kilitlenir.
+
+Çözüm: Asynchronous Logging (Asenkron Loglama) + Message Queue
+
+Burada Log4j2 Async Appender (LMAX Disruptor kütüphanesi tabanlı) kullanmalısın.
+
+Uygulama log yazdığında, bunu diske veya ağa değil, RAM üzerindeki çok hızlı bir kuyruğa (RingBuffer) atar. Bu işlem mikrosaniyeler sürer, böylece HTTP isteği anında cevap döner (Thread serbest kalır).
+
+Arka planda çalışan ayrı bir Worker Thread, RAM'deki bu logları toplar (batch) ve Kafka veya RabbitMQ gibi bir mesaj kuyruğuna fırlatır (Tercihen UDP ile veya Kafka'nın kendi asenkron producer'ı ile).
+
+Kafka'daki logları da Logstash/Graylog kendi hızında tüketir. Ana uygulaman asla log yazma hantallığından etkilenmez.
+
+
+#### 8.13 @Valid Olmadan Validasyon Nasıl ve Nerede Yapılır?
+@Valid ve @NotNull, @Size gibi anotasyonlar Controller katmanında gelen DTO'ları kontrol eder. Eğer bunları kullanmazsan, validasyonu Service Katmanında (iş mantığı katmanı) veya Domain Katmanında (Entity içinde) yapmalısın.
+
+Nasıl Yapılır? Geleneksel "Defensive Programming" (Savunmacı Programlama) ve "If-Throw" blokları ile.
+
+```Java
+@Service
+public class UserService {
+    
+    public User createUser(UserDto dto) {
+        // Service katmanında manuel validasyon
+        if (dto.getUsername() == null || dto.getUsername().trim().isEmpty()) {
+            throw new CustomValidationException("Kullanıcı adı boş olamaz!");
+        }
+        if (dto.getPassword().length() < 8) {
+            throw new CustomValidationException("Şifre en az 8 karakter olmalıdır.");
+        }
+        // ... kayıt işlemleri
+    }
+}
+```
+
+Neden @Valid tercih edilir? Çünkü yukarıdaki kod, asıl "iş mantığı" olan kayıt işlemini kirletir (Boilerplate kod). Anotasyonlar validasyonu iş mantığından ayırır (AOP yaklaşımı).
+
+
+#### 8.14 Global Exception Handling (@RestControllerAdvice)
+Diyelim ki manuel validasyon yaptın ve CustomValidationException fırlattın. Yahut veritabanında olmayan bir id arandığında UserNotFoundException fırlattın. Controller'da her metota try-catch yazmak spagetti koda sebep olur.
+
+Çözüm: Uygulamanın her yerinden fırlatılan hataları havada yakalayan global bir sınıf yazmaktır.
+
+```Java
+@RestControllerAdvice // Tüm controller'ları dinleyen global bir kalkan
+public class GlobalExceptionHandler {
+
+    // Kendi fırlattığımız özel hatayı yakalar
+    @ExceptionHandler(CustomValidationException.class)
+    public ResponseEntity<ErrorResponse> handleValidationException(CustomValidationException ex) {
+        // Hata mesajını düzgün bir JSON objesine (ErrorResponse) çevirir
+        ErrorResponse error = new ErrorResponse("400", "Validasyon Hatası: " + ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    // Beklenmedik tüm runtime hatalarını (500) yakalar ki dışarıya Java stacktrace'i sızmasın
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex) {
+        // Güvenlik: Gerçek hatayı dışarı verme, ama logla!
+        log.error("Beklenmedik bir sistem hatası oluştu: ", ex); 
+        ErrorResponse error = new ErrorResponse("500", "Sunucuda beklenmedik bir hata oluştu.");
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+```
+
+#### 8.15 CronJob Nedir ve Log/Sistem Mimarisiyle İlişkisi
+CronJob, belirli zaman aralıklarında veya planlanmış spesifik saatlerde otomatik olarak tetiklenen arka plan görevleridir (Scheduled Tasks). Spring'de @EnableScheduling ve @Scheduled(cron = "0 0 2 * * ?") (Her gece saat 02:00'de çalış) anotasyonlarıyla kullanılır.
+
+Senin Sorunla İlişkisi (Logları Dışarı Çıkarma):
+Logları dışarı aktarma senaryosunda anlattığım "zipleyip göndermek" kısmını hatırlayalım. İşte bunu yapan bir CronJob'dur!
+
+Senaryo Entegrasyonu:
+
+Uygulaman gün boyunca logları sunucudaki app.log dosyasına yazar.
+
+Gece kullanıcı trafiği düştüğünde (örneğin saat 03:00'te) bir CronJob devreye girer.
+
+CronJob metodu, dünün tarihini taşıyan logları bulur, bir .zip veya .tar.gz formatında sıkıştırır (sunucuda yer açar).
+
+Ardından bu zip dosyasını alır ve FTP üzerinden başka bir arşiv sunucusuna veya AWS S3 gibi bulut depolama alanına (Cold Storage) yükler.
+
+Yükleme başarılı olursa sunucudaki eski zip dosyasını siler.
+
+Bu sayede hem sunucunun diski hiçbir zaman dolmaz hem de olası bir yasal inceleme için loglar yıllarca güvenli bir şekilde dış bir kanalda yedeklenmiş olur.
+
+
+## 9. Generics
+
+#### 9.1 Generics Nedir ve Neden Hayat Kurtarır?
+Generics, sınıfları, arayüzleri (interface) ve metotları tanımlarken tipi (type) bir parametre olarak alabilmemizi sağlar.
+
+En büyük iki amacı vardır:
+
+Tip Güvenliği (Type Safety): Hataları çalışma zamanında (Runtime - ClassCastException) değil, kodu yazarken derleme zamanında (Compile Time) yakalamanı sağlar.
+
+Kod Tekrarını Önleme (DRY - Don't Repeat Yourself): Farklı veri tipleri için aynı mantığı yapan sınıfları tekrar tekrar yazmanı engeller.
+
+Generics Olmadan (Eski Yöntem):
+Eğer her şeyi Object tipiyle tutarsan, veriyi geri okurken sürekli (String), (User) gibi cast (dönüşüm) işlemi yapman gerekir. Biri gidip Object listesine yanlışlıkla Integer atarsa, kodu çalıştırana kadar hata almazsın.
+
+Generics İle:
+Listeyi List<String> olarak tanımladığında, derleyici o listeye Integer eklemene asla izin vermez. Kodu derleyemezsin, böylece hata daha üretim (production) ortamına gitmeden senin bilgisayarında çözülmüş olur.
+
+
+#### 9.2 Spring Mimarilerinde Generic Sınıf Kullanımı (Enterprise Case)
+Bir önceki konuda API'lerden ve istisna yönetiminden (Exception Handling) bahsetmiştik. Profesyonel bir REST API, başarılı da olsa başarısız da olsa istemciye (client) standart bir kapsayıcı (wrapper) objesi dönmelidir. İşte burada Generic sınıflar devreye girer.
+
+```Java
+// T: Type (Herhangi bir nesne olabilir: UserDto, ProductDto, List<OrderDto> vb.)
+public class ApiResponse<T> {
+    private boolean success;
+    private String message;
+    private T data; // Asıl veri burada duruyor
+
+    // Başarılı cevaplar için constructor
+    public ApiResponse(T data, String message) {
+        this.success = true;
+        this.message = message;
+        this.data = data;
+    }
+
+    // Hata durumları için constructor (Veri yok)
+    public ApiResponse(String message) {
+        this.success = false;
+        this.message = message;
+        this.data = null;
+    }
+    
+    // Getter ve Setter'lar...
+}
+```
+
+Controller'da Kullanımı:
+
+```Java
+@GetMapping("/{id}")
+public ResponseEntity<ApiResponse<UserDto>> getUser(@PathVariable Long id) {
+    UserDto user = userService.findById(id);
+    // T tipi burada UserDto oldu
+    ApiResponse<UserDto> response = new ApiResponse<>(user, "Kullanıcı bulundu.");
+    return ResponseEntity.ok(response);
+}
+```
+Bu sayede her entity için ayrı bir UserResponse, ProductResponse sınıfı yazmaktan kurtuluruz.
+
+#### 9.3 Generic Metotlar
+Bazen tüm sınıfı generic yapmak istemezsin, sadece belirli bir metot farklı tiplerde çalışsın istersin.
+
+```Java
+public class JsonMapper {
+    
+    // <T> metodun generic olduğunu belirtir, T dönüş tipidir.
+    public <T> T parseJsonToObject(String json, Class<T> clazz) {
+        // Gelen JSON stringini, parametre olarak verilen T tipindeki sınıfa çevirir.
+        // Örn: parseJsonToObject(jsonStr, UserDto.class)
+        // Burada Object Mapper işlemleri yapılır...
+        return null; 
+    }
+}
+```
+
+#### 9.4 Wildcards (Joker Karakterler) ve Sınırlandırmalar (Bounds)
+Burası Generics'in en "tricky" (zorlayıcı) ama mimari açıdan en güçlü kısmıdır. Polymorphism (Çok biçimlilik) Generics ile normaldeki gibi çalışmaz. Örneğin Dog, Animal'ın alt sınıfı olabilir ama List<Dog>, List<Animal>'ın alt sınıfı değildir. Bunu çözmek için Wildcard (?) kullanılır.
+
+Unbounded Wildcard (<?>): "Tipi umrumda değil, herhangi bir tip olabilir." Genelde sadece okuma yapılan, tipin önemsiz olduğu loglama gibi metotlarda kullanılır.
+
+Upper Bounded Wildcard (<? extends T>): "T tipi veya T'den türeyen (miras alan) alt sınıflar gelebilir."
+
+Kural: Sadece veriyi okuyacaksan (Producer) kullanırsın. İçine yeni eleman ekleyemezsin (Çünkü alt sınıfın tam olarak ne olduğunu bilemez).
+
+Lower Bounded Wildcard (<? super T>): "T tipi veya T'nin üst sınıfları (parent) gelebilir."
+
+Kural: Sadece koleksiyona veri yazacaksan (Consumer) kullanırsın.
+
+Bu kurala yazılım dünyasında PECS (Producer Extends, Consumer Super) denir.
+
+Örnek (Kalıtım: Shape -> Circle & Square):
+
+```Java
+// Sadece Shape veya Shape'i extends edenler (Circle, Square) gelebilir.
+// Bu metot listeyi sadece okur (Producer Extends)
+public void drawAllShapes(List<? extends Shape> shapes) {
+    for (Shape shape : shapes) {
+        shape.draw();
+    }
+    // shapes.add(new Circle()); -> BUNA İZİN VERMEZ! Compile error.
+}
+```
+
+#### 9.5 Type Erasure (Tip Silinmesi) - Arka Plandaki Sır
+Java'da Generics tamamen derleme zamanı (compile-time) bir illüzyondur.
+Yazdığın <T> parametreleri veya List<String> ifadeleri kodu derlediğinde (bytecode'a, .class dosyasına dönüştüğünde) silinir.
+
+Derleyici List<String>'in içine String konduğundan emin olduktan sonra, bytecode seviyesinde bunu List ve Object'e çevirir (Geriye uyumluluk - Backward Compatibility için). Bu yüzden çalışma zamanında (Runtime) bir listenin tipinin String mi Integer mı olduğunu instanceof ile doğrudan kontrol edemezsin.
+
