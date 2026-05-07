@@ -1321,6 +1321,7 @@ Spring Framework: Bir alet çantasıdır. İhtiyacın olan modülleri (MVC, Data
 
 Spring Boot: Spring'in üzerine inşa edilmiş, "opinionated" (kendi doğruları olan) bir çerçevedir. Amacı konfigürasyon yükünü ortadan kaldırmaktır. Sadece spring-boot-starter-web bağımlılığını eklersin, Spring Boot senin bir web API'si yazacağını anlar, Tomcat'i ayağa kaldırır, DispatcherServlet'i ayarlar ve Jackson kütüphanesini JSON dönüşümleri için hazır hale getirir.
 
+
 #### 8.2 Tomcat ve Embedded Tomcat (Gömülü Tomcat) Farkı
 Tomcat Nedir?
 Tomcat, Java Servlet'lerini ve JavaServer Pages (JSP) teknolojilerini çalıştıran bir web sunucusu ve Servlet konteyneridir. Gelen HTTP isteklerini karşılar, Java koduna (Spring'e) iletir ve cevabı HTTP formatında geri döner.
@@ -1328,6 +1329,7 @@ Tomcat, Java Servlet'lerini ve JavaServer Pages (JSP) teknolojilerini çalışt�
 Geleneksel Tomcat (Standalone): Sunucuya fiziksel olarak Tomcat kurulur. Yazdığın uygulama bir .war (Web Application Archive) dosyası olarak derlenir ve Tomcat'in webapps klasörüne atılarak deploy edilir. Sunucu konfigürasyonunu (portlar, thread havuzları) işletim sistemi üzerindeki Tomcat ayar dosyalarından yaparsın.
 
 Embedded Tomcat (Spring Boot Yaklaşımı): Tomcat'in kendisi, senin uygulamanın içine bir kütüphane (.jar) olarak gömülür. Uygulamanı çalıştırdığında (java -jar uygulama.jar), içinde bulunan Tomcat otomatik olarak main metodu üzerinden başlatılır. Ortam bağımsızdır; Java yüklü olan her yerde sunucu kurmaya gerek kalmadan anında ayağa kalkar.
+
 
 #### 8.3 Maven ve Multi-Module (Çoklu Modül) Mimarisi
 Maven Nedir?
@@ -1350,6 +1352,7 @@ ArchUnit, Java mimarinizi birim testleri ile kontrol etmenizi sağlayan bir küt
 Örnek ArchUnit Kuralı: "Controller sınıfları sadece Service sınıflarını çağırebilir, doğrudan Repository sınıflarına erişemez."
 Bu test başarısız olursa, Maven derlemeyi durdurur. Geliştirici ekibinin zamanla mimariyi bozmasını otomatize edilmiş bir şekilde engeller.
 
+
 #### 8.4 Spring Boot'un "Kutsal Üçlüsü": Temel Anotasyonlar
 Spring Boot projelerinin ana sınıfında gördüğün @SpringBootApplication anotasyonu aslında şu üç anotasyonun birleşimidir:
 
@@ -1358,6 +1361,7 @@ Spring Boot projelerinin ana sınıfında gördüğün @SpringBootApplication an
 @ComponentScan: Spring'e, "Bu sınıfın bulunduğu paketi ve tüm alt paketlerini tara; üzerinde @Component, @Service, @Repository gibi anotasyonlar olan sınıfları bul ve IoC Container'a dahil et" der.
 
 @EnableAutoConfiguration: Spring Boot'un sihridir. pom.xml dosyandaki kütüphanelere bakarak "Senin projende Spring Data JPA ve MySQL driver'ı var, öyleyse ben veritabanı bağlantı havuzunu (HikariCP) ve EntityManager'ı otomatik ayarlıyorum" diyerek manuel konfigürasyon yükünü bitirir.
+
 
 #### 8.5 @RestController, İstek Anatomisi ve Spring İçindeki Yeri
 @RestController Spring'in Neyini Kullanır?
@@ -1397,6 +1401,7 @@ public ResponseEntity<String> getSecureData(@RequestHeader("Authorization") Stri
     return ResponseEntity.ok("Secure content");
 }
 ```
+
 #### 8.6 HTTP Durum Kodları (REST Standartları)
 Doğru kurumsal API'ler, istemciye ne olduğunu doğru HTTP kodlarıyla anlatmalıdır:
 
@@ -1416,6 +1421,7 @@ Doğru kurumsal API'ler, istemciye ne olduğunu doğru HTTP kodlarıyla anlatmal
 
 500 Internal Server Error: Sunucu tarafında (backend'de) beklenmedik bir hata/exception oluştu.
 
+
 #### 8.7 Spring'de Kullanılan Tasarım Desenleri (Design Patterns)
 Spring Framework, "Tekerleği yeniden icat etme" felsefesiyle, kanıtlanmış tasarım desenlerinin üzerine inşa edilmiştir:
 
@@ -1430,3 +1436,4 @@ Template Method Pattern: Tekrar eden boilerplate kodları (bağlantı aç, sorgu
 Front Controller Pattern: Bahsettiğimiz DispatcherServlet, uygulamaya gelen tüm istekleri karşılayan tek ve merkezi bir kontrolcüdür.
 
 Strategy Pattern: Spring Security'deki şifreleme yöntemleri (BCrypt, Argon2) veya MVC'deki HandlerMapping (isteğin kime gideceğini belirleme stratejisi) bu deseni kullanır. Interfaceler üzerinden bağımlılıkları çalışma anında değiştirebilmeyi sağlar.
+
