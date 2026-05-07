@@ -1309,3 +1309,119 @@ Controller, createOrder() metodunu çağırdığında aslında Proxy'nin metodun
 
 Kritik Kural (Self-Invocation Sorunu):
 Bu Proxy mimarisinden dolayı, AOP sadece sınıflar arası çağrılarda (Örn: Controller -> Service) çalışır. Eğer OrderService içindeki createOrder() metodu, yine aynı sınıf içindeki @TrackExecutionTime anotasyonlu generateMonthlyReport() metodunu this.generateMonthlyReport() şeklinde çağırırsa, AOP devreye girmez! Çünkü çağrı doğrudan asıl nesnenin kendi içindedir, Proxy nesnesine dışarıdan bir giriş yapılmamıştır. Bu, Spring mülakatlarında sıkça sorulan teknik bir detaydır.
+
+# 8. Ekstralar
+
+#### 8.1 Spring'in Temel Özellikleri ile Spring ve Spring Boot Farkı
+Spring Framework, Java uygulamaları geliştirmek için kullanılan kapsamlı bir altyapıdır. Temel felsefesi Inversion of Control (IoC) ve Dependency Injection (DI) üzerine kuruludur. Nesnelerin (Bean'lerin) yaşam döngüsünü ve birbirleri arasındaki bağımlılıkları senin yerine Spring Container yönetir. Bu, kodun "gevşek bağlı" (loosely coupled) ve test edilebilir olmasını sağlar.
+
+Spring vs. Spring Boot:
+
+Spring Framework: Bir alet çantasıdır. İhtiyacın olan modülleri (MVC, Data, Security) eklersin, ancak veritabanı bağlantılarından web sunucusu ayarlarına kadar sayısız XML veya Java tabanlı konfigürasyonu senin yapman gerekir.
+
+Spring Boot: Spring'in üzerine inşa edilmiş, "opinionated" (kendi doğruları olan) bir çerçevedir. Amacı konfigürasyon yükünü ortadan kaldırmaktır. Sadece spring-boot-starter-web bağımlılığını eklersin, Spring Boot senin bir web API'si yazacağını anlar, Tomcat'i ayağa kaldırır, DispatcherServlet'i ayarlar ve Jackson kütüphanesini JSON dönüşümleri için hazır hale getirir.
+
+#### 8.2 Tomcat ve Embedded Tomcat (Gömülü Tomcat) Farkı
+Tomcat Nedir?
+Tomcat, Java Servlet'lerini ve JavaServer Pages (JSP) teknolojilerini çalıştıran bir web sunucusu ve Servlet konteyneridir. Gelen HTTP isteklerini karşılar, Java koduna (Spring'e) iletir ve cevabı HTTP formatında geri döner.
+
+Geleneksel Tomcat (Standalone): Sunucuya fiziksel olarak Tomcat kurulur. Yazdığın uygulama bir .war (Web Application Archive) dosyası olarak derlenir ve Tomcat'in webapps klasörüne atılarak deploy edilir. Sunucu konfigürasyonunu (portlar, thread havuzları) işletim sistemi üzerindeki Tomcat ayar dosyalarından yaparsın.
+
+Embedded Tomcat (Spring Boot Yaklaşımı): Tomcat'in kendisi, senin uygulamanın içine bir kütüphane (.jar) olarak gömülür. Uygulamanı çalıştırdığında (java -jar uygulama.jar), içinde bulunan Tomcat otomatik olarak main metodu üzerinden başlatılır. Ortam bağımsızdır; Java yüklü olan her yerde sunucu kurmaya gerek kalmadan anında ayağa kalkar.
+
+#### 8.3 Maven ve Multi-Module (Çoklu Modül) Mimarisi
+Maven Nedir?
+Maven, bir proje yönetim ve yapılandırma aracıdır. Temel olarak pom.xml üzerinden projenin bağımlılıklarını (hangi kütüphanelerin kullanılacağını), derleme sürecini (build lifecycle: compile, test, package) ve eklentilerini yönetir.
+
+Multi-Module Maven Projeleri Ne İşe Yarar?
+Büyük ölçekli, kurumsal yazılımlarda tüm kodu tek bir pakette tutmak (monolith) bir süre sonra "spagetti koda" ve "tight coupling" (sıkı bağımlılık) sorunlarına yol açar. Multi-module yaklaşımı, projeyi mantıksal alt parçalara böler:
+
+core-module (Ortak utility'ler, domain modelleri)
+
+data-module (Veritabanı işlemleri, repository'ler - sadece core'u bilir)
+
+api-module (REST Controller'lar - data ve core'u bilir)
+
+Avantajı: Katmanlar arası sınırları zorunlu kılar. core-module içindeki bir sınıfın, api-module içindeki bir sınıfa erişmesi Maven seviyesinde engellenir. Bu da SOLID prensiplerine sadık kalan, temiz bir mimari sunar.
+
+ArchUnit Maven Nedir?
+ArchUnit, Java mimarinizi birim testleri ile kontrol etmenizi sağlayan bir kütüphanedir. Maven ile entegre edilerek (maven-surefire-plugin üzerinden), derleme (build) aşamasında mimari kurallarınızın ihlal edilip edilmediğini denetler.
+
+Örnek ArchUnit Kuralı: "Controller sınıfları sadece Service sınıflarını çağırebilir, doğrudan Repository sınıflarına erişemez."
+Bu test başarısız olursa, Maven derlemeyi durdurur. Geliştirici ekibinin zamanla mimariyi bozmasını otomatize edilmiş bir şekilde engeller.
+
+#### 8.4 Spring Boot'un "Kutsal Üçlüsü": Temel Anotasyonlar
+Spring Boot projelerinin ana sınıfında gördüğün @SpringBootApplication anotasyonu aslında şu üç anotasyonun birleşimidir:
+
+@Configuration: Bu sınıfın, Spring Container için bean (nesne) tanımlamaları içerdiğini belirtir. Proje ayağa kalkarken Spring bu sınıfa bakar ve gerekli nesneleri oluşturur.
+
+@ComponentScan: Spring'e, "Bu sınıfın bulunduğu paketi ve tüm alt paketlerini tara; üzerinde @Component, @Service, @Repository gibi anotasyonlar olan sınıfları bul ve IoC Container'a dahil et" der.
+
+@EnableAutoConfiguration: Spring Boot'un sihridir. pom.xml dosyandaki kütüphanelere bakarak "Senin projende Spring Data JPA ve MySQL driver'ı var, öyleyse ben veritabanı bağlantı havuzunu (HikariCP) ve EntityManager'ı otomatik ayarlıyorum" diyerek manuel konfigürasyon yükünü bitirir.
+
+#### 8.5 @RestController, İstek Anatomisi ve Spring İçindeki Yeri
+@RestController Spring'in Neyini Kullanır?
+@RestController aslında @Controller ve @ResponseBody anotasyonlarının birleşimidir. Arka planda Spring MVC'nin kalbi olan DispatcherServlet'i kullanır.
+Gelen her HTTP isteği önce DispatcherServlet'e düşer. O, hangi URL'in hangi Controller metoduna gideceğini bulur (HandlerMapping). Ardından metodun döndürdüğü Java nesnesini (örneğin bir UserDto), HttpMessageConverter (genellikle Jackson kütüphanesi) kullanarak doğrudan JSON formatına çevirir ve HTTP response gövdesine yazar.
+
+İstek Verisi Alma Yöntemleri (Binding)
+1. @RequestBody
+Gelen HTTP isteğinin gövdesindeki (body) JSON veya XML verisini, bir Java nesnesine dönüştürür. Genellikle POST veya PUT işlemlerinde veri yaratırken/güncellerken kullanılır.
+
+Java
+@PostMapping("/api/users")
+public ResponseEntity<User> createUser(@Valid @RequestBody UserDto userDto) {
+    // userDto içindeki veriler JSON'dan otomatik olarak eşlenmiştir.
+    return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userDto));
+}
+2. @PathVariable
+İsteğin yapıldığı URL yolunun (path) bir parçası olan değişkenleri almak için kullanılır. RESTful standartlarında belirli bir kaynağı (resource) hedef alırken (id bazlı aramalarda) çok kritiktir.
+
+Java
+// İstek: GET /api/users/1453
+@GetMapping("/api/users/{id}")
+public ResponseEntity<User> getUserById(@PathVariable("id") Long userId) {
+    return ResponseEntity.ok(userService.findById(userId));
+}
+3. @RequestHeader
+HTTP isteğinin başlık (header) kısmındaki meta verileri okumak için kullanılır. Authorization token'ları, dil seçenekleri (Accept-Language) veya özel takip (trace) id'leri için kullanılır.
+
+Java
+@GetMapping("/api/secure-data")
+public ResponseEntity<String> getSecureData(@RequestHeader("Authorization") String token) {
+    // Token doğrulama işlemleri
+    return ResponseEntity.ok("Secure content");
+}
+#### 8.6 HTTP Durum Kodları (REST Standartları)
+Doğru kurumsal API'ler, istemciye ne olduğunu doğru HTTP kodlarıyla anlatmalıdır:
+
+200 OK: İstek başarılı (GET, PUT).
+
+201 Created: Yeni bir kaynak başarıyla oluşturuldu (POST).
+
+204 No Content: İşlem başarılı ama dönülecek bir veri yok (Genelde DELETE).
+
+400 Bad Request: İstemcinin gönderdiği veri hatalı veya eksik (@Valid ile doğrulama başarısız olursa fırlatılır).
+
+401 Unauthorized: Kimlik doğrulaması (Authentication) eksik veya hatalı.
+
+403 Forbidden: Kimlik biliniyor ama bu kaynağa erişim yetkisi (Authorization) yok.
+
+404 Not Found: İstenilen kaynak veya URL bulunamadı.
+
+500 Internal Server Error: Sunucu tarafında (backend'de) beklenmedik bir hata/exception oluştu.
+
+#### 8.7 Spring'de Kullanılan Tasarım Desenleri (Design Patterns)
+Spring Framework, "Tekerleği yeniden icat etme" felsefesiyle, kanıtlanmış tasarım desenlerinin üzerine inşa edilmiştir:
+
+Singleton Pattern: Spring Container'daki bean'ler varsayılan olarak Singleton'dır. Uygulama boyunca bir sınıftan sadece tek bir nesne (instance) üretilir ve her yere o verilir (bellek optimizasyonu).
+
+Factory Pattern: BeanFactory ve ApplicationContext, nesnelerin üretimini ve yaşam döngüsünü yöneten fabrika sınıflarıdır. Nesne oluşturma sorumluluğunu (new anahtar kelimesi) senin elinden alır.
+
+Proxy Pattern (AOP - Aspect Oriented Programming): @Transactional veya @Cacheable gibi anotasyonları kullandığında, Spring arka planda gerçek nesnenin etrafına bir "Proxy" (vekil) nesne sarar. Metod çalışmadan önce transaction başlatır (AOP ile), metot bitince commit eder.
+
+Template Method Pattern: Tekrar eden boilerplate kodları (bağlantı aç, sorgu at, hata yakala, bağlantı kapat) gizlemek için kullanılır. Örn: JdbcTemplate, RestTemplate, MongoTemplate.
+
+Front Controller Pattern: Bahsettiğimiz DispatcherServlet, uygulamaya gelen tüm istekleri karşılayan tek ve merkezi bir kontrolcüdür.
+
+Strategy Pattern: Spring Security'deki şifreleme yöntemleri (BCrypt, Argon2) veya MVC'deki HandlerMapping (isteğin kime gideceğini belirleme stratejisi) bu deseni kullanır. Interfaceler üzerinden bağımlılıkları çalışma anında değiştirebilmeyi sağlar.
