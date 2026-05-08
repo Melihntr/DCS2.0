@@ -1546,29 +1546,44 @@ Kafka'daki logları da Logstash/Graylog kendi hızında tüketir. Ana uygulaman 
 
 
 #### 8.13 @Valid Olmadan Validasyon Nasıl ve Nerede Yapılır?
-@Valid ve @NotNull, @Size gibi anotasyonlar Controller katmanında gelen DTO'ları kontrol eder. Eğer bunları kullanmazsan, validasyonu Service Katmanında (iş mantığı katmanı) veya Domain Katmanında (Entity içinde) yapmalısın.
+@Valid ve @NotNull, @Size gibi anotasyonlar Controller katmanında gelen DTO'ları kontrol eder. Eğer bunları kullanmazsan, Spring’in
+org.springframework.validation.Validator
+arayüzünü kullanarak doğrulama mantığı yazılabilir:
 
-Nasıl Yapılır? Geleneksel "Defensive Programming" (Savunmacı Programlama) ve "If-Throw" blokları ile.
+```
+public class UserValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return User.class.isAssignableFrom(clazz);
+    }
 
-```Java
-@Service
-public class UserService {
-    
-    public User createUser(UserDto dto) {
-        // Service katmanında manuel validasyon
-        if (dto.getUsername() == null || dto.getUsername().trim().isEmpty()) {
-            throw new CustomValidationException("Kullanıcı adı boş olamaz!");
+    @Override
+    public void validate(Object target, Errors errors) {
+        User user = (User) target;
+        if (user.getUsername() == null || user.getUsername().isEmpty()) {
+            errors.rejectValue("username", "error.username.empty", "Username cannot be empty");
         }
-        if (dto.getPassword().length() < 8) {
-            throw new CustomValidationException("Şifre en az 8 karakter olmalıdır.");
-        }
-        // ... kayıt işlemleri
     }
 }
 ```
 
-Neden @Valid tercih edilir? Çünkü yukarıdaki kod, asıl "iş mantığı" olan kayıt işlemini kirletir (Boilerplate kod). Anotasyonlar validasyonu iş mantığından ayırır (AOP yaklaşımı).
+2. Service Katmanında Kullanımı
+Validator, service katmanında doğrudan çağrılır:
 
+```
+@Service
+public class UserService {
+    private final Validator validator;
+
+    public UserService(Validator validator) {
+        this.validator = validator;
+    }
+
+    public void createUser(User user) {
+        ValidationUtils.invokeValidator(validator, user, new BeanPropertyBindingResult(user, "user"));
+        // Diğer iş mantığı
+    }
+```
 
 #### 8.14 Global Exception Handling (@RestControllerAdvice)
 Diyelim ki manuel validasyon yaptın ve CustomValidationException fırlattın. Yahut veritabanında olmayan bir id arandığında UserNotFoundException fırlattın. Controller'da her metota try-catch yazmak spagetti koda sebep olur.
