@@ -1634,6 +1634,49 @@ Yükleme başarılı olursa sunucudaki eski zip dosyasını siler.
 Bu sayede hem sunucunun diski hiçbir zaman dolmaz hem de olası bir yasal inceleme için loglar yıllarca güvenli bir şekilde dış bir kanalda yedeklenmiş olur.
 
 
+#### 9.16 Jackson Nedir?
+Jackson, Java dünyasının en popüler, en hızlı ve Spring Boot'un varsayılan (default) JSON işleme kütüphanesidir.
+
+Sen Controller'da @RequestBody TaskCreateRequest request yazdığında veya bir metottan ResponseEntity.ok(taskList) döndüğünde arka planda sihir 
+olmaz. O Java nesnelerini JSON'a çeviren veya frontend'den gelen JSON metnini Java nesnesine dönüştüren işçi Jackson'dır.
+
+Jackson temelde iki ana operasyon yapar:
+Serialization (Serileştirme): Java objesini (Örn: TaskEntity) alıp ağ üzerinden gönderilebilecek JSON metnine ({"id":1, "status":"RUNNING"}) dönüştürme işlemidir.
+
+Deserialization (Ters Serileştirme): Frontend'den (React'ten) gelen JSON metnini okuyup, senin Java'daki sınıflarına (DTO'lara) map etme (doldurma) işlemidir.
+
+Jackson'ın Kalbi: ObjectMapper
+Jackson'ın arkasındaki motor ObjectMapper sınıfıdır. Spring Boot ayağa kalktığında arka planda senin için bir ObjectMapper yaratır ve HTTP mesaj dönüştürücülerinin (HttpMessageConverters) içine koyar.
+Bilmen Gereken "Senior" Jackson Anotasyonları:
+Bazen Jackson'ın her şeyi kendi bildiği gibi çevirmesini istemeyiz. İşte o zaman duruma müdahale ederiz:
+
+@JsonIgnore: Bir alanın JSON'a dönüşmesini engeller. Örneğin kullanıcının şifresini (password) veritabanından çekersin ama frontend'e giden JSON'da görünmesin diye üzerine bunu yazarsın.
+
+@JsonProperty("isim_degistir"): Java'da değişkenin adı createdAt iken, frontend'e kayit_tarihi olarak gitmesini istiyorsan kullanırsın.
+
+@JsonFormat
+: Özellikle tarih (Date/LocalDateTime) işlemlerinde hayat kurtarır. @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss") yazarak tarihin çirkin bir timestamp yerine okunaklı gitmesini sağlarsın.
+
+
+#### 9.17 ELK Stack ve Elasticsearch Nedir?
+Proje büyüdüğünde, milyonlarca görev (task) çalışıp bittiğinde logları konsola (System.out.println veya standard logger) yazdırmak veya ilişkisel bir veritabanına (PostgreSQL/MySQL) kaydetmek sistemi çökertir. İşte ELK Stack, devasa boyutlardaki log ve verileri ışık hızıyla arayıp görselleştirmeye yarayan bir ekosistemdir.
+
+ELK, üç farklı açık kaynaklı projenin baş harflerinden oluşur: Elasticsearch, Logstash ve Kibana.
+
+E - Elasticsearch (Sistemin Beyni ve Motoru)
+Elasticsearch, Apache Lucene altyapısı üzerine kurulmuş, NoSQL (Document-based) ve dağıtık (distributed) bir arama motorudur.
+
+Neden PostgreSQL yerine bunu kullanıyoruz? (Mülakat Sorusu) Çünkü ilişkisel veritabanları (RDBMS) veriyi ararken B-Tree (B-Ağacı) indekslemesi kullanır. "İçinde 'Deadlock' geçen hataları bul" dediğinde tüm satırları tek tek taramak (Full Table Scan) zorunda kalabilir ve çok yavaştır. Elasticsearch ise Inverted Index (Ters Yüz Edilmiş İndeks) kullanır.
+
+Inverted Index Mantığı: Kitapların arkasındaki indeks sayfası gibidir. "Deadlock" kelimesinin hangi logların (örneğin 15., 42. ve 108. loglar) içinde geçtiğini önceden haritalandırır. Sen arama yaptığında verilerin içinde aramaz, direkt adrese gider. Bu yüzden milyarlarca log içinde milisaniyeler seviyesinde arama yapar.
+
+L - Logstash (Kurye / Boru Hattı)
+Sistemde çalışan Spring Boot uygulamasının loglarını, sunucunun RAM durumunu veya Nginx hatalarını toplar. Bunları filtreler, parçalar, anlamlı hale getirir (Örn: "Bu bir Error logu", "Bu Info logu") ve son durak olan Elasticsearch'e gönderir.
+
+K - Kibana (Vİtrin / Dashboard)
+Elasticsearch'ün içine dolan o milyarlarca veri tek başına sadece JSON yığınından ibarettir. Kibana, bu verileri okuyan, grafiklere, pasta dilimlerine ve devasa gösterge panellerine (Dashboard) dönüştüren arayüzdür. Örneğin; "Son 1 saatte CPU_BOUND olup FAILED durumuna düşen görevlerin oranını bana çizgi grafik olarak göster" dediğinde bunu Kibana'da iki tıkla yaparsın.
+
+
 ## 9. Generics
 
 #### 9.1 Generics Nedir ve Neden Hayat Kurtarır?
@@ -1736,6 +1779,7 @@ public void drawAllShapes(List<? extends Shape> shapes) {
     // shapes.add(new Circle()); -> BUNA İZİN VERMEZ! Compile error.
 }
 ```
+
 
 #### 9.5 Type Erasure (Tip Silinmesi) - Arka Plandaki Sır
 Java'da Generics tamamen derleme zamanı (compile-time) bir illüzyondur.
