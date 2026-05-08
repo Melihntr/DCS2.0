@@ -1401,6 +1401,15 @@ public ResponseEntity<String> getSecureData(@RequestHeader("Authorization") Stri
     return ResponseEntity.ok("Secure content");
 }
 ```
+4. @ResponseBody
+Spring Framework'te (ve Spring Boot'ta) bir metot tarafından döndürülen Java nesnesinin, doğrudan HTTP yanıtının gövdesine (response body) yazılmasını sağlar.Genellikle RESTful API'lerde kullanılan bu anotasyonun temel işlevleri şunlardır:
+JSON/XML Dönüşümü: Metotların doğrudan Java nesneleri (POJO, List, Map vb.) döndürmesine olanak tanır ve bu nesneleri otomatik olarak JSON veya 
+XML formatına serileştirir (serializes).
+
+HttpMessageConverter Kullanımı: Spring, dönüş değerini uygun formata çevirmek için HttpMessageConverter mekanizmasını (genellikle Jackson kütüphanesi) kullanır.
+
+Görünüm Çözücüyü Atlar: @ResponseBody kullanıldığında, Spring sonucu bir HTML görünümü (view) olarak işlemeye çalışmaz, doğrudan veriyi istemciye (tarayıcı veya mobil uygulama) gönderir.
+
 
 #### 8.6 HTTP Durum Kodları (REST Standartları)
 Doğru kurumsal API'ler, istemciye ne olduğunu doğru HTTP kodlarıyla anlatmalıdır:
@@ -1437,9 +1446,11 @@ Front Controller Pattern: Bahsettiğimiz DispatcherServlet, uygulamaya gelen tü
 
 Strategy Pattern: Spring Security'deki şifreleme yöntemleri (BCrypt, Argon2) veya MVC'deki HandlerMapping (isteğin kime gideceğini belirleme stratejisi) bu deseni kullanır. Interfaceler üzerinden bağımlılıkları çalışma anında değiştirebilmeyi sağlar.
 
-#### 8.8 HTTP Metotlarının İhlali: GET ile POST, POST ile PUT Yapılır mı?
-Kısa Cevap: Evet, teknik olarak yapılabilir.
-Uzun Cevap: Yapılır ama asla yapılmamalıdır. REST mimarisinin tüm doğasını, güvenlik standartlarını ve performans optimizasyonlarını çöpe atmış olursun.
+
+#### 8.8 HTTP Metotlarının İhlali: 
+GET ile POST, POST ile PUT Yapılır mı?
+
+Yapılır ama asla yapılmamalıdır. REST mimarisinin tüm doğasını, güvenlik standartlarını ve performans optimizasyonlarını çöpe atmış olursun.
 
 Farklar ve Neden Yapılmamalı?
 
@@ -1486,7 +1497,7 @@ log.debug(): Geliştiriciler içindir. Hangi if-else bloğuna girildi, metota ha
 
 log.info(): Normal iş akışıdır. Uygulamanın sağlıklı çalıştığını gösterir. (Örn: "Uygulama 8080 portunda ayağa kalktı", "Ahmet adlı kullanıcı sisteme giriş yaptı").
 
-log.warn(): Bir şeyler ters gitti ama uygulama çökmadı, kendi kendini toparladı veya varsayılan bir değere geçti. (Örn: "Redis'e bağlanılamadı, veritabanından okunuyor").
+log.warn(): Bir şeyler ters gitti ama uygulama çökmedi, kendi kendini toparladı veya varsayılan bir değere geçti. (Örn: "Redis'e bağlanılamadı, veritabanından okunuyor").
 
 log.error(): Gerçek bir hata durumu. Bir Exception fırlatıldı, bir işlem yarıda kaldı, kullanıcıya 500 dönüldü. Mutlaka birinin incelemesi gerekir.
 
@@ -1525,7 +1536,7 @@ Case: Saniyede 10.000 istek (TPS) alan bir uygulaman var. Hem hızlıca cevap d�
 
 Çözüm: Asynchronous Logging (Asenkron Loglama) + Message Queue
 
-Burada Log4j2 Async Appender (LMAX Disruptor kütüphanesi tabanlı) kullanmalısın.
+Burada Log4j2Async Appender (LMAX  Disruptor kütüphanesi tabanlı) kullanmalısın.
 
 Uygulama log yazdığında, bunu diske veya ağa değil, RAM üzerindeki çok hızlı bir kuyruğa (RingBuffer) atar. Bu işlem mikrosaniyeler sürer, böylece HTTP isteği anında cevap döner (Thread serbest kalır).
 
