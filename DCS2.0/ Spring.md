@@ -1634,7 +1634,7 @@ Yükleme başarılı olursa sunucudaki eski zip dosyasını siler.
 Bu sayede hem sunucunun diski hiçbir zaman dolmaz hem de olası bir yasal inceleme için loglar yıllarca güvenli bir şekilde dış bir kanalda yedeklenmiş olur.
 
 
-#### 9.16 Jackson Nedir?
+#### 8.16 Jackson Nedir?
 Jackson, Java dünyasının en popüler, en hızlı ve Spring Boot'un varsayılan (default) JSON işleme kütüphanesidir.
 
 Sen Controller'da @RequestBody TaskCreateRequest request yazdığında veya bir metottan ResponseEntity.ok(taskList) döndüğünde arka planda sihir 
@@ -1646,8 +1646,8 @@ Serialization (Serileştirme): Java objesini (Örn: TaskEntity) alıp ağ üzeri
 Deserialization (Ters Serileştirme): Frontend'den (React'ten) gelen JSON metnini okuyup, senin Java'daki sınıflarına (DTO'lara) map etme (doldurma) işlemidir.
 
 Jackson'ın Kalbi: ObjectMapper
-Jackson'ın arkasındaki motor ObjectMapper sınıfıdır. Spring Boot ayağa kalktığında arka planda senin için bir ObjectMapper yaratır ve HTTP mesaj dönüştürücülerinin (HttpMessageConverters) içine koyar.
-Bilmen Gereken "Senior" Jackson Anotasyonları:
+Jackson'ın arkasındaki motor ObjectMapper sınıfıdır. Spring Boot ayağa kalktığında arka planda bir ObjectMapper yaratır ve HTTP mesaj dönüştürücülerinin (HttpMessageConverters) içine koyar.
+Bilinmesi gereken Jackson Anotasyonları:
 Bazen Jackson'ın her şeyi kendi bildiği gibi çevirmesini istemeyiz. İşte o zaman duruma müdahale ederiz:
 
 @JsonIgnore: Bir alanın JSON'a dönüşmesini engeller. Örneğin kullanıcının şifresini (password) veritabanından çekersin ama frontend'e giden JSON'da görünmesin diye üzerine bunu yazarsın.
@@ -1658,7 +1658,7 @@ Bazen Jackson'ın her şeyi kendi bildiği gibi çevirmesini istemeyiz. İşte o
 : Özellikle tarih (Date/LocalDateTime) işlemlerinde hayat kurtarır. @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss") yazarak tarihin çirkin bir timestamp yerine okunaklı gitmesini sağlarsın.
 
 
-#### 9.17 ELK Stack ve Elasticsearch Nedir?
+#### 8.17 ELK Stack ve Elasticsearch Nedir?
 Proje büyüdüğünde, milyonlarca görev (task) çalışıp bittiğinde logları konsola (System.out.println veya standard logger) yazdırmak veya ilişkisel bir veritabanına (PostgreSQL/MySQL) kaydetmek sistemi çökertir. İşte ELK Stack, devasa boyutlardaki log ve verileri ışık hızıyla arayıp görselleştirmeye yarayan bir ekosistemdir.
 
 ELK, üç farklı açık kaynaklı projenin baş harflerinden oluşur: Elasticsearch, Logstash ve Kibana.
