@@ -1601,7 +1601,7 @@ public class GlobalExceptionHandler {
 #### 8.15 CronJob Nedir ve Log/Sistem Mimarisiyle İlişkisi
 CronJob, belirli zaman aralıklarında veya planlanmış spesifik saatlerde otomatik olarak tetiklenen arka plan görevleridir (Scheduled Tasks). Spring'de @EnableScheduling ve @Scheduled(cron = "0 0 2 * * ?") (Her gece saat 02:00'de çalış) anotasyonlarıyla kullanılır.
 
-Senin Sorunla İlişkisi (Logları Dışarı Çıkarma):
+Anlatılan Senaryoyla İlişkisi (Logları Dışarı Çıkarma):
 Logları dışarı aktarma senaryosunda anlattığım "zipleyip göndermek" kısmını hatırlayalım. İşte bunu yapan bir CronJob'dur!
 
 Senaryo Entegrasyonu:
