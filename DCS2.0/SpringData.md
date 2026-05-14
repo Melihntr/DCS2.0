@@ -25,15 +25,13 @@ JPQL (Java Persistence Query Language): Tablolar yerine doğrudan Java nesneleri
 
 Spring Boot projelerinde çoğunlukla bir JPA implementasyonu olan Hibernate kullanılır.
 
-### 1.2 ORM (Object Relational Mapping)
+### 1.2 ORM (Object-Relational Mapping) Kavramı
+JPA'nın temelinde ORM yatar. Nesne yönelimli programlama (Java) ile ilişkisel veritabanları (SQL) arasındaki "doku uyuşmazlığını" giderir.
 
-ORM yaklaşımında:
+Java tarafında: Sınıflar, nesneler ve kalıtım vardır.
 
-Nesne Dünyası	Veritabanı Dünyası
-Class	Table
-Object	Row
-Field	Column
-Reference	Foreign Key
+Veritabanı tarafında: Tablolar, satırlar ve yabancı anahtarlar (foreign keys) vardır.
+ORM, bu iki farklı dünya arasında bir köprü kurarak, geliştiricinin SQL kodu yazmadan veritabanı işlemi yapmasına olanak tanır.
 
 Örnek:
 ```
@@ -62,13 +60,16 @@ Persistence Context, entity nesnelerinin yönetildiği belleksel alandır.
 Bir entity:
 
 managed
+
 detached
+
 removed
+
 transient
 
 durumlarından birinde bulunabilir.
 
-##2. Entity Lifecycle
+## 2. Entity Lifecycle
 
 ## 2.1 Transient
 
