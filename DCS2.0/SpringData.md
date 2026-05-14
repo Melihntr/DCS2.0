@@ -210,43 +210,45 @@ sağlar.
 
 ## 4.  Query Mekanizmaları
 
-### 4.1 Derived Query Methods
+### 4.1 Derived Query
 
-Method isminden query üretilebilir.
+Query Methods (Metot İsminden Sorgu Türetme)En popüler yöntemdir. Spring Data, yazdığınız metot ismini analiz eder ve arka planda otomatik olarak bir SQL sorgusu oluşturur.
 
-List<User> findByUsername(String username);
+Kural: Metot ismi find...By, read...By, query...By, count...By veya get...By ile başlamalıdır.
 
-Spring bunu otomatik SQL'e dönüştürür.
+Örnekler:
+```findByUsername(String username) $\rightarrow$ WHERE username = ?findByAgeGreaterThan(int age) $\rightarrow$ WHERE age > ?findByCategoryAndPriceLessThan(String cat, Double price) $\rightarrow$ WHERE category = ? AND price < ?findFirst3ByOrderByCreatedAtDesc() ```
 
+En yeni 3 kaydı getirir.
 
 ### 4.2 Custom Query
-
 Özel sorgular için kullanılır.
+
+#### @Query Anotasyonu (JPQL)
+
+Metot isimleri çok uzadığında veya karmaşık JOIN işlemleri gerektiğinde kullanılır. Burada tablo isimleri değil, Entity (Sınıf) isimleri kullanılır.
+
+```Java
+@Query("SELECT u FROM User u WHERE u.status = :status AND u.email LIKE %:suffix%")
+List<User> findActiveUsersWithEmailDomain(@Param("status") Status status, @Param("suffix") String suffix);```
 ```
-@Query("SELECT u FROM User u WHERE u.username = :username")
-User findCustom(@Param("username") String username);
+Avantajı: Veritabanı bağımsızdır (H2, MySQL veya PostgreSQL fark etmez).
+
+#### Native Queries (Saf SQL)
+Bazen veritabanına özgü fonksiyonları (Örn: PostgreSQL'e özel JSON işlemleri) kullanmanız gerekir. Bu durumda nativeQuery = true parametresi kullanılır.
+
+```Java
+@Query(value = "SELECT * FROM users WHERE last_login > NOW() - INTERVAL '1 day'", nativeQuery = true)
+List<User> findRecentLogins();
 ```
-Native SQL:
-```
-@Query(
-  value = "SELECT * FROM users WHERE username = ?1",
-  nativeQuery = true
-)
-```
-```
-User nativeFind(String username);
-```
+Dikkat: Bu yöntem veritabanı bağımlıdır. Veritabanı değiştirirseniz sorguyu güncellemeniz gerekebilir.
+
+
 ### 4.3 Criteria Query
 
-Dinamik sorgu oluşturmak için kullanılır.
+Sorgunun çalışma zamanında (runtime), kullanıcıdan gelen filtrelere göre dinamik olarak oluşturulması gereken durumlarda kullanılır. Tip güvenlidir (Type-safe), yani yanlış bir alan adı yazarsanız kod derlenmez.
 
-Özellikle:
-
-filtreleme
-arama ekranları
-dinamik WHERE koşulları
-
-için uygundur.
+Özellikle "Gelişmiş Arama" sayfalarında (fiyat aralığı, kategori, tarih filtresi gibi 10 farklı opsiyonun olduğu yerler) tercih edilir.
 ```
 CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 
@@ -260,11 +262,6 @@ cq.select(root)
 List<User> result =
     entityManager.createQuery(cq).getResultList();
 ```
-Avantajları:
-
-type-safe yaklaşım
-dinamik query üretimi
-compile-time kontrol
 
 
 ## 5. Entity İlişkileri
@@ -292,50 +289,105 @@ private List<Role> roles;
 ```
 ## 6. Unidirectional ve Bidirectional İlişkiler
 
-### 6.1 Unidirectional
+### 6.1 Unidirectional (Tek Yönlü) İlişki
+Bu modelde sadece bir sınıf diğerini tanır. İlişki tek taraflı bir referans üzerinden yürür.
 
-İlişki tek taraftan bilinir.
-```
-@OneToMany
-private List<Order> orders;
-```
-Avantaj:
+Mantık: A sınıfı B sınıfını bir alan (field) olarak tutar, ancak B sınıfının A'dan haberi yoktur.
 
-basit yapı
+Örnek: Bir User (Kullanıcı) nesnesinin bir Address (Adres) nesnesi tutması. Adres nesnesine gidip "Bu adres hangi kullanıcıya ait?" diye sorduğunuzda cevap alamazsınız.
 
-Dezavantaj:
+```Java
+@Entity
+public class User {
+    @Id
+    private Long id;
 
-bazı join işlemlerinde yetersizlik
+    @OneToOne // Sadece User üzerinden Address'e erişim var
+    @JoinColumn(name = "address_id")
+    private Address address;
+}
+@Entity
+public class Address {
+    @Id
+    private Long id;
+    private String street;
+    // User referansı yok!
+}
+```
 
-### 6.2 Bidirectional
+### 6.2 Bidirectional (Çift Yönlü) İlişki
+Her iki sınıf da birbirini referans olarak tutar. İki taraftan da birbirine erişmek mümkündür.
 
-Her iki taraf birbirini bilir.
-```
-@OneToMany(mappedBy = "user")
-private List<Order> orders;
-```
-```
-@ManyToOne
-private User user;
-```
-Avantaj:
+Mantık: A nesnesi üzerinden B'ye, B nesnesi üzerinden de A'ya ulaşılabilir.
 
-daha güçlü navigasyon
-daha doğal modelleme
+mappedBy: Çift yönlü ilişkilerde en kritik kavram budur. İlişkinin "sahibini" (owning side) belirlemek için kullanılır. Veritabanında dış anahtar (Foreign Key) hangi tabloda duruyorsa, ilişki sahibi odur. Diğer taraf mappedBy ile "ilişki bende değil, karşı tarafta" mesajını verir.
 
-Dezavantaj:
+```Java
+@Entity
+public class Post {
+    @Id
+    private Long id;
 
-sonsuz JSON recursion riski
+    @OneToMany(mappedBy = "post") // İlişki sahibi Comment sınıfıdır
+    private List<Comment> comments;
+}
 
-Çözüm:
+@Entity
+public class Comment {
+    @Id
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id") // Foreign Key burada tutulur
+    private Post post;
+}
 ```
-@JsonManagedReference
-@JsonBackReference
-```
-veya:
-```
-@JsonIgnore
-```
+
+###6.3 Aralarındaki Farklar ve Seçim Kriterleri
+JPA ve Hibernate dünyasında ilişkiler, nesnelerin birbirini ne kadar tanıdığına göre ikiye ayrılır. Bu kavramlar, veritabanı tabloları arasındaki ilişkiden ziyade, Java sınıfları arasındaki referans yönünü ifade eder.1. Unidirectional (Tek Yönlü) İlişkiBu modelde sadece bir sınıf diğerini tanır. İlişki tek taraflı bir referans üzerinden yürür.Mantık: A sınıfı B sınıfını bir alan (field) olarak tutar, ancak B sınıfının A'dan haberi yoktur.Örnek: Bir User (Kullanıcı) nesnesinin bir Address (Adres) nesnesi tutması. Adres nesnesine gidip "Bu adres hangi kullanıcıya ait?" diye sorduğunuzda cevap alamazsınız.Java@Entity
+public class User {
+    @Id
+    private Long id;
+
+    @OneToOne // Sadece User üzerinden Address'e erişim var
+    @JoinColumn(name = "address_id")
+    private Address address;
+}
+
+@Entity
+public class Address {
+    @Id
+    private Long id;
+    private String street;
+    // User referansı yok!
+}
+2. Bidirectional (Çift Yönlü) İlişkiHer iki sınıf da birbirini referans olarak tutar. İki taraftan da birbirine erişmek mümkündür.Mantık: A nesnesi üzerinden B'ye, B nesnesi üzerinden de A'ya ulaşılabilir.mappedBy: Çift yönlü ilişkilerde en kritik kavram budur. İlişkinin "sahibini" (owning side) belirlemek için kullanılır. Veritabanında dış anahtar (Foreign Key) hangi tabloda duruyorsa, ilişki sahibi odur. Diğer taraf mappedBy ile "ilişki bende değil, karşı tarafta" mesajını verir.Java@Entity
+public class Post {
+    @Id
+    private Long id;
+
+    @OneToMany(mappedBy = "post") // İlişki sahibi Comment sınıfıdır
+    private List<Comment> comments;
+}
+
+@Entity
+public class Comment {
+    @Id
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id") // Foreign Key burada tutulur
+    private Post post;
+}
+3. Aralarındaki Farklar ve Seçim Kriterleri
+
+Neden Unidirectional Tercih Edilir?
+
+Kodun daha temiz ve bağımsız (loosely coupled) kalmasını sağlar. Eğer bir Product nesnesinin hangi Category'ye ait olduğunu bilmeniz yetiyorsa, Category sınıfının içine binlerce Product listesi ekleyip belleği yormanıza gerek kalmaz.
+
+Neden Bidirectional Tercih Edilir?Erişim kolaylığı sağlar. Örneğin bir Order (Sipariş) nesnesini çekerken içindeki OrderItem (Sipariş Kalemleri) listesine de sık sık erişiyorsanız, çift yönlü yapı işleri kolaylaştırır.Kritik 
+
+Uyarı: Infinite Recursion (Sonsuz Döngü)Bidirectional ilişkilerde nesneleri JSON formatına çevirirken (örneğin bir REST API hazırlarken), nesneler birbirini çağırdığı için sonsuz bir döngüye girip StackOverflowError hatası alabilirsiniz. Bunu önlemek için @JsonManagedReference ve @JsonBackReference gibi anotasyonlar kullanmanız gerekir.Bu konu, veritabanı tasarımı yaparken tablolar arası coupling (bağımlılık) seviyesini belirlediği için mimari açıdan çok değerlidir. Genellikle "olabildiğince unidirectional başla, ihtiyaç duyarsan bidirectional yap" prensibi uygulanır.
 
 ## 7. Lazy ve Eager Loading
 
@@ -371,31 +423,28 @@ memory maliyeti
 
 ### 7.3 N+1 Problemi
 
-En yaygın ORM problemlerinden biridir.
+bir ana kaydı çekerken, o kayda bağlı ilişkili verilerin (örneğin bir postun yorumları) her biri için veritabanına ayrı ayrı gereksiz sorgu gönderilmesi durumudur.
 
-Örnek:
+Sorun Nasıl Oluşur?
+1 Sorgu: Tüm "Post"ları çekmek için atılır. (SELECT * FROM Post)
 
-1 query ile userlar gelir
-her user için ayrı order querysi çalışır
+N Sorgu: Gelen her bir (N tane) postun "Yorumlar"ını çekmek için tek tek sorgu atılır. (SELECT * FROM Comment WHERE post_id = ?)
 
-Toplam:
+Sonuçta 1 + N kadar sorgu oluşur. Bu da veritabanını yorar ve performansı ciddi şekilde düşürür.
 
-1 + N query
+Çözüm Yöntemleri
+Bu sorunu çözmek için Eager Loading yerine, veriyi tek bir seferde (veya akıllıca) çeken yöntemler kullanılır:
 
-Çözüm:
+Join Fetch (En Yaygın): Sorguda JOIN FETCH kullanarak ilişkili veriyi tek bir SQL sorgusuyla (JOIN ile) getirir.
 
-fetch join
-entity graph
-batch fetching
-
-Örnek:
+```Java
+@Query("SELECT p FROM Post p JOIN FETCH p.comments")
+List<Post> findAllWithComments();
 ```
-@Query("""
-SELECT u FROM User u
-JOIN FETCH u.orders
-""")
-List<User> findAllWithOrders();
-```
+Entity Graph: Hangi alanların çekileceğini belirleyen bir plan sunar.
+
+Batch Size: Hibernate'e nesneleri tek tek değil, 10'arlı veya 50'şerli gruplar halinde çekmesini söyler (Sorgu sayısını azaltır ama tamamen bitirmez).
+
 
 ## 8. Veri Tutarlılığı ve Optimistic Locking
 
@@ -457,11 +506,7 @@ performans kaybı
 
 İlişkisel veritabanlarının temel özellikleri genellikle Codd kuralları ile açıklanır.
 
-Yaygın olarak bahsedilen “8 maddeden en az 4’ü sağlanmalı” ifadesi akademik olarak tam doğru değildir.
-Aslında ilişkisel model:
-
-Edgar F. Codd tarafından tanımlanmıştır
-12 kural ile açıklanır
+Codd'un 13 kuralı (0-12) teoriktir. Gerçek dünyada bir veritabanı motorunun "ilişkisel" kabul edilmesi için bu kuralların hepsini sağlaması neredeyse imkansızdır. Piyasada "Eğer şu temel 5-6 kuralı sağlıyorsa o bir RDBMS'dir" gibi sektörel kabuller vardır.
 
 Temel ilişkisel özellikler:
 
@@ -476,39 +521,56 @@ Relation mantığı
 
 
 ## 10. Normalization
+Veritabanı tasarımında Normalizasyon, veri tekrarını (redundancy) önlemek ve veri bütünlüğünü (integrity) korumak için tabloları organize etme sürecidir. Toplamda 6-7 seviye olsa da, endüstride ilk 3 formun (ve bazen BCNF) uygulanması genellikle yeterli kabul edilir.
 
-### 10.1 1NF
+### 10.1 irinci Normal Form (1NF)
 
-Atomic veri.
+Bir tablonun 1NF olması için temel kural: Her hücrede tek bir değer (atomic value) olmalıdır.
 
-Yanlış:
+Sorun: Bir "Hobiler" sütununda "Yüzme, Kitap Okuma" şeklinde virgülle ayrılmış birden fazla veri olması.
 
-phones = "123,456"
-
-Doğru:
-
-ayrı tablo
+Çözüm: Çoklu değer içeren sütunlar parçalanır ve her satır tek bir değer içerir. Ayrıca her tablonun bir Primary Key'i olmalıdır.
 
 
-### 10.2 2NF
+### 10.2 İkinci Normal Form (2NF)
 
-Partial dependency kaldırılır.
+2NF olması için tablo önce 1NF olmalı ve Kısmi Bağımlılık (Partial Dependency) olmamalıdır.
 
-### 10.3 3NF
+Sorun: Bileşik anahtarın (Composite Key) olduğu bir tabloda, bir sütunun anahtarın tamamına değil de sadece bir kısmına bağlı olması.
 
-Transitive dependency kaldırılır.
+Örnek: (ÖğrenciID, DersID) anahtarı olan tabloda "Öğrenci Adı" sütunu sadece ÖğrenciID'ye bağlıdır. DersID ile ilgisi yoktur.
 
-Normalization amacı:
+Çözüm: Bu sütunlar ayrılır ve yeni bir tablo oluşturulur.
 
-veri tekrarını azaltmak
-tutarlılığı artırmak
+### 10.3 Üçüncü Normal Form (3NF)
+
+3NF olması için tablo önce 2NF olmalı ve Geçişli Bağımlılık (Transitive Dependency) olmamalıdır.
+
+Sorun: Anahtar olmayan bir sütunun, anahtar olmayan başka bir sütuna bağlı olması. (Yani: A $\rightarrow$ B $\rightarrow$ C durumu).
+
+Örnek: Öğrenci tablosunda "Okul Kodu" anahtara bağlıdır, "Okul Adı" ise "Okul Kodu"na bağlıdır. Okul adı dolaylı olarak anahtara bağlı kalır.
+
+Çözüm: Geçişli bağımlılık yaratan sütunlar (Okul Kodu ve Okul Adı) ayrı bir tabloya (Okul tablosu) taşınır.
+
+### 10.4 Boyce-Codd Normal Form (BCNF / 3.5NF)
+
+3NF'in daha güçlü bir versiyonudur.
+
+Kural: Her belirleyici (determinant) bir Aday Anahtar (Candidate Key) olmalıdır.
+
+Genellikle birden fazla bileşik anahtarın birbiriyle çakıştığı durumlarda ortaya çıkan karmaşık anomalileri çözer.
 
 
 ## 11. Join Mekanizmaları
 
-### 11.1 INNER JOIN
+İlişkisel veritabanlarında Join, iki veya daha fazla tabloyu aralarındaki bir sütun (genellikle Foreign Key) üzerinden birleştirerek tek bir sonuç kümesi elde etmektir.
 
-Eşleşen kayıtlar.
+### 11.1 Inner Join
+
+Her iki tabloda da eşleşen kaydı olan satırları getirir. Kesişim kümesidir.
+
+Örnek: Sadece siparişi olan müşterileri listeler.
+
 ```sql
 SELECT *
 FROM users u
@@ -516,81 +578,96 @@ INNER JOIN orders o
 ON u.id = o.user_id
 ```
 
-### 11.2 LEFT JOIN
+### 11.2 Left (Outer) Join
 
-Sol tablo tamamen gelir.
+Sol (birinci) tablodaki tüm kayıtları ve sağ tablodaki eşleşen kayıtları getirir. Sağ tarafta eşleşme yoksa o alanlar NULL döner.
 
+Örnek: Hiç sipariş vermemiş olsa bile tüm müşterileri ve (varsa) siparişlerini listeler.
 
-### 11.3 RIGHT JOIN
+### 11.3ight (Outer) Join
 
-Sağ tablo tamamen gelir.
+Sağ (ikinci) tablodaki tüm kayıtları ve sol tablodaki eşleşen kayıtları getirir. Sol tarafta eşleşme yoksa o alanlar NULL döner.
 
-
-### 11.4 FULL OUTER JOIN
-
-Her iki tablo tamamen gelir.
+Örnek: Sistemdeki tüm siparişleri ve bu siparişleri veren müşterileri listeler (Müşterisi silinmiş siparişler dahil).
 
 
-### 11.5 FETCH JOIN
+### 11.4 Full (Outer) Join
 
-JPA özel yaklaşımıdır.
+Her iki tablodaki tüm kayıtları getirir. Eşleşme olanları birleştirir, olmayan yerleri her iki taraf için de NULL ile doldurur.
+
+Örnek: Tüm müşterileri ve tüm siparişleri, birbirleriyle eşleşip eşleşmediklerine bakmaksızın listeler.
+
+
+### 11.5 Fetch Join
+
+JPA (Java Persistence API) ve Hibernate'de N+1 problemini çözmek için kullanılan en etkili yöntemdir. Standart bir SQL Join'inden farklı olarak, ilişkili nesneleri sadece sorgu sonuç kümesine dahil etmekle kalmaz, aynı zamanda bu nesnelerin Java tarafındaki referanslarını (Entity) tek bir sorguda doldurur.
+
+Neden Kullanılır?
+
+Standart bir JOIN kullandığınızda, veritabanı seviyesinde tablolar birleşir ancak Hibernate, ilişkili nesneleri (örneğin bir Post'un Comment'lerini) hala Lazy (Tembel) olarak işaretlenmişse çekmez. Bu verilere erişmek istediğinizde her biri için yeni bir sorgu atar (N+1 Sorunu). FETCH JOIN ise bu ilişkiyi tek bir SELECT içinde "yükleyerek" getirir.
+
+Örnek Kullanım (JPQL)
+
+Aşağıdaki sorgu, tüm yazarları ve o yazarlara ait kitapları tek bir veritabanı turunda (round-trip) çeker:
+
+```Java
+@Query("SELECT a FROM Author a JOIN FETCH a.books")
+List<Author> findAllAuthorsWithBooks();
 ```
-SELECT u FROM User u
-JOIN FETCH u.orders
-```
-N+1 problemini azaltır.
+Normal JOIN olsaydı: 1 sorgu yazarlar için, ardından her yazarı kitapları için N tane ek sorgu.
+
+FETCH JOIN ile: Tek bir SQL sorgusu ile tüm yazarlar ve kitapları belleğe yüklenmiş (managed state) olarak gelir.
 
 
 ## 12. Inheritance Mapping
 
-### 12.1 Single Table Strategy
+JPA'da Inheritance Mapping (Kalıtım Eşleme), Java'daki nesne yönelimli kalıtım yapısının (Inheritance), ilişkisel veritabanındaki (RDBMS) tablolara nasıl aktarılacağını belirleyen yöntemdir. Veritabanı tabloları doğal olarak kalıtımı desteklemediği için JPA bize 3 ana strateji sunar.
 
-Tüm classlar tek tabloda tutulur.
+### 12.1 Single Table Strategy (Tek Tablo Stratejisi)
 
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+Tüm sınıf hiyerarşisi (Ata ve Çocuk sınıflar) veritabanında tek bir tabloda tutulur.
 
-Avantaj:
+Nasıl Çalışır: Tabloda, hangi satırın hangi sınıfa ait olduğunu belirten bir Discriminator Column (ayırıcı sütun, genellikle DTYPE) bulunur.
 
-hızlı query
+Avantajı: Çok hızlıdır çünkü JOIN işlemi gerektirmez. Sorgular basittir.
 
-Dezavantaj:
+Dezavantajı: Çocuk sınıflara özgü alanlar veritabanında NULL olabilir. Bu durum veri bütünlüğü kısıtlarını (NOT NULL) zorlaştırır.
 
-çok NULL alan oluşabilir
+### 12.2 Joined Table Strategy (Birleştirilmiş Tablo Stratejisi)
+Her sınıf (Ata ve her bir Çocuk) için ayrı bir tablo oluşturulur.
 
+Nasıl Çalışır: Çocuk tabloları, ata tablonun Primary Key'ini kullanarak ona bağlanır.
 
-### 12.2 Joined Strategy
+Avantajı: Veritabanı tasarımı en temiz ve "normalizasyon" kurallarına en uygun olandır. NOT NULL kısıtları rahatça kullanılabilir.
 
-Her class ayrı tabloda tutulur.
+Dezavantajı: Veri çekmek için çok sayıda JOIN yapılması gerekir, bu da büyük hiyerarşilerde performansı düşürür.
 
-@Inheritance(strategy = InheritanceType.JOINED)
+### 12.3 Table Per Class Strategy (Sınıf Başına Tablo Stratejisi)
 
-Avantaj:
+Sadece her bir somut (concrete) çocuk sınıf için ayrı bir tablo oluşturulur. Ata sınıf için tablo oluşturulmaz.
 
-normalize yapı
+Nasıl Çalışır: Ata sınıftaki tüm alanlar, her bir çocuk tablosunda tekrarlanır.
 
-Dezavantaj:
+Avantajı: Bir çocuk sınıfı sorgularken sadece kendi tablosuna bakılır, hızlıdır.
 
-fazla join
+Dezavantajı: Ata sınıf üzerinden bir sorgu yapıldığında (örneğin "tüm çalışanları getir") veritabanı tüm tabloları UNION ile birleştirmek zorunda kalır, bu çok maliyetlidir.
 
+### 12.4 Hangisi Tercih Edilmeli?
 
-### 12.3 Table Per Class
+Seçim yaparken performans ve veri bütünlüğü dengesini gözetmen gerekir
 
-Her class kendi tablosuna sahiptir.
-```
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-```
-Genellikle önerilmez.
+Single TableVarsayılan tercihtir. Hiyerarşi küçükse ve performans en öncelikli kriterse (Örn: User -> Admin, Customer).
 
-Neden?
+Joined TableVeri bütünlüğü (NOT NULL gibi) çok kritikse ve hiyerarşi çok karmaşıksa. Profesyonel projelerde "temiz tasarım" için sıkça tercih edilir.
 
-UNION query maliyeti
-karmaşık sorgular
-düşük performans
+Table Per ClassAta sınıf üzerinden sorgu yapmaya neredeyse hiç ihtiyaç duyulmayan, her alt sınıfın tamamen bağımsız çalıştığı nadir durumlarda.
 
 
 ## 13. Composition Over Inheritance
 
-Modern yazılım tasarımında inheritance yerine composition önerilir.
+Composition over Inheritance (Kalıtım yerine Kompozisyon), yazılım tasarımında "is-a" (bir ...-dır) ilişkisi yerine "has-a" (bir ...-ya sahiptir) ilişkisini tercih etmeyi öneren temel bir prensiptir.
+
+Bu prensip, sınıfların birbirine sıkı sıkıya bağlanmasını (tight coupling) önlemek ve kodun esnekliğini artırmak için kullanılır.
 
 Kötü örnek:
 
@@ -608,6 +685,28 @@ düşük bağlılık
 daha esnek yapı
 yeniden kullanılabilirlik
 
+### 13.1 Örnek Senaryo: Robot Sistemi
+Diyelim ki farklı yetenekleri olan robotlar tasarlıyorsunuz.
+
+Kalıtım ile (Kötü Yaklaşım):
+UcanRobot ve YuruyenRobot diye iki sınıf yaptınız. Peki hem uçan hem yürüyen bir robot gerekirse? Java'da iki sınıfı birden extend edemezsiniz. Kod tekrarına düşersiniz.
+
+Kompozisyon ile (İyi Yaklaşım):
+Robotun yeteneklerini ayrı sınıflar veya arayüzler (interface) olarak tanımlarsınız ve robot nesnesine enjekte edersiniz.
+
+```Java
+public class Robot {
+    private MoveStrategy moveStrategy; // Kompozisyon burası
+
+    public Robot(MoveStrategy strategy) {
+        this.moveStrategy = strategy;
+    }
+
+    public void move() {
+        moveStrategy.move();
+    }
+}
+```
 
 ## 14. H2 Veritabanı
 
@@ -635,6 +734,8 @@ Bağımlılık:
 
 ## 15. Hibernate DDL Yönetimi
 
+Hibernate’de DDL (Data Definition Language) yönetimi, Java entity sınıflarınızdaki değişikliklerin veritabanı şemasına (tablolar, kolonlar, kısıtlamalar) nasıl yansıtılacağını belirleyen mekanizmadır. Bu yönetim, hibernate.hbm2ddl.auto (veya Spring Boot kullanıyorsan spring.jpa.hibernate.ddl-auto) özelliği ile kontrol edilir.
+
 ### 15.1 Tablo Oluşturma Süreci
 
 Hibernate entityleri analiz eder:
@@ -644,7 +745,9 @@ metadata üretimi
 ilişki çözümleme
 foreign key oluşturma
 DDL üretimi
-16.2 ddl-auto Modları
+
+
+### 15.2 ddl-auto Modları
 spring.jpa.hibernate.ddl-auto=create
 
 Seçenekler:
@@ -730,38 +833,3 @@ hangi veriyi değiştirdi
 
 takip edilmelidir.
 
-
-## 18. Önemli İleri Seviye Konular
-
-### 18.1 Cascade Types
-
-@OneToMany(cascade = CascadeType.ALL)
-
-Türler:
-
-PERSIST
-MERGE
-REMOVE
-REFRESH
-DETACH
-
-
-### 18.2 Orphan Removal
-```
-@OneToMany(orphanRemoval = true)
-```
-İlişkiden çıkan child otomatik silinir.
-
-### 18.3 DTO Projection
-
-Entity yerine DTO dönmek performans sağlar.
-```
-SELECT new com.app.UserDto(u.id,u.name)
-FROM User u
-```
-### 18.4 Entity Graph
-
-Performans optimizasyonu sağlar.
-```
-@EntityGraph(attributePaths = {"orders"})
-```
