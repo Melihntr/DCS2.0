@@ -1,5 +1,15 @@
 # Spring Data Dokümantasyonu
 
+Spring Data, veri erişim katmanını (Data Access Layer) geliştirmeyi inanılmaz derecede kolaylaştıran, Spring Framework üzerine inşa edilmiş kapsamlı bir projedir.
+
+JPA ve Hibernate gibi teknolojileri kullanırken yazdığınız tekrarlı kodları (Boilerplate code) ortadan kaldırmayı amaçlar.
+
+#### Temel Amacı Nedir?
+Geleneksel yöntemde her bir tablo (Entity) için; veriyi kaydetme, silme, güncelleme ve ID ile bulma gibi metotları (save, delete, findById) tek tek yazmanız gerekir. Spring Data, bu standart işlemleri sizin yerinize halleder.
+
+Bunun yanı sıra sadece ilişkisel veritabanları (SQL) değil; NoSQL, Graph, Map-Reduce gibi farklı veri depolama teknolojilerine de aynı programlama modelini kullanarak erişmenizi sağlar.
+
+
 ## 1. JPA ve Persistence Katmanı
 
 ### 1.1 JPA ve Persistence Nedir?
