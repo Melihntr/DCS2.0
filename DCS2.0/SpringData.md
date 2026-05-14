@@ -193,16 +193,16 @@ Spring Data, alttaki ORM implementasyonunu soyutlar.
 
 Uygulama:
 
-Hibernate
-EclipseLink
+Hibernate,
+EclipseLink,
 başka bir provider
 
 kullansa bile repository kodu değişmeden kalabilir.
 
 Bu yaklaşım:
 
-loose coupling
-maintainability
+loose coupling,
+maintainability,
 testability
 
 sağlar.
