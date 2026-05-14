@@ -104,7 +104,7 @@ Sosyal ağ uygulamaları
 Document Database sistemlerinde veriler genellikle JSON formatına benzer dokümanlar olarak tutulur.
 
 Örnek kullanıcı dokümanı:
-
+```
 {
   "id": "user_101",
   "name": "Ahmet Yılmaz",
@@ -116,6 +116,7 @@ Document Database sistemlerinde veriler genellikle JSON formatına benzer doküm
     }
   ]
 }
+```
 
 Bu yaklaşım sayesinde:
 
@@ -129,7 +130,7 @@ Veri okuma performansı artar.
 Document Database sistemlerinde her dokümanın aynı alanlara sahip olması zorunlu değildir.
 
 Örneğin:
-
+```
 {
   "name": "Ali"
 }
@@ -140,7 +141,7 @@ ve
   "name": "Ayşe",
   "phone": "5551234567"
 }
-
+```
 aynı koleksiyon içerisinde bulunabilir.
 
 Bu özellik:
@@ -168,7 +169,7 @@ Okuma performansını artırmak
 İlişkili verilerin aynı doküman içerisine gömülmesi yaklaşımıdır.
 
 Örnek:
-
+```
 {
   "customer": "Mehmet",
   "orders": [
@@ -178,7 +179,7 @@ Okuma performansını artırmak
     }
   ]
 }
-
+```
 Avantajları:
 
 Tek sorguda veri erişimi
@@ -195,12 +196,12 @@ Büyük doküman boyutları oluşabilir
 İlişkili verilerin ayrı dokümanlarda tutulmasıdır.
 
 Örnek:
-
+```
 {
   "customerId": "cust_1001",
   "orderId": "ord_2001"
 }
-
+```
 Avantajları:
 
 Veri tekrarını azaltır
@@ -360,11 +361,11 @@ gibi farklı indeks türleri bulunur.
 Couchbase’in SQL benzeri sorgu dili olan N1QL, indekslerle birlikte yüksek performans sağlar.
 
 Örnek sorgu:
-
+```
 SELECT name, email
 FROM users
 WHERE city = "Ankara";
-
+```
 İlgili alan üzerinde indeks bulunmaması durumunda:
 
 Full scan işlemi oluşur
