@@ -2,18 +2,28 @@
 
 ## 1. JPA ve Persistence Katmanı
 
-### 1.1 JPA Nedir?
+### 1.1 JPA ve Persistence Nedir?
 
-Jakarta Persistence Java nesnelerinin ilişkisel veritabanı tablolarına eşlenmesini sağlayan bir spesifikasyondur.
+Persistence (Kalıcılık) Nedir?
+Bilgisayar bilimlerinde Persistence, bir verinin oluşturulduğu süreç (process) sonlansa bile varlığını sürdürmeye devam etmesi özelliğidir.
 
-JPA doğrudan bir framework değildir. Bir standarttır.
-Bu standardın implementasyonlarını sağlayan ORM araçları şunlardır:
+Geçici Veri: Uygulama çalıştığı sürece RAM üzerinde tutulan nesnelerdir. Uygulama kapandığında bu veriler kaybolur.
 
-Hibernate ORM
-EclipseLink
-OpenJPA
+Kalıcı Veri: Veritabanları (SQL/NoSQL) veya dosya sistemleri gibi ortamlara kaydedilen verilerdir. Uygulama yeniden başlatıldığında bu veriler geri yüklenebilir.
 
-Spring Boot projelerinde çoğunlukla Hibernate kullanılır.
+JPA (Java Persistence API) Nedir?
+JPA, Java nesnelerinin (POJO) ilişkisel veritabanlarına (RDBMS) nasıl kaydedileceğini, nasıl güncelleneceğini ve nasıl sorgulanacağını tanımlayan bir spesifikasyondur (kural setidir).
+
+JPA kendisi bir kütüphane veya araç değil, bir standarttır. Bu standart, Java dünyasındaki ORM (Object-Relational Mapping) yaklaşımını kolaylaştırmak için oluşturulmuştur.
+
+Temel Bileşenleri:
+Entity: Veritabanındaki bir tabloya karşılık gelen Java sınıfıdır.
+
+EntityManager: Veritabanı işlemlerini (kaydetme, silme, bulma) yöneten ana arayüzdür.
+
+JPQL (Java Persistence Query Language): Tablolar yerine doğrudan Java nesneleri üzerinden sorgu yazılmasını sağlayan dildir.
+
+Spring Boot projelerinde çoğunlukla bir JPA implementasyonu olan Hibernate kullanılır.
 
 ### 1.2 ORM (Object Relational Mapping)
 
