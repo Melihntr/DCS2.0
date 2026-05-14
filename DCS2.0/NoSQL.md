@@ -1,4 +1,4 @@
-# Spring Data Dokumantasyonu
+# NoSQL Dokumantasyonu
 
 ## 1. Giriş
 
