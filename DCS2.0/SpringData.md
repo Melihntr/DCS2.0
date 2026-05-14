@@ -128,6 +128,24 @@ remove() metodu çağrıldığında nesne bu duruma geçer.
 ```
 entityManager.remove(user);
 ```
+Lifecycle Olayları ve Callback Metotları
+JPA, bu geçişler sırasında belirli işlemleri otomatik olarak tetiklemenize izin veren Callback anotasyonları sunar. Kodunuzun temiz kalması ve mantıksal işlemlerin (loglama, tarih güncelleme vb.) otomatize edilmesi için kritiktir:
+
+@PrePersist: Veritabanına ilk kez kaydedilmeden hemen önce çalışır (Örn: createdAt tarihini atamak için).
+
+@PostPersist: Kayıt işlemi tamamlandıktan sonra çalışır.
+
+@PreUpdate: Mevcut bir veri güncellenmeden hemen önce tetiklenir (Örn: updatedAt bilgisini güncellemek için).
+
+@PostUpdate: Güncelleme başarılı olduktan sonra çalışır.
+
+@PreRemove: Veri silinmeden hemen önce çalışır.
+
+@PostRemove: Veri silindikten sonra çalışır.
+
+@PostLoad: Veri veritabanından çekilip nesneye dönüştürüldükten hemen sonra çalışır.
+
+Özet Akış ŞemasıNew $\xrightarrow{persist()}$ ManagedManaged $\xrightarrow{detach()/close()}$ DetachedDetached $\xrightarrow{merge()}$ ManagedManaged $\xrightarrow{remove()}$ RemovedDatabase $\xrightarrow{find()/query}$ Managed
 
 ## 3. Spring Data Repository Yapısı
 ### 3.1 Repository Kavramı
