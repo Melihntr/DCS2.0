@@ -149,38 +149,43 @@ JPA, bu geçişler sırasında belirli işlemleri otomatik olarak tetiklemenize 
 
 
 ## 3. Spring Data Repository Yapısı
-### 3.1 Repository Kavramı
+### Repository Hiyerarşisi
+Repository<T, ID>: En tepedeki boş interface'dir. Sadece bir sınıfın repository olduğunu işaretlemek (marker interface) için kullanılır. Hiçbir metot içermez.
 
-Repository pattern, veri erişim katmanını soyutlar.
+CrudRepository<T, ID>: Temel Create, Read, Update, Delete (CRUD) işlemlerini sağlar. save(), findById(), findAll(), deleteById() gibi metotlar burada tanımlıdır.
 
-Spring Data sayesinde boilerplate kod büyük ölçüde azalır.
+PagingAndSortingRepository<T, ID>: CrudRepository'den türer. CRUD işlemlerine ek olarak verileri sayfalara bölmek (Pagination) ve belirli kriterlere göre sıralamak (Sorting) için gerekli metotları ekler.
 
-### 3.2 CrudRepository
-```
-public interface UserRepository 
-       extends CrudRepository<User, Long> {
+JpaRepository<T, ID>: En sık kullanılan arayüzdür. Yukarıdakilerin hepsine ek olarak JPA'ya özgü flush() (değişiklikleri veritabanına zorla yazma), saveAndFlush() ve toplu silme (deleteInBatch()) gibi gelişmiş özellikleri sunar.
+
+
+### 3.2 Standart Bir Repository Tanımlama
+Spring Data ile çalışırken genellikle JpaRepository tercih edilir. Bu sayede tüm yeteneklere tek seferde sahip olursunuz.
+
+```Java
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    
+    // 1. Query Methods: Metot isminden sorgu türetme
+    List<Product> findByNameContaining(String keyword);
+    
+    // 2. Custom JPQL Query: Daha karmaşık mantıklar için
+    @Query("SELECT p FROM Product p WHERE p.price > :minPrice")
+    List<Product> findExpensiveProducts(@Param("minPrice") BigDecimal minPrice);
 }
 ```
-Sağlanan metodlar:
+### 3.3 Neden Bu Yapı Kullanılır?
+Kod Tekrarını Önler: Her entity için aynı SQL sorgularını (insert, update vb.) tekrar yazmanıza gerek kalmaz.
 
-```
-save()
-findById()
-delete()
-existsById()
-```
+Okunabilirlik: findByEmailAndStatus(String email, Status status) gibi bir metot ismi, kodun ne yaptığını SQL bilmeyen biri için bile anlaşılır kılar.
 
-### 3.3 JpaRepository
-```
-public interface UserRepository 
-       extends JpaRepository<User, Long> {
-}
-```
-Ek avantajlar:
+Tip Güvenliği (Type Safety): Doğrudan Java nesneleriyle (Entity) çalıştığınız için çalışma zamanı hataları minimize edilir.
 
-pagination
-batch işlemleri
-flush desteği
+Esneklik: Eğer SQL yerine Couchbase veya MongoDB gibi bir NoSQL yapısına geçerseniz, sadece JpaRepository yerine CouchbaseRepository yazarak kodun geri kalanını (Business Logic) neredeyse hiç değiştirmeden kullanmaya devam edebilirsiniz.
+
 
 ### 3.4 Persistence Abstraction
 
@@ -201,6 +206,7 @@ maintainability
 testability
 
 sağlar.
+
 
 ## 4.  Query Mekanizmaları
 
