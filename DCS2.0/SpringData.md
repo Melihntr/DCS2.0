@@ -4,14 +4,14 @@
 
 ### 1.1 JPA ve Persistence Nedir?
 
-Persistence (Kalıcılık) Nedir?
+#### Persistence (Kalıcılık) Nedir?
 Bilgisayar bilimlerinde Persistence, bir verinin oluşturulduğu süreç (process) sonlansa bile varlığını sürdürmeye devam etmesi özelliğidir.
 
 Geçici Veri: Uygulama çalıştığı sürece RAM üzerinde tutulan nesnelerdir. Uygulama kapandığında bu veriler kaybolur.
 
 Kalıcı Veri: Veritabanları (SQL/NoSQL) veya dosya sistemleri gibi ortamlara kaydedilen verilerdir. Uygulama yeniden başlatıldığında bu veriler geri yüklenebilir.
 
-JPA (Java Persistence API) Nedir?
+#### JPA (Java Persistence API) Nedir?
 JPA, Java nesnelerinin (POJO) ilişkisel veritabanlarına (RDBMS) nasıl kaydedileceğini, nasıl güncelleneceğini ve nasıl sorgulanacağını tanımlayan bir spesifikasyondur (kural setidir).
 
 JPA kendisi bir kütüphane veya araç değil, bir standarttır. Bu standart, Java dünyasındaki ORM (Object-Relational Mapping) yaklaşımını kolaylaştırmak için oluşturulmuştur.
