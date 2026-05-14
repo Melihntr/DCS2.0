@@ -147,8 +147,6 @@ JPA, bu geçişler sırasında belirli işlemleri otomatik olarak tetiklemenize 
 
 Özet Akış Şeması
 
-New $\xrightarrow{persist()}$ ManagedManaged $\xrightarrow{detach()/close()}$ DetachedDetached $\xrightarrow{merge()}$ ManagedManaged $\xrightarrow{remove()}$ RemovedDatabase $\xrightarrow{find()/query}$ Managed
-
 
 ## 3. Spring Data Repository Yapısı
 ### 3.1 Repository Kavramı
