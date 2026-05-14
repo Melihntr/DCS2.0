@@ -26,7 +26,7 @@ Field	Column
 Reference	Foreign Key
 
 Örnek:
-
+```
 @Entity
 public class User {
 
@@ -43,7 +43,7 @@ CREATE TABLE users (
     id BIGINT PRIMARY KEY,
     username VARCHAR(255)
 );
-
+```
 
 ### 1.3 Persistence Context
 
@@ -69,8 +69,9 @@ User user = new User();
 ### 2.2 Managed
 
 Persistence Context tarafından yönetilen nesne.
-
+```
 entityManager.persist(user);
+```
 
 ### 2.3 Detached
 
@@ -82,8 +83,9 @@ entityManager.detach(user);
 
 Silinmek üzere işaretlenen nesne.
 
+```
 entityManager.remove(user);
-
+```
 
 ## 3. Spring Data Repository Yapısı
 ### 3.1 Repository Kavramı
@@ -93,22 +95,26 @@ Repository pattern, veri erişim katmanını soyutlar.
 Spring Data sayesinde boilerplate kod büyük ölçüde azalır.
 
 ### 3.2 CrudRepository
+```
 public interface UserRepository 
        extends CrudRepository<User, Long> {
 }
-
+```
 Sağlanan metodlar:
 
+```
 save()
 findById()
 delete()
 existsById()
+```
 
 ### 3.3 JpaRepository
+```
 public interface UserRepository 
        extends JpaRepository<User, Long> {
 }
-
+```
 Ek avantajlar:
 
 pagination
@@ -149,18 +155,20 @@ Spring bunu otomatik SQL'e dönüştürür.
 ### 4.2 Custom Query
 
 Özel sorgular için kullanılır.
-
+```
 @Query("SELECT u FROM User u WHERE u.username = :username")
 User findCustom(@Param("username") String username);
-
+```
 Native SQL:
-
+```
 @Query(
   value = "SELECT * FROM users WHERE username = ?1",
   nativeQuery = true
 )
+```
+```
 User nativeFind(String username);
-
+```
 ### 4.3 Criteria Query
 
 Dinamik sorgu oluşturmak için kullanılır.
@@ -172,7 +180,7 @@ arama ekranları
 dinamik WHERE koşulları
 
 için uygundur.
-
+```
 CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 
 CriteriaQuery<User> cq = cb.createQuery(User.class);
@@ -184,7 +192,7 @@ cq.select(root)
 
 List<User> result =
     entityManager.createQuery(cq).getResultList();
-
+```
 Avantajları:
 
 type-safe yaklaşım
@@ -195,30 +203,35 @@ compile-time kontrol
 ## 5. Entity İlişkileri
 
 ### 5.1 One-to-One
+```
 @OneToOne
 private Address address;
-
+```
 ### 5.2 One-to-Many
+```
 @OneToMany(mappedBy = "user")
 private List<Order> orders;
+```
 
 ### 5.3 Many-to-One
+```
 @ManyToOne
 private User user;
-
+```
 ### 5.4 Many-to-Many
+```
 @ManyToMany
 private List<Role> roles;
-
+```
 ## 6. Unidirectional ve Bidirectional İlişkiler
 
 ### 6.1 Unidirectional
 
 İlişki tek taraftan bilinir.
-
+```
 @OneToMany
 private List<Order> orders;
-
+```
 Avantaj:
 
 basit yapı
@@ -230,13 +243,14 @@ bazı join işlemlerinde yetersizlik
 ### 6.2 Bidirectional
 
 Her iki taraf birbirini bilir.
-
+```
 @OneToMany(mappedBy = "user")
 private List<Order> orders;
-
+```
+```
 @ManyToOne
 private User user;
-
+```
 Avantaj:
 
 daha güçlü navigasyon
@@ -247,22 +261,23 @@ Dezavantaj:
 sonsuz JSON recursion riski
 
 Çözüm:
-
+```
 @JsonManagedReference
 @JsonBackReference
-
+```
 veya:
-
+```
 @JsonIgnore
+```
 
 ## 7. Lazy ve Eager Loading
 
 ### 7.1 Lazy Loading
 
 Veri ihtiyaç halinde yüklenir.
-
+```
 @OneToMany(fetch = FetchType.LAZY)
-
+```
 Avantaj:
 
 performans
@@ -274,9 +289,9 @@ LazyInitializationException riski
 ### 7.2 Eager Loading
 
 Veri anında yüklenir.
-
+```
 @OneToMany(fetch = FetchType.EAGER)
-
+```
 Avantaj:
 
 erişim kolaylığı
@@ -307,13 +322,13 @@ entity graph
 batch fetching
 
 Örnek:
-
+```
 @Query("""
 SELECT u FROM User u
 JOIN FETCH u.orders
 """)
 List<User> findAllWithOrders();
-
+```
 
 ## 8. Veri Tutarlılığı ve Optimistic Locking
 
@@ -331,10 +346,10 @@ D	Durability
 ### 8.2 Optimistic Locking
 
 Çakışmaları versiyon kontrolüyle yönetir.
-
+```
 @Version
 private Long version;
-
+```
 Senaryo:
 
 iki kullanıcı aynı veriyi günceller
@@ -342,9 +357,9 @@ ilk işlem başarılı olur
 ikinci işlem exception alır
 
 Exception:
-
+```
 OptimisticLockException
-
+```
 Avantaj:
 
 yüksek performans
@@ -353,12 +368,14 @@ düşük lock maliyeti
 Dezavantaj:
 
 retry mekanizması gerekebilir
+
+
 ### 8.3 Pessimistic Locking
 
 Gerçek lock kullanır.
-
+```
 @Lock(LockModeType.PESSIMISTIC_WRITE)
-
+```
 Avantaj:
 
 güçlü tutarlılık
@@ -425,12 +442,12 @@ tutarlılığı artırmak
 ### 11.1 INNER JOIN
 
 Eşleşen kayıtlar.
-
+```sql
 SELECT *
 FROM users u
 INNER JOIN orders o
 ON u.id = o.user_id
-
+```
 
 ### 11.2 LEFT JOIN
 
@@ -450,10 +467,10 @@ Her iki tablo tamamen gelir.
 ### 11.5 FETCH JOIN
 
 JPA özel yaklaşımıdır.
-
+```
 SELECT u FROM User u
 JOIN FETCH u.orders
-
+```
 N+1 problemini azaltır.
 
 
@@ -492,9 +509,9 @@ fazla join
 ### 12.3 Table Per Class
 
 Her class kendi tablosuna sahiptir.
-
+```
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-
+```
 Genellikle önerilmez.
 
 Neden?
@@ -542,12 +559,12 @@ hızlı başlangıç
 embedded yapı
 
 Bağımlılık:
-
+```
 <dependency>
     <groupId>com.h2database</groupId>
     <artifactId>h2</artifactId>
 </dependency>
-
+```
 
 ## 15. Hibernate DDL Yönetimi
 
@@ -586,10 +603,11 @@ eager ilişki varsa
 ## 16. Transaction Yönetimi
 
 ### 16.1 @Transactional
+```
 @Transactional
 public void transfer() {
 }
-
+```
 Spring:
 
 transaction başlatır
@@ -609,15 +627,15 @@ SERIALIZABLE	En güvenli
 ### 17.1 SQL Injection
 
 Yanlış:
-
+```
 String sql =
  "SELECT * FROM users WHERE username='"
  + username + "'";
-
+```
 Doğru:
-
+```
 @Query("SELECT u FROM User u WHERE u.username=:username")
-
+```
 
 ### 17.2 Password Güvenliği
 
@@ -662,20 +680,21 @@ DETACH
 
 
 ### 18.2 Orphan Removal
-
+```
 @OneToMany(orphanRemoval = true)
-
+```
 İlişkiden çıkan child otomatik silinir.
 
 ### 18.3 DTO Projection
 
 Entity yerine DTO dönmek performans sağlar.
-
+```
 SELECT new com.app.UserDto(u.id,u.name)
 FROM User u
-
+```
 ### 18.4 Entity Graph
 
 Performans optimizasyonu sağlar.
-
+```
 @EntityGraph(attributePaths = {"orders"})
+```
