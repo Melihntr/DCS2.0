@@ -71,28 +71,49 @@ durumlarından birinde bulunabilir.
 
 ## 2. Entity Lifecycle
 
-## 2.1 Transient
+## 2.1 New (Transient)
+Nesnenin bellekte (RAM) oluşturulduğu ancak henüz bir veritabanı satırı ile ilişkilendirilmediği durumdur.
 
-Henüz veritabanı ile ilişkisi olmayan nesne.
+Nesne new anahtar kelimesiyle oluşturulmuştur.
 
+Henüz bir Primary Key (ID) değerine sahip değildir (veya atanmamıştır).
+
+EntityManager bu nesneden haberdar değildir; uygulama kapanırsa veri kaybolur.
+```
 User user = new User();
+```
 
-### 2.2 Managed
 
-Persistence Context tarafından yönetilen nesne.
+### 2.2 Managed (Persistent)
+Nesnenin EntityManager tarafından takip edildiği ve veritabanındaki bir satırla eşleştiği durumdur.
+
+persist(), find() veya merge() metotları çağrıldığında nesne bu duruma geçer.
+
+Kirli Kontrol (Dirty Checking): Bu durumdaki bir nesnenin herhangi bir alanını (field) değiştirdiğinizde, işlem (transaction) sonunda JPA bunu fark eder ve otomatik olarak bir UPDATE sorgusu gönderir. Manuel update() çağırmanıza gerek kalmaz.
+
 ```
 entityManager.persist(user);
 ```
 
 ### 2.3 Detached
+Nesnenin veritabanında bir karşılığı vardır ancak artık EntityManager tarafından takip edilmediği durumdur.
 
-Context dışına çıkmış nesne.
+EntityManager kapatıldığında (close()) veya clear() metodu çağrıldığında tüm nesneler "detached" olur.
 
+Bu durumdaki bir nesne üzerinde yapılan değişiklikler veritabanına yansımaz. Tekrar yönetilmesini isterseniz merge() metodunu kullanmanız gerekir.
+
+```
 entityManager.detach(user);
+```
+
 
 ### 2.4 Removed
 
-Silinmek üzere işaretlenen nesne.
+Nesnenin silinmek üzere işaretlendiği durumdur.
+
+remove() metodu çağrıldığında nesne bu duruma geçer.
+
+İşlem (transaction) commit edildiğinde veritabanından ilgili satır fiziksel olarak silinir.
 
 ```
 entityManager.remove(user);
