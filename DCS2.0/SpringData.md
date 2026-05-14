@@ -752,49 +752,80 @@ spring.jpa.hibernate.ddl-auto=create
 
 Seçenekler:
 
-Mod	Açıklama
 create	Baştan oluşturur
+
 update	Eksikleri günceller
+
 create-drop	Açılışta oluşturur kapanışta siler
+
 validate	Şemayı doğrular
+
 none	İşlem yapmaz
 
 
 ### 15.3 Join Kararı Neye Göre Verilir?
 
-ORM şu durumlarda join üretir:
+Özetle, Hibernate'in JOIN kararı şu 4 kritere dayanır:
 
-entity relationship varsa
-fetch strategy uygunsa
-JPQL içinde join varsa
-eager ilişki varsa
+1. İlişkinin Varlığı (Relationship)
+Tablolar arasında @ManyToOne veya @OneToMany gibi bir bağ yoksa join yapılamaz. @ManyToOne gibi tekil ilişkiler join yapmaya daha meyillidir.
 
+2. Yükleme Stratejisi (Fetch Strategy)
+Eager: "Hemen getir" demektir. Hibernate bunu genellikle ana sorguya bir Left Outer Join ekleyerek çözer.
+
+Lazy: "İhtiyaç olunca getir" demektir. İlk sorguda join yapılmaz, veriye dokunulursa ek sorgu atılır.
+
+3. JPQL İçindeki Komut (Explicit Join)
+Siz sorguda açıkça JOIN FETCH yazarsanız, entity ayarları ne olursa olsun Hibernate veritabanında Join yapar ve veriyi tek seferde çeker.
+
+4. Boş Olabilirlik (Optionality)
+optional = false: Veri mutlaka vardır, Inner Join yapılır (Hızlıdır).
+
+optional = true: Veri olmayabilir, veri kaybını önlemek için Left Outer Join yapılır.
 
 ## 16. Transaction Yönetimi
 
-### 16.1 @Transactional
+### 16.1 @Transactional Anotasyonu
+
+Spring'de @Transactional kullanıldığında, Spring bu metodu bir Proxy nesnesi ile sarmalar. Arka planda şu süreçleri otomatik yönetir:
+
+Transaction Başlatır: Metoda girildiği an veritabanı bağlantısı üzerinden bir işlem başlatılır.
+
+Commit Eder: Metot başarıyla (hatasız) tamamlandığında tüm değişiklikler veritabanına kalıcı olarak yazılır.
+
+Rollback Yapar: Eğer metot içinde bir RuntimeException (Unchecked Exception) fırlatılırsa, o ana kadar yapılmış tüm işlemler geri alınır ve veritabanı eski haline döner.
+
 ```
 @Transactional
 public void transfer() {
 }
 ```
-Spring:
-
-transaction başlatır
-commit eder
-hata olursa rollback yapar
 
 
-### 16.2 Isolation Levels
-Seviye	Açıklama
-READ_UNCOMMITTED	Dirty read olabilir
-READ_COMMITTED	En yaygın
-REPEATABLE_READ	Aynı veri korunur
-SERIALIZABLE	En güvenli
+### 16.2 Isolation Levels (İzolasyon Seviyeleri)
 
+Aynı anda çalışan (concurrent) transaction'ların birbirlerinin yaptığı değişiklikleri ne kadar görebileceğini belirler.
+
+Seviye,Açıklama,Risk / Yan Etki
+
+READ_UNCOMMITTED,Henüz commit edilmemiş (geçici) verileri bile okur.,Dirty Read: Hiç var olmamış bir veriyi okuma riski.
+
+READ_COMMITTED,Sadece commit edilmiş verileri okur. En yaygın varsayılandır.,Non-repeatable Read: Aynı sorgu aynı işlemde farklı sonuç dönebilir.
+
+REPEATABLE_READ,"Bir veri okunduğunda, transaction bitene kadar o verinin değişmeyeceğini garanti eder.",Phantom Read: Yeni eklenen (insert) satırları görebilir.
+
+SERIALIZABLE,İşlemleri sıraya koyar (en katı seviye). Tam izolasyon sağlar.,Düşük Performans: Veritabanı kilitlemeleri (locking) yüzünden yavaştır.
+
+### 16.3 Transaction Propagation (Yayılma Tipleri)
+
+REQUIRED (Varsayılan): Mevcut bir transaction varsa ona dahil olur, yoksa yeni açar.
+
+REQUIRES_NEW: Her zaman yeni bir transaction açar, varsa mevcut olanı bekletir.
 
 ## 17. Veri Güvenliği
 ### 17.1 SQL Injection
+
+Saldırganın girdi alanlarına SQL komutları enjekte ederek veritabanını ele geçirmesidir.
 
 Yanlış:
 ```
@@ -802,6 +833,9 @@ String sql =
  "SELECT * FROM users WHERE username='"
  + username + "'";
 ```
+
+String birleştirme (Concatenation) kullanmak. Veri, kodun bir parçası haline gelir.
+
 Doğru:
 ```
 @Query("SELECT u FROM User u WHERE u.username=:username")
@@ -809,7 +843,7 @@ Doğru:
 
 ### 17.2 Password Güvenliği
 
-Şifreler hashlenmelidir.
+Şifreler asla düz metin (plain text) olarak saklanmamalıdır. Şifreler Salted Hash yöntemiyle geri döndürülemez şekilde şifrelenmelidir.
 
 Önerilen:
 
@@ -819,12 +853,16 @@ BCryptPasswordEncoder
 
 ### 17.3 Least Privilege Principle
 
+Uygulamanın veritabanı kullanıcısı (DB User) bir "root" veya "admin" olmamalıdır.
+
 Database user:
 
 yalnızca gerekli yetkilere sahip olmalıdır
 
 
 ### 17.4 Audit Logging
+
+Veri üzerinde yapılan her kritik değişikliğin izi sürülmelidir.
 
 Kim:
 
