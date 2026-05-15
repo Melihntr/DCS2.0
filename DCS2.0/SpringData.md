@@ -630,11 +630,17 @@ Dezavantajı: Ata sınıf üzerinden bir sorgu yapıldığında (örneğin "tüm
 
 Seçim yaparken performans ve veri bütünlüğü dengesini gözetmen gerekir
 
-Single TableVarsayılan tercihtir. Hiyerarşi küçükse ve performans en öncelikli kriterse (Örn: User -> Admin, Customer).
+Single Table
 
-Joined TableVeri bütünlüğü (NOT NULL gibi) çok kritikse ve hiyerarşi çok karmaşıksa. Profesyonel projelerde "temiz tasarım" için sıkça tercih edilir.
+Varsayılan tercihtir. Hiyerarşi küçükse ve performans en öncelikli kriterse (Örn: User -> Admin, Customer).
 
-Table Per ClassAta sınıf üzerinden sorgu yapmaya neredeyse hiç ihtiyaç duyulmayan, her alt sınıfın tamamen bağımsız çalıştığı nadir durumlarda.
+Joined Table
+
+Veri bütünlüğü (NOT NULL gibi) çok kritikse ve hiyerarşi çok karmaşıksa. Profesyonel projelerde "temiz tasarım" için sıkça tercih edilir.
+
+Table Per Class
+
+Ata sınıf üzerinden sorgu yapmaya neredeyse hiç ihtiyaç duyulmayan, her alt sınıfın tamamen bağımsız çalıştığı nadir durumlarda.
 
 
 ## 13. Composition Over Inheritance
