@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.melih.data.Service;
 
-import com.example.demo.dto.UserDto;
-import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
+import com.melih.data.DTO.UserDto;
+import com.melih.data.Entity.User;
+import com.melih.data.Repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;

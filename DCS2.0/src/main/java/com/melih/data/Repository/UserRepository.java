@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.melih.data.Repository;
 
-import com.example.demo.entity.User;
+import com.melih.data.Entity.User;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 

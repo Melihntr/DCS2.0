@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.melih.data.DTO;
 
 public record UserDto(
         Long id,

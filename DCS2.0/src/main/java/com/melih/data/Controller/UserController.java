@@ -1,8 +1,8 @@
-package com.example.demo.controller;
+package com.melih.data.Controller;
 
-import com.example.demo.dto.UserDto;
-import com.example.demo.entity.User;
-import com.example.demo.service.UserService;
+import com.melih.data.DTO.UserDto;
+import com.melih.data.Entity.User;
+import com.melih.data.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ public class UserController {
 
     @PostMapping
     public User create(
-            @RequestParam String username
+            @RequestBody String username
     ) {
         return userService.createUser(username);
     }

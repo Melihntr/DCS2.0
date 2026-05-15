@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.melih.data.Repository;
 
-import com.example.demo.entity.Order;
+import com.melih.data.Entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrderRepository
