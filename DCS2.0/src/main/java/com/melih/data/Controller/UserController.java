@@ -17,9 +17,9 @@ public class UserController {
 
     @PostMapping
     public User create(
-            @RequestBody String username
+            @RequestBody UserDto dto   // Burada DTO ile parametre
     ) {
-        return userService.createUser(username);
+        return userService.createUser(dto.getUsername());
     }
 
     @GetMapping
