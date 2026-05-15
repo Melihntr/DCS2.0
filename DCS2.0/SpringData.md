@@ -478,19 +478,26 @@ Codd'un 13 kuralı (0-12) teoriktir. Gerçek dünyada bir veritabanı motorunun 
 Temel ilişkisel özellikler:
 
 Tablo tabanlı yapı
+
 Primary key kullanımı
+
 Foreign key ilişkileri
+
 Veri bütünlüğü
+
 SQL desteği
+
 Normalize edilebilir yapı
+
 Atomic veri yapısı
+
 Relation mantığı
 
 
 ## 10. Normalization
 Veritabanı tasarımında Normalizasyon, veri tekrarını (redundancy) önlemek ve veri bütünlüğünü (integrity) korumak için tabloları organize etme sürecidir. Toplamda 6-7 seviye olsa da, endüstride ilk 3 formun (ve bazen BCNF) uygulanması genellikle yeterli kabul edilir.
 
-### 10.1 irinci Normal Form (1NF)
+### 10.1 Birinci Normal Form (1NF)
 
 Bir tablonun 1NF olması için temel kural: Her hücrede tek bir değer (atomic value) olmalıdır.
 
