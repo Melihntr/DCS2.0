@@ -350,7 +350,9 @@ public class Comment {
 
 Kodun daha temiz ve bağımsız (loosely coupled) kalmasını sağlar. Eğer bir Product nesnesinin hangi Category'ye ait olduğunu bilmeniz yetiyorsa, Category sınıfının içine binlerce Product listesi ekleyip belleği yormanıza gerek kalmaz.
 
-#### Neden Bidirectional Tercih Edilir?Erişim kolaylığı sağlar. Örneğin bir Order (Sipariş) nesnesini çekerken içindeki OrderItem (Sipariş Kalemleri) listesine de sık sık erişiyorsanız, çift yönlü yapı işleri kolaylaştırır.Kritik 
+#### Neden Bidirectional Tercih Edilir?
+
+Erişim kolaylığı sağlar. Örneğin bir Order (Sipariş) nesnesini çekerken içindeki OrderItem (Sipariş Kalemleri) listesine de sık sık erişiyorsanız, çift yönlü yapı işleri kolaylaştırır.Kritik 
 
 Uyarı: Infinite Recursion (Sonsuz Döngü)Bidirectional ilişkilerde nesneleri JSON formatına çevirirken (örneğin bir REST API hazırlarken), nesneler birbirini çağırdığı için sonsuz bir döngüye girip StackOverflowError hatası alabilirsiniz. Bunu önlemek için @JsonManagedReference ve @JsonBackReference gibi anotasyonlar kullanmanız gerekir.Bu konu, veritabanı tasarımı yaparken tablolar arası coupling (bağımlılık) seviyesini belirlediği için mimari açıdan çok değerlidir. Genellikle "olabildiğince unidirectional başla, ihtiyaç duyarsan bidirectional yap" prensibi uygulanır.
 
