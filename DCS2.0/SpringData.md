@@ -218,7 +218,7 @@ Query Methods (Metot İsminden Sorgu Türetme)En popüler yöntemdir. Spring Dat
 Kural: Metot ismi find...By, read...By, query...By, count...By veya get...By ile başlamalıdır.
 
 Örnekler:
-```findByUsername(String username) $\rightarrow$ WHERE username = ?findByAgeGreaterThan(int age) $\rightarrow$ WHERE age > ?findByCategoryAndPriceLessThan(String cat, Double price) $\rightarrow$ WHERE category = ? AND price < ?findFirst3ByOrderByCreatedAtDesc() ```
+```findByUsername(String username) -> WHERE username = ?findByAgeGreaterThan(int age) -> WHERE age > ?findByCategoryAndPriceLessThan(String cat, Double price) -> WHERE category = ? AND price < ?findFirst3ByOrderByCreatedAtDesc() ```
 
 En yeni 3 kaydı getirir.
 
@@ -520,7 +520,7 @@ Sorun: Bileşik anahtarın (Composite Key) olduğu bir tabloda, bir sütunun ana
 
 3NF olması için tablo önce 2NF olmalı ve Geçişli Bağımlılık (Transitive Dependency) olmamalıdır.
 
-Sorun: Anahtar olmayan bir sütunun, anahtar olmayan başka bir sütuna bağlı olması. (Yani: A $\rightarrow$ B $\rightarrow$ C durumu).
+Sorun: Anahtar olmayan bir sütunun, anahtar olmayan başka bir sütuna bağlı olması. (Yani: A -> B -> C durumu).
 
 Örnek: Öğrenci tablosunda "Okul Kodu" anahtara bağlıdır, "Okul Adı" ise "Okul Kodu"na bağlıdır. Okul adı dolaylı olarak anahtara bağlı kalır.
 
@@ -607,6 +607,27 @@ Avantajı: Çok hızlıdır çünkü JOIN işlemi gerektirmez. Sorgular basittir
 
 Dezavantajı: Çocuk sınıflara özgü alanlar veritabanında NULL olabilir. Bu durum veri bütünlüğü kısıtlarını (NOT NULL) zorlaştırır.
 
+Örnek:
+```
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type")
+public abstract class Animal {
+    // ...
+}
+
+@Entity
+@DiscriminatorValue("DOG")
+public class Dog extends Animal {
+    // ...
+}
+
+@Entity
+@DiscriminatorValue("CAT")
+public class Cat extends Animal {
+    // ...
+}
+```
+
 ### 12.2 Joined Table Strategy (Birleştirilmiş Tablo Stratejisi)
 Her sınıf (Ata ve her bir Çocuk) için ayrı bir tablo oluşturulur.
 
@@ -615,6 +636,24 @@ Nasıl Çalışır: Çocuk tabloları, ata tablonun Primary Key'ini kullanarak o
 Avantajı: Veritabanı tasarımı en temiz ve "normalizasyon" kurallarına en uygun olandır. NOT NULL kısıtları rahatça kullanılabilir.
 
 Dezavantajı: Veri çekmek için çok sayıda JOIN yapılması gerekir, bu da büyük hiyerarşilerde performansı düşürür.
+
+Örnek:
+```
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Animal {
+    // ...
+}
+
+@Entity
+public class Dog extends Animal {
+    // ...
+}
+
+@Entity
+public class Cat extends Animal {
+    // ...
+}
+```
 
 ### 12.3 Table Per Class Strategy (Sınıf Başına Tablo Stratejisi)
 
@@ -625,6 +664,24 @@ Nasıl Çalışır: Ata sınıftaki tüm alanlar, her bir çocuk tablosunda tekr
 Avantajı: Bir çocuk sınıfı sorgularken sadece kendi tablosuna bakılır, hızlıdır.
 
 Dezavantajı: Ata sınıf üzerinden bir sorgu yapıldığında (örneğin "tüm çalışanları getir") veritabanı tüm tabloları UNION ile birleştirmek zorunda kalır, bu çok maliyetlidir.
+
+Örnek:
+```
+@Inheritance(strategy = InheritanceType.TABLE_PER_SUBCLASS)
+public abstract class Animal {
+    // ...
+}
+
+@Entity
+public class Dog extends Animal {
+    // ...
+}
+
+@Entity
+public class Cat extends Animal {
+    // ...
+}
+```
 
 ### 12.4 Hangisi Tercih Edilmeli?
 
