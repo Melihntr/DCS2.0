@@ -128,7 +128,8 @@ remove() metodu çağrıldığında nesne bu duruma geçer.
 ```
 entityManager.remove(user);
 ```
-Lifecycle Olayları ve Callback Metotları
+#### Lifecycle Olayları ve Callback Metotları
+
 JPA, bu geçişler sırasında belirli işlemleri otomatik olarak tetiklemenize izin veren Callback anotasyonları sunar. Kodunuzun temiz kalması ve mantıksal işlemlerin (loglama, tarih güncelleme vb.) otomatize edilmesi için kritiktir:
 
 @PrePersist: Veritabanına ilk kez kaydedilmeden hemen önce çalışır (Örn: createdAt tarihini atamak için).
@@ -343,7 +344,7 @@ public class Comment {
 }
 ```
 
-###6.3 Aralarındaki Farklar ve Seçim Kriterleri
+### 6.3 Aralarındaki Farklar ve Seçim Kriterleri
 JPA ve Hibernate dünyasında ilişkiler, nesnelerin birbirini ne kadar tanıdığına göre ikiye ayrılır. Bu kavramlar, veritabanı tabloları arasındaki ilişkiden ziyade, Java sınıfları arasındaki referans yönünü ifade eder.1. Unidirectional (Tek Yönlü) İlişkiBu modelde sadece bir sınıf diğerini tanır. İlişki tek taraflı bir referans üzerinden yürür.Mantık: A sınıfı B sınıfını bir alan (field) olarak tutar, ancak B sınıfının A'dan haberi yoktur.Örnek: Bir User (Kullanıcı) nesnesinin bir Address (Adres) nesnesi tutması. Adres nesnesine gidip "Bu adres hangi kullanıcıya ait?" diye sorduğunuzda cevap alamazsınız.Java@Entity
 public class User {
     @Id
