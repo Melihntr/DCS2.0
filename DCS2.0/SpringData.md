@@ -558,7 +558,7 @@ Sol (birinci) tablodaki tüm kayıtları ve sağ tablodaki eşleşen kayıtları
 
 Örnek: Hiç sipariş vermemiş olsa bile tüm müşterileri ve (varsa) siparişlerini listeler.
 
-### 11.3ight (Outer) Join
+### 11.3 Right (Outer) Join
 
 Sağ (ikinci) tablodaki tüm kayıtları ve sol tablodaki eşleşen kayıtları getirir. Sol tarafta eşleşme yoksa o alanlar NULL döner.
 
