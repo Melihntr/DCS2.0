@@ -345,48 +345,12 @@ public class Comment {
 ```
 
 ### 6.3 Aralarındaki Farklar ve Seçim Kriterleri
-JPA ve Hibernate dünyasında ilişkiler, nesnelerin birbirini ne kadar tanıdığına göre ikiye ayrılır. Bu kavramlar, veritabanı tabloları arasındaki ilişkiden ziyade, Java sınıfları arasındaki referans yönünü ifade eder.1. Unidirectional (Tek Yönlü) İlişkiBu modelde sadece bir sınıf diğerini tanır. İlişki tek taraflı bir referans üzerinden yürür.Mantık: A sınıfı B sınıfını bir alan (field) olarak tutar, ancak B sınıfının A'dan haberi yoktur.Örnek: Bir User (Kullanıcı) nesnesinin bir Address (Adres) nesnesi tutması. Adres nesnesine gidip "Bu adres hangi kullanıcıya ait?" diye sorduğunuzda cevap alamazsınız.Java@Entity
-public class User {
-    @Id
-    private Long id;
 
-    @OneToOne // Sadece User üzerinden Address'e erişim var
-    @JoinColumn(name = "address_id")
-    private Address address;
-}
-
-@Entity
-public class Address {
-    @Id
-    private Long id;
-    private String street;
-    // User referansı yok!
-}
-2. Bidirectional (Çift Yönlü) İlişkiHer iki sınıf da birbirini referans olarak tutar. İki taraftan da birbirine erişmek mümkündür.Mantık: A nesnesi üzerinden B'ye, B nesnesi üzerinden de A'ya ulaşılabilir.mappedBy: Çift yönlü ilişkilerde en kritik kavram budur. İlişkinin "sahibini" (owning side) belirlemek için kullanılır. Veritabanında dış anahtar (Foreign Key) hangi tabloda duruyorsa, ilişki sahibi odur. Diğer taraf mappedBy ile "ilişki bende değil, karşı tarafta" mesajını verir.Java@Entity
-public class Post {
-    @Id
-    private Long id;
-
-    @OneToMany(mappedBy = "post") // İlişki sahibi Comment sınıfıdır
-    private List<Comment> comments;
-}
-
-@Entity
-public class Comment {
-    @Id
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "post_id") // Foreign Key burada tutulur
-    private Post post;
-}
-3. Aralarındaki Farklar ve Seçim Kriterleri
-
-Neden Unidirectional Tercih Edilir?
+#### Neden Unidirectional Tercih Edilir?
 
 Kodun daha temiz ve bağımsız (loosely coupled) kalmasını sağlar. Eğer bir Product nesnesinin hangi Category'ye ait olduğunu bilmeniz yetiyorsa, Category sınıfının içine binlerce Product listesi ekleyip belleği yormanıza gerek kalmaz.
 
-Neden Bidirectional Tercih Edilir?Erişim kolaylığı sağlar. Örneğin bir Order (Sipariş) nesnesini çekerken içindeki OrderItem (Sipariş Kalemleri) listesine de sık sık erişiyorsanız, çift yönlü yapı işleri kolaylaştırır.Kritik 
+#### Neden Bidirectional Tercih Edilir?Erişim kolaylığı sağlar. Örneğin bir Order (Sipariş) nesnesini çekerken içindeki OrderItem (Sipariş Kalemleri) listesine de sık sık erişiyorsanız, çift yönlü yapı işleri kolaylaştırır.Kritik 
 
 Uyarı: Infinite Recursion (Sonsuz Döngü)Bidirectional ilişkilerde nesneleri JSON formatına çevirirken (örneğin bir REST API hazırlarken), nesneler birbirini çağırdığı için sonsuz bir döngüye girip StackOverflowError hatası alabilirsiniz. Bunu önlemek için @JsonManagedReference ve @JsonBackReference gibi anotasyonlar kullanmanız gerekir.Bu konu, veritabanı tasarımı yaparken tablolar arası coupling (bağımlılık) seviyesini belirlediği için mimari açıdan çok değerlidir. Genellikle "olabildiğince unidirectional başla, ihtiyaç duyarsan bidirectional yap" prensibi uygulanır.
 
